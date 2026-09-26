@@ -1,0 +1,33 @@
+# Node dependencies
+node_modules/
+npm-debug.log
+
+# Environment variables / Secrets
+.env
+*.env
+
+# Python / ML artifacts
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Build artifacts & temp files
+dist/
+build/
+*.tmp
+
+# Uploaded images
+backend/uploads/*
+!backend/uploads/.gitkeep
+# Local audit artifacts and private runtime records
+.audit/
+backend/runtime-data/
+backend/data/*store.json
+backend/data/session_memory.json
+backend/data/farm_ledger.json
+backend/data/traceability_batches.json

@@ -1,0 +1,471 @@
+State,District,Latitude,Longitude,Date,Crop_Stage,NDVI,EVI,NDWI,SAVI,Soil_Moisture_Index
+Punjab,Ludhiana,30.9,75.85,2023-06-20,Sowing,0.226,0.184,-0.083,0.201,0.511
+Punjab,Ludhiana,30.9,75.85,2023-06-25,Sowing,0.294,0.268,-0.12,0.27,0.488
+Punjab,Ludhiana,30.9,75.85,2023-06-30,Sowing,0.339,0.252,-0.074,0.299,0.553
+Punjab,Ludhiana,30.9,75.85,2023-07-05,Sowing,0.431,0.364,0.01,0.366,0.537
+Punjab,Ludhiana,30.9,75.85,2023-07-10,Vegetative,0.443,0.385,-0.012,0.413,0.594
+Punjab,Ludhiana,30.9,75.85,2023-07-15,Vegetative,0.498,0.4,0.064,0.454,0.583
+Punjab,Ludhiana,30.9,75.85,2023-07-20,Vegetative,0.595,0.497,0.086,0.517,0.612
+Punjab,Ludhiana,30.9,75.85,2023-07-25,Vegetative,0.659,0.548,0.133,0.601,0.573
+Punjab,Ludhiana,30.9,75.85,2023-08-04,Vegetative,0.724,0.588,0.144,0.659,0.64
+Punjab,Ludhiana,30.9,75.85,2023-08-09,Vegetative,0.819,0.689,0.191,0.718,0.682
+Punjab,Ludhiana,30.9,75.85,2023-08-14,Vegetative,0.786,0.637,0.223,0.683,0.678
+Punjab,Ludhiana,30.9,75.85,2023-08-19,Flowering/Peak,0.892,0.74,0.226,0.807,0.697
+Punjab,Ludhiana,30.9,75.85,2023-08-24,Flowering/Peak,0.89,0.744,0.198,0.795,0.688
+Punjab,Ludhiana,30.9,75.85,2023-08-29,Flowering/Peak,0.816,0.656,0.248,0.712,0.671
+Punjab,Ludhiana,30.9,75.85,2023-09-03,Flowering/Peak,0.841,0.683,0.214,0.729,0.703
+Punjab,Ludhiana,30.9,75.85,2023-09-13,Flowering/Peak,0.779,0.628,0.198,0.71,0.616
+Punjab,Ludhiana,30.9,75.85,2023-09-18,Flowering/Peak,0.669,0.544,0.169,0.579,0.649
+Punjab,Ludhiana,30.9,75.85,2023-09-23,Maturity,0.659,0.55,0.03,0.595,0.605
+Punjab,Ludhiana,30.9,75.85,2023-10-03,Maturity,0.513,0.442,-0.034,0.428,0.569
+Punjab,Ludhiana,30.9,75.85,2023-10-13,Maturity,0.293,0.251,-0.116,0.254,0.495
+Punjab,Ludhiana,30.9,75.85,2023-10-18,Harvest,0.302,0.227,-0.149,0.241,0.511
+Punjab,Ludhiana,30.9,75.85,2023-10-23,Harvest,0.231,0.195,-0.158,0.207,0.489
+Punjab,Ludhiana,30.9,75.85,2023-10-28,Harvest,0.114,0.117,-0.147,0.089,0.43
+Punjab,Amritsar,31.83,74.75,2023-06-15,Sowing,0.15,0.11,-0.171,0.133,0.486
+Punjab,Amritsar,31.83,74.75,2023-06-25,Sowing,0.325,0.253,-0.031,0.288,0.568
+Punjab,Amritsar,31.83,74.75,2023-06-30,Sowing,0.365,0.301,-0.07,0.32,0.511
+Punjab,Amritsar,31.83,74.75,2023-07-05,Vegetative,0.521,0.398,-0.034,0.437,0.502
+Punjab,Amritsar,31.83,74.75,2023-07-10,Vegetative,0.565,0.47,0.109,0.497,0.614
+Punjab,Amritsar,31.83,74.75,2023-07-15,Vegetative,0.722,0.578,0.145,0.623,0.612
+Punjab,Amritsar,31.83,74.75,2023-07-30,Vegetative,0.806,0.688,0.179,0.694,0.627
+Punjab,Amritsar,31.83,74.75,2023-08-04,Flowering/Peak,0.867,0.689,0.159,0.788,0.641
+Punjab,Amritsar,31.83,74.75,2023-08-09,Flowering/Peak,0.876,0.718,0.229,0.793,0.696
+Punjab,Amritsar,31.83,74.75,2023-08-14,Flowering/Peak,0.832,0.669,0.167,0.721,0.627
+Punjab,Amritsar,31.83,74.75,2023-08-19,Flowering/Peak,0.781,0.633,0.15,0.696,0.671
+Punjab,Amritsar,31.83,74.75,2023-08-24,Flowering/Peak,0.686,0.549,0.16,0.58,0.599
+Punjab,Amritsar,31.83,74.75,2023-08-29,Maturity,0.651,0.554,0.036,0.557,0.598
+Punjab,Amritsar,31.83,74.75,2023-09-03,Maturity,0.508,0.395,0.083,0.447,0.621
+Punjab,Amritsar,31.83,74.75,2023-09-08,Maturity,0.377,0.313,-0.023,0.302,0.498
+Punjab,Amritsar,31.83,74.75,2023-09-13,Maturity,0.313,0.239,-0.023,0.256,0.587
+Punjab,Amritsar,31.83,74.75,2023-09-18,Harvest,0.238,0.22,-0.09,0.204,0.456
+Haryana,Karnal,29.85,76.98,2023-06-15,Sowing,0.183,0.176,-0.105,0.179,0.467
+Haryana,Karnal,29.85,76.98,2023-06-20,Sowing,0.227,0.171,-0.115,0.222,0.536
+Haryana,Karnal,29.85,76.98,2023-06-25,Sowing,0.221,0.153,-0.117,0.197,0.47
+Haryana,Karnal,29.85,76.98,2023-06-30,Sowing,0.347,0.292,-0.02,0.295,0.555
+Haryana,Karnal,29.85,76.98,2023-07-05,Vegetative,0.387,0.294,0.014,0.365,0.51
+Haryana,Karnal,29.85,76.98,2023-07-10,Vegetative,0.442,0.357,-0.004,0.413,0.541
+Haryana,Karnal,29.85,76.98,2023-07-15,Vegetative,0.546,0.433,0.024,0.454,0.513
+Haryana,Karnal,29.85,76.98,2023-07-20,Vegetative,0.654,0.547,0.061,0.605,0.538
+Haryana,Karnal,29.85,76.98,2023-07-25,Vegetative,0.677,0.536,0.177,0.609,0.602
+Haryana,Karnal,29.85,76.98,2023-08-04,Vegetative,0.779,0.627,0.146,0.675,0.632
+Haryana,Karnal,29.85,76.98,2023-08-09,Vegetative,0.833,0.657,0.191,0.738,0.627
+Haryana,Karnal,29.85,76.98,2023-08-14,Flowering/Peak,0.886,0.736,0.186,0.76,0.656
+Haryana,Karnal,29.85,76.98,2023-08-19,Flowering/Peak,0.816,0.671,0.164,0.726,0.658
+Haryana,Karnal,29.85,76.98,2023-08-29,Flowering/Peak,0.793,0.64,0.214,0.726,0.638
+Haryana,Karnal,29.85,76.98,2023-09-03,Flowering/Peak,0.776,0.663,0.132,0.693,0.574
+Haryana,Karnal,29.85,76.98,2023-09-08,Flowering/Peak,0.772,0.658,0.181,0.682,0.631
+Haryana,Karnal,29.85,76.98,2023-09-13,Flowering/Peak,0.708,0.587,0.147,0.638,0.667
+Haryana,Karnal,29.85,76.98,2023-09-18,Maturity,0.668,0.562,0.076,0.606,0.575
+Haryana,Karnal,29.85,76.98,2023-09-23,Maturity,0.598,0.514,0.104,0.538,0.602
+Haryana,Karnal,29.85,76.98,2023-09-28,Maturity,0.5,0.434,0.001,0.423,0.576
+Haryana,Karnal,29.85,76.98,2023-10-03,Maturity,0.379,0.289,-0.067,0.337,0.55
+Haryana,Karnal,29.85,76.98,2023-10-08,Maturity,0.361,0.269,-0.094,0.32,0.529
+Haryana,Karnal,29.85,76.98,2023-10-13,Harvest,0.278,0.22,-0.11,0.246,0.445
+Uttar Pradesh,Meerut,29.15,77.61,2023-06-20,Sowing,0.226,0.162,-0.172,0.191,0.428
+Uttar Pradesh,Meerut,29.15,77.61,2023-06-25,Sowing,0.224,0.21,-0.072,0.21,0.467
+Uttar Pradesh,Meerut,29.15,77.61,2023-06-30,Sowing,0.331,0.292,-0.066,0.282,0.518
+Uttar Pradesh,Meerut,29.15,77.61,2023-07-05,Vegetative,0.417,0.318,0.014,0.355,0.533
+Uttar Pradesh,Meerut,29.15,77.61,2023-07-10,Vegetative,0.546,0.452,0.022,0.496,0.555
+Uttar Pradesh,Meerut,29.15,77.61,2023-07-15,Vegetative,0.617,0.518,0.033,0.572,0.576
+Uttar Pradesh,Meerut,29.15,77.61,2023-07-20,Vegetative,0.663,0.539,0.064,0.576,0.537
+Uttar Pradesh,Meerut,29.15,77.61,2023-07-25,Vegetative,0.691,0.569,0.117,0.597,0.589
+Uttar Pradesh,Meerut,29.15,77.61,2023-07-30,Vegetative,0.761,0.64,0.211,0.685,0.696
+Uttar Pradesh,Meerut,29.15,77.61,2023-08-04,Vegetative,0.804,0.66,0.148,0.709,0.626
+Uttar Pradesh,Meerut,29.15,77.61,2023-08-09,Flowering/Peak,0.843,0.712,0.197,0.742,0.626
+Uttar Pradesh,Meerut,29.15,77.61,2023-08-14,Flowering/Peak,0.829,0.699,0.238,0.747,0.716
+Uttar Pradesh,Meerut,29.15,77.61,2023-08-24,Flowering/Peak,0.815,0.674,0.169,0.724,0.646
+Uttar Pradesh,Meerut,29.15,77.61,2023-08-29,Flowering/Peak,0.824,0.668,0.192,0.754,0.689
+Uttar Pradesh,Meerut,29.15,77.61,2023-09-03,Flowering/Peak,0.709,0.573,0.131,0.634,0.583
+Uttar Pradesh,Meerut,29.15,77.61,2023-09-08,Flowering/Peak,0.638,0.53,0.149,0.587,0.608
+Uttar Pradesh,Meerut,29.15,77.61,2023-09-13,Maturity,0.582,0.507,0.067,0.525,0.578
+Uttar Pradesh,Meerut,29.15,77.61,2023-09-18,Maturity,0.561,0.433,0.046,0.465,0.593
+Uttar Pradesh,Meerut,29.15,77.61,2023-09-23,Maturity,0.506,0.433,-0.012,0.419,0.502
+Uttar Pradesh,Meerut,29.15,77.61,2023-10-03,Harvest,0.261,0.194,-0.122,0.245,0.449
+Uttar Pradesh,Meerut,29.15,77.61,2023-10-08,Harvest,0.25,0.178,-0.154,0.226,0.491
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-06-15,Sowing,0.114,0.115,-0.147,0.124,0.517
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-06-20,Sowing,0.172,0.115,-0.09,0.149,0.533
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-06-25,Sowing,0.275,0.24,-0.099,0.242,0.49
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-06-30,Sowing,0.328,0.267,-0.03,0.3,0.575
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-07-05,Vegetative,0.508,0.429,-0.008,0.451,0.532
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-07-10,Vegetative,0.502,0.435,0.033,0.412,0.525
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-07-15,Vegetative,0.608,0.519,0.076,0.56,0.566
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-07-20,Vegetative,0.75,0.637,0.18,0.637,0.597
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-07-25,Vegetative,0.749,0.59,0.109,0.648,0.586
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-07-30,Vegetative,0.859,0.685,0.215,0.762,0.694
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-08-04,Flowering/Peak,0.881,0.7,0.223,0.792,0.65
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-08-14,Flowering/Peak,0.855,0.717,0.227,0.767,0.618
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-08-19,Flowering/Peak,0.863,0.699,0.218,0.786,0.652
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-08-24,Flowering/Peak,0.786,0.661,0.152,0.704,0.671
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-08-29,Flowering/Peak,0.759,0.601,0.145,0.688,0.613
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-09-03,Maturity,0.625,0.504,0.086,0.545,0.567
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-09-08,Maturity,0.539,0.428,0.054,0.499,0.555
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-09-18,Maturity,0.397,0.303,0.026,0.331,0.576
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-09-23,Harvest,0.333,0.265,-0.059,0.311,0.541
+Uttar Pradesh,Kanpur Dehat,26.43,79.98,2023-09-28,Harvest,0.2,0.169,-0.112,0.189,0.451
+Madhya Pradesh,Indore,22.85,75.55,2023-06-15,Sowing,0.156,0.132,-0.203,0.123,0.498
+Madhya Pradesh,Indore,22.85,75.55,2023-06-25,Sowing,0.338,0.275,-0.123,0.291,0.52
+Madhya Pradesh,Indore,22.85,75.55,2023-06-30,Vegetative,0.433,0.335,-0.037,0.371,0.494
+Madhya Pradesh,Indore,22.85,75.55,2023-07-05,Vegetative,0.482,0.369,-0.027,0.428,0.505
+Madhya Pradesh,Indore,22.85,75.55,2023-07-15,Vegetative,0.655,0.559,0.158,0.602,0.628
+Madhya Pradesh,Indore,22.85,75.55,2023-07-25,Vegetative,0.835,0.703,0.138,0.729,0.63
+Madhya Pradesh,Indore,22.85,75.55,2023-07-30,Flowering/Peak,0.876,0.689,0.153,0.775,0.626
+Madhya Pradesh,Indore,22.85,75.55,2023-08-04,Flowering/Peak,0.829,0.652,0.251,0.723,0.639
+Madhya Pradesh,Indore,22.85,75.55,2023-08-09,Flowering/Peak,0.829,0.695,0.161,0.71,0.656
+Madhya Pradesh,Indore,22.85,75.55,2023-08-14,Flowering/Peak,0.765,0.616,0.22,0.67,0.682
+Madhya Pradesh,Indore,22.85,75.55,2023-08-19,Flowering/Peak,0.777,0.656,0.105,0.713,0.642
+Madhya Pradesh,Indore,22.85,75.55,2023-08-24,Maturity,0.669,0.544,0.081,0.612,0.551
+Madhya Pradesh,Indore,22.85,75.55,2023-09-03,Maturity,0.486,0.421,0.066,0.41,0.546
+Madhya Pradesh,Indore,22.85,75.55,2023-09-08,Maturity,0.431,0.363,-0.002,0.359,0.557
+Madhya Pradesh,Indore,22.85,75.55,2023-09-13,Harvest,0.313,0.274,-0.077,0.251,0.505
+Madhya Pradesh,Indore,22.85,75.55,2023-09-18,Harvest,0.254,0.202,-0.09,0.234,0.487
+Madhya Pradesh,Bhopal,23.63,77.44,2023-06-15,Sowing,0.146,0.147,-0.136,0.105,0.496
+Madhya Pradesh,Bhopal,23.63,77.44,2023-06-20,Sowing,0.165,0.135,-0.154,0.172,0.445
+Madhya Pradesh,Bhopal,23.63,77.44,2023-06-25,Sowing,0.218,0.167,-0.073,0.192,0.53
+Madhya Pradesh,Bhopal,23.63,77.44,2023-06-30,Sowing,0.356,0.277,-0.002,0.322,0.502
+Madhya Pradesh,Bhopal,23.63,77.44,2023-07-05,Vegetative,0.393,0.317,0.006,0.37,0.52
+Madhya Pradesh,Bhopal,23.63,77.44,2023-07-10,Vegetative,0.509,0.428,0.024,0.46,0.611
+Madhya Pradesh,Bhopal,23.63,77.44,2023-07-20,Vegetative,0.686,0.581,0.158,0.594,0.604
+Madhya Pradesh,Bhopal,23.63,77.44,2023-07-25,Vegetative,0.752,0.635,0.139,0.639,0.639
+Madhya Pradesh,Bhopal,23.63,77.44,2023-07-30,Vegetative,0.724,0.564,0.142,0.63,0.626
+Madhya Pradesh,Bhopal,23.63,77.44,2023-08-04,Vegetative,0.812,0.674,0.143,0.733,0.639
+Madhya Pradesh,Bhopal,23.63,77.44,2023-08-09,Vegetative,0.844,0.694,0.234,0.752,0.644
+Madhya Pradesh,Bhopal,23.63,77.44,2023-08-14,Flowering/Peak,0.819,0.658,0.239,0.718,0.635
+Madhya Pradesh,Bhopal,23.63,77.44,2023-08-19,Flowering/Peak,0.856,0.673,0.18,0.744,0.618
+Madhya Pradesh,Bhopal,23.63,77.44,2023-08-24,Flowering/Peak,0.802,0.633,0.232,0.71,0.664
+Madhya Pradesh,Bhopal,23.63,77.44,2023-08-29,Flowering/Peak,0.815,0.689,0.154,0.705,0.61
+Madhya Pradesh,Bhopal,23.63,77.44,2023-09-03,Flowering/Peak,0.76,0.605,0.159,0.695,0.654
+Madhya Pradesh,Bhopal,23.63,77.44,2023-09-13,Maturity,0.642,0.5,0.148,0.582,0.63
+Madhya Pradesh,Bhopal,23.63,77.44,2023-09-18,Maturity,0.568,0.459,0.061,0.5,0.565
+Madhya Pradesh,Bhopal,23.63,77.44,2023-09-23,Maturity,0.431,0.36,-0.019,0.365,0.506
+Madhya Pradesh,Bhopal,23.63,77.44,2023-09-28,Maturity,0.389,0.324,-0.027,0.348,0.523
+Madhya Pradesh,Bhopal,23.63,77.44,2023-10-03,Maturity,0.34,0.292,-0.11,0.278,0.48
+Madhya Pradesh,Bhopal,23.63,77.44,2023-10-08,Harvest,0.219,0.163,-0.114,0.193,0.506
+Madhya Pradesh,Bhopal,23.63,77.44,2023-10-13,Harvest,0.165,0.164,-0.107,0.128,0.497
+Maharashtra,Nashik,20.08,74.11,2023-06-15,Sowing,0.134,0.137,-0.127,0.121,0.519
+Maharashtra,Nashik,20.08,74.11,2023-06-20,Sowing,0.232,0.191,-0.13,0.224,0.497
+Maharashtra,Nashik,20.08,74.11,2023-06-25,Sowing,0.302,0.236,-0.023,0.252,0.58
+Maharashtra,Nashik,20.08,74.11,2023-06-30,Sowing,0.389,0.292,-0.028,0.348,0.487
+Maharashtra,Nashik,20.08,74.11,2023-07-05,Vegetative,0.467,0.407,-0.006,0.386,0.574
+Maharashtra,Nashik,20.08,74.11,2023-07-10,Vegetative,0.525,0.457,0.069,0.442,0.628
+Maharashtra,Nashik,20.08,74.11,2023-07-20,Vegetative,0.666,0.55,0.126,0.586,0.575
+Maharashtra,Nashik,20.08,74.11,2023-07-30,Vegetative,0.849,0.673,0.168,0.721,0.649
+Maharashtra,Nashik,20.08,74.11,2023-08-04,Flowering/Peak,0.862,0.695,0.145,0.738,0.668
+Maharashtra,Nashik,20.08,74.11,2023-08-09,Flowering/Peak,0.896,0.736,0.155,0.763,0.599
+Maharashtra,Nashik,20.08,74.11,2023-08-14,Flowering/Peak,0.841,0.71,0.236,0.767,0.655
+Maharashtra,Nashik,20.08,74.11,2023-08-19,Flowering/Peak,0.811,0.674,0.155,0.715,0.666
+Maharashtra,Nashik,20.08,74.11,2023-08-29,Flowering/Peak,0.699,0.559,0.156,0.586,0.655
+Maharashtra,Nashik,20.08,74.11,2023-09-03,Maturity,0.646,0.536,0.105,0.553,0.557
+Maharashtra,Nashik,20.08,74.11,2023-09-13,Maturity,0.444,0.391,0.027,0.362,0.579
+Maharashtra,Nashik,20.08,74.11,2023-09-18,Maturity,0.39,0.299,-0.006,0.343,0.562
+Maharashtra,Nashik,20.08,74.11,2023-09-23,Harvest,0.254,0.223,-0.136,0.231,0.487
+Maharashtra,Nashik,20.08,74.11,2023-09-28,Harvest,0.241,0.21,-0.132,0.192,0.466
+Maharashtra,Pune,18.15,74.58,2023-06-15,Sowing,0.109,0.115,-0.194,0.118,0.405
+Maharashtra,Pune,18.15,74.58,2023-06-25,Sowing,0.252,0.2,-0.058,0.197,0.532
+Maharashtra,Pune,18.15,74.58,2023-06-30,Sowing,0.347,0.256,-0.092,0.328,0.474
+Maharashtra,Pune,18.15,74.58,2023-07-05,Vegetative,0.446,0.382,0.008,0.395,0.584
+Maharashtra,Pune,18.15,74.58,2023-07-10,Vegetative,0.487,0.374,0.042,0.433,0.587
+Maharashtra,Pune,18.15,74.58,2023-07-15,Vegetative,0.641,0.531,0.062,0.544,0.549
+Maharashtra,Pune,18.15,74.58,2023-07-20,Vegetative,0.683,0.555,0.145,0.59,0.657
+Maharashtra,Pune,18.15,74.58,2023-07-25,Vegetative,0.744,0.628,0.113,0.652,0.595
+Maharashtra,Pune,18.15,74.58,2023-07-30,Vegetative,0.825,0.666,0.22,0.74,0.637
+Maharashtra,Pune,18.15,74.58,2023-08-04,Vegetative,0.81,0.662,0.237,0.721,0.668
+Maharashtra,Pune,18.15,74.58,2023-08-09,Flowering/Peak,0.825,0.654,0.182,0.744,0.67
+Maharashtra,Pune,18.15,74.58,2023-08-19,Flowering/Peak,0.87,0.721,0.252,0.754,0.643
+Maharashtra,Pune,18.15,74.58,2023-08-24,Flowering/Peak,0.775,0.657,0.18,0.692,0.64
+Maharashtra,Pune,18.15,74.58,2023-08-29,Flowering/Peak,0.775,0.653,0.213,0.712,0.663
+Maharashtra,Pune,18.15,74.58,2023-09-03,Flowering/Peak,0.745,0.638,0.124,0.627,0.612
+Maharashtra,Pune,18.15,74.58,2023-09-08,Maturity,0.642,0.517,0.129,0.573,0.598
+Maharashtra,Pune,18.15,74.58,2023-09-13,Maturity,0.64,0.537,0.123,0.541,0.603
+Maharashtra,Pune,18.15,74.58,2023-09-18,Maturity,0.509,0.413,0.092,0.463,0.565
+Maharashtra,Pune,18.15,74.58,2023-09-23,Maturity,0.463,0.365,-0.02,0.385,0.535
+Maharashtra,Pune,18.15,74.58,2023-09-28,Maturity,0.35,0.276,-0.073,0.336,0.488
+Maharashtra,Pune,18.15,74.58,2023-10-03,Harvest,0.258,0.211,-0.049,0.249,0.534
+Maharashtra,Pune,18.15,74.58,2023-10-08,Harvest,0.191,0.168,-0.135,0.154,0.472
+Karnataka,Belagavi,16.73,75.07,2023-06-15,Sowing,0.135,0.089,-0.121,0.119,0.472
+Karnataka,Belagavi,16.73,75.07,2023-06-20,Sowing,0.21,0.194,-0.133,0.168,0.444
+Karnataka,Belagavi,16.73,75.07,2023-06-25,Sowing,0.236,0.199,-0.153,0.194,0.472
+Karnataka,Belagavi,16.73,75.07,2023-06-30,Sowing,0.335,0.255,-0.085,0.292,0.474
+Karnataka,Belagavi,16.73,75.07,2023-07-10,Vegetative,0.478,0.409,-0.003,0.42,0.548
+Karnataka,Belagavi,16.73,75.07,2023-07-15,Vegetative,0.535,0.429,0.035,0.481,0.56
+Karnataka,Belagavi,16.73,75.07,2023-07-20,Vegetative,0.559,0.478,0.061,0.513,0.627
+Karnataka,Belagavi,16.73,75.07,2023-07-25,Vegetative,0.643,0.51,0.149,0.543,0.597
+Karnataka,Belagavi,16.73,75.07,2023-07-30,Vegetative,0.679,0.528,0.09,0.618,0.632
+Karnataka,Belagavi,16.73,75.07,2023-08-04,Vegetative,0.798,0.675,0.196,0.723,0.601
+Karnataka,Belagavi,16.73,75.07,2023-08-09,Vegetative,0.788,0.626,0.222,0.67,0.699
+Karnataka,Belagavi,16.73,75.07,2023-08-14,Vegetative,0.821,0.675,0.153,0.717,0.599
+Karnataka,Belagavi,16.73,75.07,2023-08-19,Flowering/Peak,0.825,0.685,0.198,0.754,0.65
+Karnataka,Belagavi,16.73,75.07,2023-08-29,Flowering/Peak,0.833,0.709,0.214,0.705,0.697
+Karnataka,Belagavi,16.73,75.07,2023-09-03,Flowering/Peak,0.788,0.636,0.184,0.701,0.632
+Karnataka,Belagavi,16.73,75.07,2023-09-08,Flowering/Peak,0.833,0.704,0.193,0.748,0.637
+Karnataka,Belagavi,16.73,75.07,2023-09-13,Flowering/Peak,0.717,0.563,0.195,0.609,0.609
+Karnataka,Belagavi,16.73,75.07,2023-09-18,Flowering/Peak,0.74,0.631,0.115,0.63,0.561
+Karnataka,Belagavi,16.73,75.07,2023-09-23,Maturity,0.658,0.548,0.077,0.565,0.583
+Karnataka,Belagavi,16.73,75.07,2023-09-28,Maturity,0.558,0.486,0.113,0.512,0.596
+Karnataka,Belagavi,16.73,75.07,2023-10-08,Maturity,0.472,0.397,0.017,0.44,0.514
+Karnataka,Belagavi,16.73,75.07,2023-10-13,Maturity,0.346,0.307,-0.059,0.333,0.565
+Karnataka,Belagavi,16.73,75.07,2023-10-18,Maturity,0.359,0.294,-0.087,0.311,0.464
+Karnataka,Belagavi,16.73,75.07,2023-10-23,Harvest,0.261,0.212,-0.118,0.218,0.453
+Karnataka,Belagavi,16.73,75.07,2023-10-28,Harvest,0.204,0.139,-0.179,0.191,0.415
+Karnataka,Mysuru,12.12,76.68,2023-06-15,Sowing,0.194,0.148,-0.205,0.145,0.436
+Karnataka,Mysuru,12.12,76.68,2023-06-20,Sowing,0.166,0.153,-0.145,0.175,0.488
+Karnataka,Mysuru,12.12,76.68,2023-06-25,Sowing,0.238,0.197,-0.109,0.207,0.541
+Karnataka,Mysuru,12.12,76.68,2023-07-05,Sowing,0.424,0.372,0.02,0.366,0.546
+Karnataka,Mysuru,12.12,76.68,2023-07-10,Vegetative,0.482,0.423,-0.033,0.441,0.556
+Karnataka,Mysuru,12.12,76.68,2023-07-15,Vegetative,0.522,0.434,0.091,0.457,0.558
+Karnataka,Mysuru,12.12,76.68,2023-07-20,Vegetative,0.583,0.458,0.142,0.511,0.667
+Karnataka,Mysuru,12.12,76.68,2023-07-25,Vegetative,0.644,0.512,0.146,0.547,0.583
+Karnataka,Mysuru,12.12,76.68,2023-08-04,Vegetative,0.819,0.694,0.151,0.705,0.629
+Karnataka,Mysuru,12.12,76.68,2023-08-19,Flowering/Peak,0.898,0.729,0.167,0.797,0.674
+Karnataka,Mysuru,12.12,76.68,2023-08-24,Flowering/Peak,0.851,0.708,0.225,0.737,0.646
+Karnataka,Mysuru,12.12,76.68,2023-08-29,Flowering/Peak,0.831,0.711,0.155,0.703,0.633
+Karnataka,Mysuru,12.12,76.68,2023-09-03,Flowering/Peak,0.853,0.678,0.239,0.775,0.646
+Karnataka,Mysuru,12.12,76.68,2023-09-08,Flowering/Peak,0.741,0.607,0.167,0.635,0.633
+Karnataka,Mysuru,12.12,76.68,2023-09-13,Flowering/Peak,0.689,0.574,0.092,0.604,0.565
+Karnataka,Mysuru,12.12,76.68,2023-09-23,Maturity,0.634,0.521,0.032,0.539,0.603
+Karnataka,Mysuru,12.12,76.68,2023-09-28,Maturity,0.511,0.412,-0.001,0.454,0.5
+Karnataka,Mysuru,12.12,76.68,2023-10-03,Maturity,0.429,0.343,0.06,0.351,0.564
+Karnataka,Mysuru,12.12,76.68,2023-10-08,Maturity,0.397,0.345,0.005,0.347,0.58
+Karnataka,Mysuru,12.12,76.68,2023-10-13,Maturity,0.339,0.298,-0.128,0.314,0.471
+Andhra Pradesh,Guntur,16.24,80.64,2023-06-20,Sowing,0.166,0.142,-0.143,0.142,0.448
+Andhra Pradesh,Guntur,16.24,80.64,2023-06-25,Sowing,0.278,0.21,-0.048,0.274,0.571
+Andhra Pradesh,Guntur,16.24,80.64,2023-07-05,Vegetative,0.43,0.343,-0.003,0.395,0.598
+Andhra Pradesh,Guntur,16.24,80.64,2023-07-10,Vegetative,0.545,0.474,0.004,0.471,0.578
+Andhra Pradesh,Guntur,16.24,80.64,2023-07-20,Vegetative,0.72,0.619,0.085,0.641,0.622
+Andhra Pradesh,Guntur,16.24,80.64,2023-07-25,Vegetative,0.742,0.579,0.147,0.646,0.58
+Andhra Pradesh,Guntur,16.24,80.64,2023-07-30,Vegetative,0.763,0.631,0.137,0.642,0.607
+Andhra Pradesh,Guntur,16.24,80.64,2023-08-04,Vegetative,0.869,0.7,0.238,0.781,0.647
+Andhra Pradesh,Guntur,16.24,80.64,2023-08-09,Flowering/Peak,0.846,0.67,0.171,0.745,0.603
+Andhra Pradesh,Guntur,16.24,80.64,2023-08-14,Flowering/Peak,0.884,0.705,0.184,0.774,0.657
+Andhra Pradesh,Guntur,16.24,80.64,2023-08-19,Flowering/Peak,0.874,0.731,0.177,0.75,0.608
+Andhra Pradesh,Guntur,16.24,80.64,2023-08-24,Flowering/Peak,0.796,0.67,0.137,0.687,0.609
+Andhra Pradesh,Guntur,16.24,80.64,2023-08-29,Flowering/Peak,0.734,0.628,0.183,0.636,0.645
+Andhra Pradesh,Guntur,16.24,80.64,2023-09-03,Flowering/Peak,0.754,0.593,0.121,0.685,0.611
+Andhra Pradesh,Guntur,16.24,80.64,2023-09-08,Maturity,0.626,0.517,0.059,0.532,0.591
+Andhra Pradesh,Guntur,16.24,80.64,2023-09-13,Maturity,0.553,0.43,0.051,0.48,0.535
+Andhra Pradesh,Guntur,16.24,80.64,2023-09-18,Maturity,0.466,0.404,-0.038,0.399,0.52
+Andhra Pradesh,Guntur,16.24,80.64,2023-09-23,Maturity,0.423,0.376,-0.033,0.366,0.507
+Andhra Pradesh,Guntur,16.24,80.64,2023-10-08,Harvest,0.186,0.142,-0.114,0.177,0.541
+Telangana,Nalgonda,16.87,79.57,2023-06-15,Sowing,0.107,0.069,-0.187,0.095,0.478
+Telangana,Nalgonda,16.87,79.57,2023-06-30,Sowing,0.404,0.33,0.006,0.361,0.551
+Telangana,Nalgonda,16.87,79.57,2023-07-05,Vegetative,0.425,0.341,0.051,0.384,0.601
+Telangana,Nalgonda,16.87,79.57,2023-07-10,Vegetative,0.573,0.459,0.006,0.476,0.57
+Telangana,Nalgonda,16.87,79.57,2023-07-20,Vegetative,0.726,0.575,0.161,0.628,0.632
+Telangana,Nalgonda,16.87,79.57,2023-07-25,Vegetative,0.707,0.563,0.122,0.642,0.651
+Telangana,Nalgonda,16.87,79.57,2023-07-30,Vegetative,0.762,0.644,0.151,0.677,0.672
+Telangana,Nalgonda,16.87,79.57,2023-08-04,Vegetative,0.846,0.7,0.194,0.747,0.641
+Telangana,Nalgonda,16.87,79.57,2023-08-09,Flowering/Peak,0.89,0.701,0.167,0.793,0.668
+Telangana,Nalgonda,16.87,79.57,2023-08-14,Flowering/Peak,0.839,0.672,0.215,0.711,0.632
+Telangana,Nalgonda,16.87,79.57,2023-08-19,Flowering/Peak,0.831,0.688,0.15,0.706,0.658
+Telangana,Nalgonda,16.87,79.57,2023-08-29,Flowering/Peak,0.751,0.611,0.126,0.665,0.62
+Telangana,Nalgonda,16.87,79.57,2023-09-08,Maturity,0.624,0.518,0.05,0.551,0.568
+Telangana,Nalgonda,16.87,79.57,2023-09-23,Maturity,0.362,0.285,-0.063,0.302,0.474
+Telangana,Nalgonda,16.87,79.57,2023-09-28,Harvest,0.248,0.197,-0.142,0.236,0.474
+Tamil Nadu,Thanjavur,10.96,79.38,2023-06-20,Sowing,0.186,0.133,-0.064,0.175,0.567
+Tamil Nadu,Thanjavur,10.96,79.38,2023-06-25,Sowing,0.269,0.243,-0.091,0.235,0.472
+Tamil Nadu,Thanjavur,10.96,79.38,2023-06-30,Sowing,0.414,0.348,-0.052,0.346,0.568
+Tamil Nadu,Thanjavur,10.96,79.38,2023-07-05,Vegetative,0.521,0.412,0.012,0.47,0.583
+Tamil Nadu,Thanjavur,10.96,79.38,2023-07-10,Vegetative,0.584,0.478,0.103,0.505,0.635
+Tamil Nadu,Thanjavur,10.96,79.38,2023-07-15,Vegetative,0.697,0.546,0.154,0.592,0.627
+Tamil Nadu,Thanjavur,10.96,79.38,2023-07-20,Vegetative,0.68,0.531,0.138,0.619,0.603
+Tamil Nadu,Thanjavur,10.96,79.38,2023-07-25,Vegetative,0.779,0.661,0.211,0.657,0.612
+Tamil Nadu,Thanjavur,10.96,79.38,2023-07-30,Vegetative,0.869,0.694,0.231,0.766,0.641
+Tamil Nadu,Thanjavur,10.96,79.38,2023-08-04,Flowering/Peak,0.816,0.668,0.156,0.718,0.66
+Tamil Nadu,Thanjavur,10.96,79.38,2023-08-09,Flowering/Peak,0.887,0.736,0.141,0.793,0.636
+Tamil Nadu,Thanjavur,10.96,79.38,2023-08-14,Flowering/Peak,0.826,0.703,0.147,0.755,0.662
+Tamil Nadu,Thanjavur,10.96,79.38,2023-08-19,Flowering/Peak,0.758,0.634,0.122,0.679,0.607
+Tamil Nadu,Thanjavur,10.96,79.38,2023-08-24,Flowering/Peak,0.721,0.562,0.2,0.644,0.614
+Tamil Nadu,Thanjavur,10.96,79.38,2023-09-03,Maturity,0.586,0.452,0.1,0.498,0.622
+Tamil Nadu,Thanjavur,10.96,79.38,2023-09-13,Maturity,0.396,0.331,0.019,0.36,0.601
+Tamil Nadu,Thanjavur,10.96,79.38,2023-09-23,Harvest,0.27,0.204,-0.049,0.262,0.536
+Tamil Nadu,Thanjavur,10.96,79.38,2023-09-28,Harvest,0.214,0.197,-0.166,0.216,0.503
+Tamil Nadu,Coimbatore,10.66,77.01,2023-06-20,Sowing,0.171,0.156,-0.155,0.153,0.487
+Tamil Nadu,Coimbatore,10.66,77.01,2023-06-25,Sowing,0.229,0.18,-0.144,0.221,0.459
+Tamil Nadu,Coimbatore,10.66,77.01,2023-07-05,Vegetative,0.42,0.354,-0.017,0.343,0.492
+Tamil Nadu,Coimbatore,10.66,77.01,2023-07-10,Vegetative,0.516,0.416,-0.005,0.467,0.579
+Tamil Nadu,Coimbatore,10.66,77.01,2023-07-15,Vegetative,0.556,0.444,0.11,0.483,0.621
+Tamil Nadu,Coimbatore,10.66,77.01,2023-07-25,Vegetative,0.757,0.643,0.175,0.659,0.621
+Tamil Nadu,Coimbatore,10.66,77.01,2023-07-30,Vegetative,0.763,0.633,0.149,0.697,0.672
+Tamil Nadu,Coimbatore,10.66,77.01,2023-08-04,Vegetative,0.829,0.704,0.236,0.727,0.65
+Tamil Nadu,Coimbatore,10.66,77.01,2023-08-19,Flowering/Peak,0.809,0.661,0.241,0.701,0.671
+Tamil Nadu,Coimbatore,10.66,77.01,2023-08-24,Flowering/Peak,0.824,0.694,0.244,0.713,0.646
+Tamil Nadu,Coimbatore,10.66,77.01,2023-08-29,Flowering/Peak,0.796,0.637,0.15,0.71,0.611
+Tamil Nadu,Coimbatore,10.66,77.01,2023-09-03,Flowering/Peak,0.731,0.585,0.129,0.662,0.583
+Tamil Nadu,Coimbatore,10.66,77.01,2023-09-18,Maturity,0.592,0.471,0.11,0.532,0.602
+Tamil Nadu,Coimbatore,10.66,77.01,2023-09-23,Maturity,0.51,0.424,0.04,0.43,0.576
+Tamil Nadu,Coimbatore,10.66,77.01,2023-09-28,Maturity,0.373,0.293,-0.056,0.309,0.505
+Tamil Nadu,Coimbatore,10.66,77.01,2023-10-03,Maturity,0.265,0.213,-0.08,0.24,0.487
+Tamil Nadu,Coimbatore,10.66,77.01,2023-10-08,Harvest,0.203,0.165,-0.156,0.176,0.457
+Tamil Nadu,Coimbatore,10.66,77.01,2023-10-13,Harvest,0.147,0.113,-0.118,0.117,0.468
+Rajasthan,Sriganganagar,29.71,73.98,2023-06-20,Sowing,0.212,0.201,-0.126,0.181,0.519
+Rajasthan,Sriganganagar,29.71,73.98,2023-06-25,Sowing,0.3,0.26,-0.025,0.243,0.56
+Rajasthan,Sriganganagar,29.71,73.98,2023-06-30,Sowing,0.377,0.307,-0.062,0.351,0.514
+Rajasthan,Sriganganagar,29.71,73.98,2023-07-05,Vegetative,0.511,0.431,0.046,0.443,0.571
+Rajasthan,Sriganganagar,29.71,73.98,2023-07-10,Vegetative,0.605,0.526,0.056,0.555,0.554
+Rajasthan,Sriganganagar,29.71,73.98,2023-07-15,Vegetative,0.694,0.591,0.064,0.585,0.554
+Rajasthan,Sriganganagar,29.71,73.98,2023-07-20,Vegetative,0.686,0.549,0.087,0.619,0.625
+Rajasthan,Sriganganagar,29.71,73.98,2023-07-25,Vegetative,0.785,0.628,0.16,0.696,0.581
+Rajasthan,Sriganganagar,29.71,73.98,2023-08-04,Flowering/Peak,0.842,0.714,0.225,0.77,0.636
+Rajasthan,Sriganganagar,29.71,73.98,2023-08-09,Flowering/Peak,0.855,0.698,0.184,0.75,0.596
+Rajasthan,Sriganganagar,29.71,73.98,2023-08-19,Flowering/Peak,0.819,0.66,0.206,0.723,0.632
+Rajasthan,Sriganganagar,29.71,73.98,2023-08-24,Flowering/Peak,0.735,0.615,0.097,0.637,0.57
+Rajasthan,Sriganganagar,29.71,73.98,2023-09-03,Maturity,0.566,0.455,0.085,0.528,0.568
+Rajasthan,Sriganganagar,29.71,73.98,2023-09-08,Maturity,0.478,0.397,-0.022,0.437,0.579
+Rajasthan,Sriganganagar,29.71,73.98,2023-09-18,Maturity,0.298,0.222,-0.029,0.283,0.493
+Rajasthan,Sriganganagar,29.71,73.98,2023-09-23,Harvest,0.251,0.178,-0.118,0.234,0.497
+Rajasthan,Sriganganagar,29.71,73.98,2023-09-28,Harvest,0.168,0.137,-0.197,0.124,0.47
+Rajasthan,Kota,24.64,75.94,2023-06-15,Sowing,0.181,0.149,-0.12,0.158,0.521
+Rajasthan,Kota,24.64,75.94,2023-06-25,Sowing,0.267,0.234,-0.134,0.237,0.527
+Rajasthan,Kota,24.64,75.94,2023-06-30,Sowing,0.418,0.324,-0.031,0.34,0.532
+Rajasthan,Kota,24.64,75.94,2023-07-10,Vegetative,0.588,0.496,0.041,0.533,0.573
+Rajasthan,Kota,24.64,75.94,2023-07-15,Vegetative,0.694,0.599,0.149,0.638,0.654
+Rajasthan,Kota,24.64,75.94,2023-07-20,Vegetative,0.776,0.618,0.134,0.682,0.663
+Rajasthan,Kota,24.64,75.94,2023-07-25,Vegetative,0.828,0.675,0.209,0.74,0.662
+Rajasthan,Kota,24.64,75.94,2023-07-30,Vegetative,0.872,0.689,0.191,0.777,0.663
+Rajasthan,Kota,24.64,75.94,2023-08-04,Flowering/Peak,0.826,0.667,0.232,0.753,0.708
+Rajasthan,Kota,24.64,75.94,2023-08-09,Flowering/Peak,0.845,0.672,0.165,0.719,0.644
+Rajasthan,Kota,24.64,75.94,2023-08-14,Flowering/Peak,0.782,0.636,0.178,0.663,0.686
+Rajasthan,Kota,24.64,75.94,2023-08-24,Flowering/Peak,0.752,0.592,0.092,0.68,0.631
+Rajasthan,Kota,24.64,75.94,2023-08-29,Maturity,0.653,0.545,0.123,0.56,0.644
+Rajasthan,Kota,24.64,75.94,2023-09-03,Maturity,0.507,0.429,-0.007,0.44,0.596
+Rajasthan,Kota,24.64,75.94,2023-09-08,Maturity,0.408,0.354,0.013,0.376,0.584
+Rajasthan,Kota,24.64,75.94,2023-09-18,Harvest,0.242,0.169,-0.128,0.225,0.468
+Rajasthan,Kota,24.64,75.94,2023-09-23,Harvest,0.152,0.145,-0.174,0.156,0.492
+Bihar,Patna,25.35,85.03,2023-06-15,Sowing,0.167,0.139,-0.148,0.137,0.516
+Bihar,Patna,25.35,85.03,2023-06-20,Sowing,0.182,0.161,-0.172,0.173,0.496
+Bihar,Patna,25.35,85.03,2023-06-25,Sowing,0.309,0.238,-0.063,0.242,0.517
+Bihar,Patna,25.35,85.03,2023-06-30,Sowing,0.401,0.313,0.006,0.366,0.572
+Bihar,Patna,25.35,85.03,2023-07-05,Vegetative,0.423,0.365,-0.013,0.348,0.497
+Bihar,Patna,25.35,85.03,2023-07-10,Vegetative,0.532,0.414,0.087,0.445,0.596
+Bihar,Patna,25.35,85.03,2023-07-15,Vegetative,0.627,0.491,0.055,0.558,0.607
+Bihar,Patna,25.35,85.03,2023-07-20,Vegetative,0.704,0.57,0.185,0.619,0.649
+Bihar,Patna,25.35,85.03,2023-07-25,Vegetative,0.809,0.659,0.156,0.737,0.598
+Bihar,Patna,25.35,85.03,2023-07-30,Vegetative,0.825,0.679,0.228,0.704,0.681
+Bihar,Patna,25.35,85.03,2023-08-04,Flowering/Peak,0.835,0.679,0.185,0.759,0.651
+Bihar,Patna,25.35,85.03,2023-08-09,Flowering/Peak,0.859,0.702,0.24,0.778,0.625
+Bihar,Patna,25.35,85.03,2023-08-14,Flowering/Peak,0.854,0.706,0.23,0.759,0.655
+Bihar,Patna,25.35,85.03,2023-08-19,Flowering/Peak,0.78,0.632,0.198,0.685,0.687
+Bihar,Patna,25.35,85.03,2023-08-24,Flowering/Peak,0.822,0.696,0.111,0.695,0.579
+Bihar,Patna,25.35,85.03,2023-08-29,Flowering/Peak,0.679,0.543,0.176,0.588,0.601
+Bihar,Patna,25.35,85.03,2023-09-03,Maturity,0.663,0.551,0.144,0.571,0.576
+Bihar,Patna,25.35,85.03,2023-09-08,Maturity,0.518,0.429,0.114,0.444,0.65
+Bihar,Patna,25.35,85.03,2023-09-13,Maturity,0.475,0.376,0.023,0.41,0.572
+Bihar,Patna,25.35,85.03,2023-09-18,Maturity,0.407,0.338,-0.037,0.368,0.51
+Bihar,Patna,25.35,85.03,2023-09-23,Harvest,0.261,0.227,-0.095,0.219,0.457
+Bihar,Patna,25.35,85.03,2023-09-28,Harvest,0.207,0.181,-0.077,0.195,0.482
+Bihar,Patna,25.35,85.03,2023-10-03,Harvest,0.206,0.148,-0.173,0.185,0.51
+Bihar,Muzaffarpur,26.2,85.42,2023-06-15,Sowing,0.194,0.162,-0.12,0.174,0.534
+Bihar,Muzaffarpur,26.2,85.42,2023-06-20,Sowing,0.223,0.178,-0.091,0.2,0.478
+Bihar,Muzaffarpur,26.2,85.42,2023-06-25,Sowing,0.319,0.252,-0.125,0.265,0.52
+Bihar,Muzaffarpur,26.2,85.42,2023-07-05,Vegetative,0.526,0.408,0.01,0.443,0.595
+Bihar,Muzaffarpur,26.2,85.42,2023-07-10,Vegetative,0.566,0.49,0.122,0.514,0.59
+Bihar,Muzaffarpur,26.2,85.42,2023-07-15,Vegetative,0.631,0.521,0.144,0.576,0.587
+Bihar,Muzaffarpur,26.2,85.42,2023-07-25,Vegetative,0.806,0.633,0.147,0.705,0.667
+Bihar,Muzaffarpur,26.2,85.42,2023-07-30,Vegetative,0.796,0.644,0.149,0.73,0.583
+Bihar,Muzaffarpur,26.2,85.42,2023-08-04,Flowering/Peak,0.856,0.701,0.155,0.767,0.631
+Bihar,Muzaffarpur,26.2,85.42,2023-08-09,Flowering/Peak,0.85,0.708,0.196,0.773,0.605
+Bihar,Muzaffarpur,26.2,85.42,2023-08-14,Flowering/Peak,0.801,0.685,0.161,0.732,0.604
+Bihar,Muzaffarpur,26.2,85.42,2023-08-19,Flowering/Peak,0.736,0.599,0.208,0.673,0.667
+Bihar,Muzaffarpur,26.2,85.42,2023-08-24,Flowering/Peak,0.69,0.592,0.148,0.618,0.613
+Bihar,Muzaffarpur,26.2,85.42,2023-08-29,Maturity,0.645,0.504,0.065,0.582,0.547
+Bihar,Muzaffarpur,26.2,85.42,2023-09-03,Maturity,0.541,0.438,0.098,0.463,0.575
+Bihar,Muzaffarpur,26.2,85.42,2023-09-08,Maturity,0.468,0.381,-0.0,0.417,0.585
+Bihar,Muzaffarpur,26.2,85.42,2023-09-13,Maturity,0.346,0.313,-0.052,0.316,0.538
+Gujarat,Rajkot,21.96,70.8,2023-06-15,Sowing,0.155,0.11,-0.141,0.13,0.481
+Gujarat,Rajkot,21.96,70.8,2023-06-20,Sowing,0.201,0.137,-0.164,0.194,0.441
+Gujarat,Rajkot,21.96,70.8,2023-06-25,Sowing,0.273,0.215,-0.091,0.254,0.506
+Gujarat,Rajkot,21.96,70.8,2023-07-05,Vegetative,0.462,0.368,0.017,0.417,0.534
+Gujarat,Rajkot,21.96,70.8,2023-07-10,Vegetative,0.497,0.402,0.081,0.455,0.556
+Gujarat,Rajkot,21.96,70.8,2023-07-20,Vegetative,0.687,0.552,0.089,0.633,0.546
+Gujarat,Rajkot,21.96,70.8,2023-08-09,Vegetative,0.848,0.712,0.166,0.769,0.601
+Gujarat,Rajkot,21.96,70.8,2023-08-19,Flowering/Peak,0.821,0.679,0.248,0.695,0.716
+Gujarat,Rajkot,21.96,70.8,2023-08-29,Flowering/Peak,0.847,0.701,0.217,0.759,0.64
+Gujarat,Rajkot,21.96,70.8,2023-09-08,Flowering/Peak,0.743,0.639,0.092,0.669,0.645
+Gujarat,Rajkot,21.96,70.8,2023-09-13,Maturity,0.657,0.542,0.085,0.6,0.554
+Gujarat,Rajkot,21.96,70.8,2023-09-18,Maturity,0.633,0.516,0.032,0.571,0.587
+Gujarat,Rajkot,21.96,70.8,2023-09-23,Maturity,0.51,0.394,0.085,0.44,0.564
+Gujarat,Rajkot,21.96,70.8,2023-09-28,Maturity,0.459,0.353,-0.003,0.388,0.519
+Gujarat,Rajkot,21.96,70.8,2023-10-03,Maturity,0.408,0.331,-0.026,0.352,0.548
+Gujarat,Rajkot,21.96,70.8,2023-10-08,Harvest,0.31,0.264,-0.04,0.3,0.483
+Gujarat,Rajkot,21.96,70.8,2023-10-13,Harvest,0.236,0.219,-0.101,0.202,0.512
+Gujarat,Rajkot,21.96,70.8,2023-10-18,Harvest,0.185,0.171,-0.153,0.187,0.497
+Gujarat,Anand,22.47,72.79,2023-06-15,Sowing,0.181,0.133,-0.097,0.132,0.454
+Gujarat,Anand,22.47,72.79,2023-06-20,Sowing,0.153,0.121,-0.087,0.16,0.519
+Gujarat,Anand,22.47,72.79,2023-06-25,Sowing,0.234,0.162,-0.064,0.21,0.472
+Gujarat,Anand,22.47,72.79,2023-07-05,Sowing,0.412,0.334,-0.08,0.369,0.48
+Gujarat,Anand,22.47,72.79,2023-07-10,Vegetative,0.411,0.361,-0.013,0.35,0.522
+Gujarat,Anand,22.47,72.79,2023-07-15,Vegetative,0.542,0.438,0.003,0.503,0.598
+Gujarat,Anand,22.47,72.79,2023-07-20,Vegetative,0.563,0.453,0.023,0.5,0.608
+Gujarat,Anand,22.47,72.79,2023-07-25,Vegetative,0.654,0.564,0.066,0.599,0.623
+Gujarat,Anand,22.47,72.79,2023-07-30,Vegetative,0.749,0.588,0.087,0.664,0.548
+Gujarat,Anand,22.47,72.79,2023-08-09,Vegetative,0.817,0.686,0.177,0.696,0.62
+Gujarat,Anand,22.47,72.79,2023-08-19,Flowering/Peak,0.887,0.72,0.195,0.794,0.674
+Gujarat,Anand,22.47,72.79,2023-08-24,Flowering/Peak,0.862,0.678,0.179,0.78,0.675
+Gujarat,Anand,22.47,72.79,2023-09-03,Flowering/Peak,0.858,0.703,0.167,0.785,0.67
+Gujarat,Anand,22.47,72.79,2023-09-13,Flowering/Peak,0.739,0.608,0.192,0.63,0.617
+Gujarat,Anand,22.47,72.79,2023-09-18,Flowering/Peak,0.687,0.566,0.133,0.586,0.626
+Gujarat,Anand,22.47,72.79,2023-10-03,Maturity,0.502,0.426,0.089,0.469,0.585
+Gujarat,Anand,22.47,72.79,2023-10-08,Maturity,0.415,0.35,-0.036,0.378,0.514
+Gujarat,Anand,22.47,72.79,2023-10-13,Maturity,0.401,0.332,-0.018,0.38,0.494
+Gujarat,Anand,22.47,72.79,2023-10-23,Harvest,0.251,0.222,-0.136,0.196,0.481
+Gujarat,Anand,22.47,72.79,2023-10-28,Harvest,0.163,0.13,-0.183,0.158,0.456
+West Bengal,Bardhaman,23.23,88.37,2023-06-15,Sowing,0.159,0.138,-0.123,0.13,0.449
+West Bengal,Bardhaman,23.23,88.37,2023-06-20,Sowing,0.187,0.157,-0.112,0.14,0.479
+West Bengal,Bardhaman,23.23,88.37,2023-06-30,Sowing,0.342,0.305,-0.026,0.322,0.495
+West Bengal,Bardhaman,23.23,88.37,2023-07-05,Vegetative,0.427,0.374,0.021,0.395,0.562
+West Bengal,Bardhaman,23.23,88.37,2023-07-10,Vegetative,0.543,0.423,0.05,0.5,0.565
+West Bengal,Bardhaman,23.23,88.37,2023-07-15,Vegetative,0.599,0.508,0.074,0.527,0.562
+West Bengal,Bardhaman,23.23,88.37,2023-07-20,Vegetative,0.684,0.542,0.049,0.623,0.593
+West Bengal,Bardhaman,23.23,88.37,2023-07-25,Vegetative,0.777,0.624,0.116,0.707,0.621
+West Bengal,Bardhaman,23.23,88.37,2023-07-30,Vegetative,0.755,0.613,0.191,0.677,0.628
+West Bengal,Bardhaman,23.23,88.37,2023-08-14,Flowering/Peak,0.855,0.721,0.164,0.761,0.585
+West Bengal,Bardhaman,23.23,88.37,2023-08-19,Flowering/Peak,0.884,0.724,0.215,0.761,0.693
+West Bengal,Bardhaman,23.23,88.37,2023-08-24,Flowering/Peak,0.774,0.661,0.201,0.665,0.683
+West Bengal,Bardhaman,23.23,88.37,2023-08-29,Flowering/Peak,0.812,0.679,0.138,0.72,0.616
+West Bengal,Bardhaman,23.23,88.37,2023-09-03,Flowering/Peak,0.733,0.619,0.122,0.644,0.659
+West Bengal,Bardhaman,23.23,88.37,2023-09-08,Maturity,0.657,0.509,0.153,0.569,0.634
+West Bengal,Bardhaman,23.23,88.37,2023-09-13,Maturity,0.632,0.511,0.125,0.563,0.634
+West Bengal,Bardhaman,23.23,88.37,2023-09-18,Maturity,0.483,0.401,-0.003,0.438,0.532
+West Bengal,Bardhaman,23.23,88.37,2023-09-23,Maturity,0.461,0.371,0.029,0.381,0.52
+West Bengal,Bardhaman,23.23,88.37,2023-09-28,Maturity,0.41,0.349,0.006,0.363,0.585
+West Bengal,Bardhaman,23.23,88.37,2023-10-08,Harvest,0.167,0.113,-0.079,0.129,0.526
+West Bengal,Bardhaman,23.23,88.37,2023-10-13,Harvest,0.206,0.151,-0.087,0.184,0.521
+Odisha,Cuttack,20.52,85.68,2023-06-15,Sowing,0.165,0.132,-0.13,0.132,0.492
+Odisha,Cuttack,20.52,85.68,2023-06-20,Sowing,0.223,0.176,-0.138,0.194,0.527
+Odisha,Cuttack,20.52,85.68,2023-06-30,Sowing,0.343,0.293,-0.069,0.305,0.486
+Odisha,Cuttack,20.52,85.68,2023-07-05,Vegetative,0.486,0.38,0.041,0.441,0.568
+Odisha,Cuttack,20.52,85.68,2023-07-20,Vegetative,0.707,0.6,0.07,0.65,0.572
+Odisha,Cuttack,20.52,85.68,2023-07-25,Vegetative,0.778,0.642,0.116,0.666,0.59
+Odisha,Cuttack,20.52,85.68,2023-07-30,Vegetative,0.863,0.71,0.169,0.783,0.661
+Odisha,Cuttack,20.52,85.68,2023-08-04,Flowering/Peak,0.806,0.675,0.205,0.703,0.684
+Odisha,Cuttack,20.52,85.68,2023-08-09,Flowering/Peak,0.864,0.705,0.172,0.789,0.644
+Odisha,Cuttack,20.52,85.68,2023-08-14,Flowering/Peak,0.856,0.724,0.161,0.782,0.658
+Odisha,Cuttack,20.52,85.68,2023-08-19,Flowering/Peak,0.785,0.651,0.175,0.715,0.635
+Odisha,Cuttack,20.52,85.68,2023-08-24,Flowering/Peak,0.749,0.629,0.185,0.631,0.673
+Odisha,Cuttack,20.52,85.68,2023-08-29,Flowering/Peak,0.732,0.624,0.138,0.666,0.626
+Odisha,Cuttack,20.52,85.68,2023-09-03,Maturity,0.626,0.502,0.08,0.527,0.571
+Odisha,Cuttack,20.52,85.68,2023-09-08,Maturity,0.543,0.437,0.026,0.48,0.569
+Odisha,Cuttack,20.52,85.68,2023-09-13,Maturity,0.509,0.405,0.014,0.467,0.528
+Odisha,Cuttack,20.52,85.68,2023-09-18,Maturity,0.423,0.353,-0.012,0.37,0.573
+Odisha,Cuttack,20.52,85.68,2023-09-28,Harvest,0.182,0.135,-0.099,0.158,0.495
+Chhattisgarh,Raipur,21.19,81.97,2023-06-25,Sowing,0.241,0.21,-0.084,0.196,0.483
+Chhattisgarh,Raipur,21.19,81.97,2023-06-30,Sowing,0.294,0.251,0.001,0.277,0.564
+Chhattisgarh,Raipur,21.19,81.97,2023-07-05,Vegetative,0.437,0.353,0.006,0.402,0.518
+Chhattisgarh,Raipur,21.19,81.97,2023-07-10,Vegetative,0.54,0.448,-0.031,0.492,0.497
+Chhattisgarh,Raipur,21.19,81.97,2023-07-15,Vegetative,0.567,0.479,0.024,0.516,0.598
+Chhattisgarh,Raipur,21.19,81.97,2023-07-20,Vegetative,0.651,0.528,0.122,0.544,0.589
+Chhattisgarh,Raipur,21.19,81.97,2023-07-25,Vegetative,0.752,0.639,0.136,0.67,0.633
+Chhattisgarh,Raipur,21.19,81.97,2023-07-30,Vegetative,0.757,0.591,0.119,0.665,0.588
+Chhattisgarh,Raipur,21.19,81.97,2023-08-09,Vegetative,0.818,0.657,0.159,0.703,0.646
+Chhattisgarh,Raipur,21.19,81.97,2023-08-19,Flowering/Peak,0.841,0.674,0.229,0.753,0.63
+Chhattisgarh,Raipur,21.19,81.97,2023-08-24,Flowering/Peak,0.814,0.695,0.151,0.713,0.641
+Chhattisgarh,Raipur,21.19,81.97,2023-08-29,Flowering/Peak,0.756,0.604,0.137,0.675,0.662
+Chhattisgarh,Raipur,21.19,81.97,2023-09-03,Flowering/Peak,0.754,0.621,0.101,0.66,0.602
+Chhattisgarh,Raipur,21.19,81.97,2023-09-08,Flowering/Peak,0.709,0.609,0.142,0.653,0.584
+Chhattisgarh,Raipur,21.19,81.97,2023-09-13,Maturity,0.606,0.477,0.056,0.556,0.614
+Chhattisgarh,Raipur,21.19,81.97,2023-09-18,Maturity,0.558,0.432,0.056,0.514,0.615
+Chhattisgarh,Raipur,21.19,81.97,2023-09-23,Maturity,0.503,0.386,0.077,0.448,0.548
+Chhattisgarh,Raipur,21.19,81.97,2023-09-28,Maturity,0.402,0.345,-0.045,0.363,0.54
+Chhattisgarh,Raipur,21.19,81.97,2023-10-03,Maturity,0.349,0.262,-0.036,0.299,0.493
+Chhattisgarh,Raipur,21.19,81.97,2023-10-08,Harvest,0.205,0.161,-0.102,0.2,0.53
+Chhattisgarh,Raipur,21.19,81.97,2023-10-13,Harvest,0.183,0.129,-0.098,0.177,0.509

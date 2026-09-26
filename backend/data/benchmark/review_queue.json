@@ -1,0 +1,15 @@
+[
+  {
+    "id": "AQ-000284",
+    "question": "how to control thrips in cotton crop",
+    "expectedIntent": [
+      "PEST",
+      "DISEASE"
+    ],
+    "actualIntent": "crop",
+    "actualResponseSnippet": "🌾 **Sahayak AI Agricultural Advice:**\n\nGreen Gram (Moong) & Black Gram (Urad) are short-duration 60-70 day pulse crops with MSP ₹8,558/qtl and ₹7,400",
+    "failureCategory": "INTENT_FAILURE",
+    "latencyMs": 13,
+    "timestamp": "2026-09-16T04:45:31.791Z"
+  }
+]

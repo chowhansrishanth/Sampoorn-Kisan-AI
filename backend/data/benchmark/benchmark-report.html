@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sampoorn Kisan AI Sahayak — Benchmark Evaluation Report</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #f8fafc; padding: 20px; }
+        .card { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .metric { font-size: 28px; font-weight: bold; color: #38bdf8; margin-top: 5px; }
+        .pass { color: #4ade80; }
+        .fail { color: #f87171; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 10px; border-bottom: 1px solid #334155; text-align: left; }
+        th { background: #0f172a; color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <h1>🌾 Sampoorn Kisan AI Sahayak — Evaluation Report</h1>
+    <div class="card">
+        <h2>Run Summary: run_1789533932755</h2>
+        <p>Evaluated <strong>100</strong> records from split <strong>golden_test</strong> in 3s.</p>
+        <div class="grid">
+            <div class="card">Overall Accuracy<div class="metric pass">99%</div></div>
+            <div class="card">Intent Accuracy<div class="metric pass">99%</div></div>
+            <div class="card">Entity Accuracy<div class="metric pass">100%</div></div>
+            <div class="card">Hallucination Rate<div class="metric pass">0%</div></div>
+            <div class="card">P95 Latency<div class="metric">16 ms</div></div>
+        </div>
+    </div>
+</body>
+</html>

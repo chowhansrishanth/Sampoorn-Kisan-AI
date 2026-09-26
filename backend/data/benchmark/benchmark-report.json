@@ -1,0 +1,22 @@
+{
+  "runId": "run_1789533932755",
+  "timestamp": "2026-09-16T04:45:32.755Z",
+  "splitEvaluated": "golden_test",
+  "totalEvaluated": 100,
+  "totalPassed": 99,
+  "totalFailed": 1,
+  "overallAccuracy": 99,
+  "metrics": {
+    "intentAccuracy": 99,
+    "entityAccuracy": 100,
+    "contextAccuracy": 100,
+    "toolSelectionAccuracy": 100,
+    "agentSelectionAccuracy": 100,
+    "hallucinationRate": 0,
+    "unnecessaryClarificationRate": 0,
+    "numericalAccuracy": 100,
+    "p50LatencyMs": 14,
+    "p95LatencyMs": 16
+  },
+  "durationSec": 3
+}

@@ -1,0 +1,4 @@
+const orchestrator=require('../services/aiOrchestrator');
+const memory=require('../services/conversationMemory');
+async function handleAgentChat(req,res){try{const message=req.body?.message;if(typeof message!=='string'||!message.trim()||message.length>6000)return res.status(400).json({error:'Provide a question under 6000 characters.'});const sessionId='agent:'+req.userId;if(req.user?.farmProfile)memory.syncFarmProfileState(sessionId,req.user.farmProfile);const result=await orchestrator.processQuery({message,language:req.body.language,sessionId,userId:req.userId,decisionInputs:req.body.decisionInputs||{}});return res.json({...result,reply:result.response,active_agent:result.agent,orchestrated_advisory:{},executive_summary:result.response,agents_dispatched:result.agents?.length||0});}catch{return res.status(503).json({error:'Agricultural analysis is temporarily unavailable.'});}}
+module.exports={handleAgentChat,orchestrateAgents:handleAgentChat};

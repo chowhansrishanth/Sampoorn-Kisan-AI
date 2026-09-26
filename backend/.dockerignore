@@ -1,0 +1,10 @@
+node_modules
+.env
+.env.*
+!.env.example
+uploads
+runtime-data
+data/*store.json
+data/session_memory.json
+data/farm_ledger.json
+data/traceability_batches.json

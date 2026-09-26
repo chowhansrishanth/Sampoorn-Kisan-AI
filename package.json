@@ -1,0 +1,14 @@
+{
+  "name": "sampoorn-kisan-ai-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "dev:all": "node scripts/dev.js",
+    "dev:backend": "cd backend && node server.js",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:ml": "node scripts/devMl.js",
+    "backend": "cd backend && node server.js",
+    "frontend": "cd frontend && npm run dev"
+  }
+}

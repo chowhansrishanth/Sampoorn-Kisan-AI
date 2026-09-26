@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="flBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f2027"/>
+      <stop offset="50%" stop-color="#203a43"/>
+      <stop offset="100%" stop-color="#2c5364"/>
+    </linearGradient>
+    <linearGradient id="nodeGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="100%" stop-color="#4facfe"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#flBg)"/>
+  <circle cx="300" cy="200" r="140" fill="none" stroke="rgba(0, 242, 254, 0.15)" stroke-width="2" stroke-dasharray="8 8"/>
+  <circle cx="300" cy="200" r="90" fill="none" stroke="rgba(0, 242, 254, 0.3)" stroke-width="2"/>
+  <!-- Central Hub -->
+  <circle cx="300" cy="200" r="32" fill="url(#nodeGlow)"/>
+  <path d="M290 200 L310 200 M300 190 L300 210" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+  <!-- Orbiting Nodes -->
+  <line x1="300" y1="200" x2="180" y2="120" stroke="#00f2fe" stroke-width="2" stroke-dasharray="4"/>
+  <circle cx="180" cy="120" r="20" fill="#2874f0"/>
+  
+  <line x1="300" y1="200" x2="420" y2="120" stroke="#00f2fe" stroke-width="2" stroke-dasharray="4"/>
+  <circle cx="420" cy="120" r="20" fill="#388e3c"/>
+  
+  <line x1="300" y1="200" x2="180" y2="280" stroke="#00f2fe" stroke-width="2" stroke-dasharray="4"/>
+  <circle cx="180" cy="280" r="20" fill="#f57c00"/>
+  
+  <line x1="300" y1="200" x2="420" y2="280" stroke="#00f2fe" stroke-width="2" stroke-dasharray="4"/>
+  <circle cx="420" cy="280" r="20" fill="#7b1fa2"/>
+  <text x="300" y="360" font-family="sans-serif" font-size="22" font-weight="bold" fill="#ffffff" text-anchor="middle">AES-256 FEDERATED LEARNING NODE</text>
+</svg>

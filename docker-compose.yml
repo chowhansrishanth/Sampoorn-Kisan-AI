@@ -1,0 +1,106 @@
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: sampoorn_kisan_db
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+    networks:
+      - kisan_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sampoorn_kisan_backend
+    ports:
+      - "127.0.0.1:5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:27017/sampoorn_kisan_ai
+      - PYTHON_ML_SERVICE=http://ml_service:8000
+      - ML_SERVICE_URL=http://ml_service:8000
+      - JWT_SECRET=${JWT_SECRET:?Set a strong unique JWT_SECRET}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - AI_PROVIDER=${AI_PROVIDER:-gemini}
+      - AI_MODEL=${AI_MODEL:-gemini-2.0-flash}
+      - FRONTEND_ORIGINS=${FRONTEND_ORIGINS:?Set the public frontend origin}
+      - NODE_ENV=production
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID:-}
+      - DATA_DIR=/app/runtime-data
+    volumes:
+      - uploads_data:/app/uploads
+      - runtime_data:/app/runtime-data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5000/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 8s
+      retries: 5
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      ml_service:
+        condition: service_started
+    restart: always
+    networks:
+      - kisan_network
+
+  ml_service:
+    build:
+      context: ./ml_service
+      dockerfile: Dockerfile
+    container_name: sampoorn_kisan_ml
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      - PORT=8000
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    restart: always
+    networks:
+      - kisan_network
+
+  fl_server:
+    build:
+      context: ./fl_server
+      dockerfile: Dockerfile
+    container_name: sampoorn_kisan_fl
+    ports:
+      - "127.0.0.1:8080:8080"
+    restart: always
+    networks:
+      - kisan_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: sampoorn_kisan_frontend
+    ports:
+      - "80:80"
+      - "5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: always
+    networks:
+      - kisan_network
+
+volumes:
+  mongo_data:
+  uploads_data:
+  runtime_data:
+
+networks:
+  kisan_network:
+    driver: bridge

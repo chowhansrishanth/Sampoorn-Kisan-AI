@@ -1,0 +1,15 @@
+.decision-page { max-width: 1200px; margin: auto; min-width: 0; }
+.decision-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,210px),1fr)); gap: 16px; }
+.decision-page label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; }
+.decision-page input,.decision-page select { width:100%; min-width:0; min-height:44px; box-sizing:border-box; padding:10px; border:1px solid var(--fk-border,#aaa); border-radius:8px; background:var(--fk-card,#fff); color:var(--fk-text,#18251b); }
+.decision-page button { min-height:44px; padding:10px 16px; border-radius:8px; border:1px solid var(--fk-border,#aaa); background:var(--fk-card,#fff); color:var(--fk-text,#18251b); cursor:pointer; }
+.decision-page button:disabled { opacity:.55; cursor:default; }
+.decision-page :focus-visible { outline:3px solid #4c9b60; outline-offset:3px; }
+.decision-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
+.decision-stat { border:1px solid var(--fk-border,#aaa); padding:16px; border-radius:10px; min-width:0; overflow-wrap:anywhere; }
+.decision-stat strong { display:block; font-size:1.3rem; margin-top:8px; }
+.decision-page .capitalize { text-transform:capitalize; }
+.decision-page .cost-row { margin:12px 0; } .cost-row meter { width:100%; height:18px; }
+.decision-table { overflow:auto; max-width:100%; } .decision-table table { width:100%; border-collapse:collapse; } .decision-table th,.decision-table td { padding:12px; text-align:left; border-bottom:1px solid var(--fk-border,#aaa); }
+.decision-page details { margin-top:16px; } .decision-page summary { padding:12px 0; cursor:pointer; }
+@media(max-width:430px) { .decision-page { padding:12px !important; } .decision-actions button { width:100%; } }

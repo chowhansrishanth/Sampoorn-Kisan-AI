@@ -1,0 +1,22 @@
+﻿{
+  "name": "Sampoorn Kisan AI",
+  "short_name": "Kisan AI",
+  "description": "AI-powered precision agriculture assistant for Indian farmers",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f172a",
+  "theme_color": "#10b981",
+  "lang": "en-IN",
+  "categories": ["agriculture", "productivity", "utilities"],
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "AI Chat", "short_name": "Chat", "description": "Open the Sahayak AI assistant", "url": "/chat", "icons": [{ "src": "/favicon.svg", "sizes": "any" }] },
+    { "name": "Crop Advisor", "short_name": "Crops", "description": "Get crop recommendations", "url": "/crop-tool", "icons": [{ "src": "/favicon.svg", "sizes": "any" }] },
+    { "name": "Mandi Prices", "short_name": "Mandi", "description": "View live market prices", "url": "/dashboard#market", "icons": [{ "src": "/favicon.svg", "sizes": "any" }] }
+  ],
+  "prefer_related_applications": false
+}
