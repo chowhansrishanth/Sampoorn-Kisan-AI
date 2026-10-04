@@ -16,6 +16,7 @@ const DiseaseDiagnosis = lazy(() => import("./pages/DiseaseDiagnosis"));
 const XAIDashboard = lazy(() => import("./pages/XAIDashboard"));
 const CropRecommendationTool = lazy(() => import("./pages/CropRecommendationTool"));
 const KnowledgeHub = lazy(() => import("./pages/KnowledgeHub"));
+const GovernmentSchemes = lazy(() => import("./pages/GovernmentSchemes"));
 const BenchmarkDashboard = lazy(() => import("./pages/BenchmarkDashboard"));
 const AIChat = lazy(() => import("./AIChat"));
 const CropCalendar = lazy(() => import("./pages/CropCalendar"));
@@ -40,6 +41,8 @@ const OrganicFarming = lazy(() => import("./pages/OrganicFarming"));
 const SolarPump = lazy(() => import("./pages/SolarPump"));
 const CropInsurance = lazy(() => import("./pages/CropInsurance"));
 const CarbonCredits = lazy(() => import("./pages/CarbonCredits"));
+const Weather = lazy(() => import("./pages/Weather"));
+const MandiPrices = lazy(() => import("./pages/MandiPrices"));
 
 
 
@@ -177,6 +180,8 @@ function MainLayout() {
               <Route path="/xai" element={<XAIDashboard />} />
               <Route path="/crop-tool" element={<CropRecommendationTool />} />
               <Route path="/knowledge" element={<KnowledgeHub />} />
+              <Route path="/schemes" element={<GovernmentSchemes />} />
+              <Route path="/government-schemes" element={<GovernmentSchemes />} />
               <Route path="/benchmark" element={<BenchmarkDashboard />} />
               <Route path="/benchmarks" element={<BenchmarkDashboard />} />
               <Route path="/calendar" element={<CropCalendar user={user} />} />
@@ -204,6 +209,10 @@ function MainLayout() {
               <Route path="/solar-pump" element={<SolarPump user={user} />} />
               <Route path="/crop-insurance" element={<CropInsurance user={user} />} />
               <Route path="/carbon-credits" element={<CarbonCredits user={user} />} />
+              <Route path="/weather" element={<Weather user={user} />} />
+              <Route path="/mandi" element={<MandiPrices user={user} />} />
+              <Route path="/mandi-prices" element={<MandiPrices user={user} />} />
+              <Route path="/market" element={<MandiPrices user={user} />} />
               <Route path="/reset-password/:token" element={<ResetPassword onNavigateLogin={() => window.location.href = "/"} />} />
               <Route path="/reset-password" element={<ResetPassword onNavigateLogin={() => window.location.href = "/"} />} />
             </Routes>
@@ -214,13 +223,13 @@ function MainLayout() {
       {/* PWA Install Banner */}
       {pwaVisible && (
         <div className="pwa-install-banner">
-          <span style={{ fontSize: 28 }}>🌾</span>
+          <span style={{ fontSize: 30 }}>🌾</span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 800, fontSize: 13 }}>Install Kisan AI App</div>
-            <div style={{ fontSize: 11, opacity: 0.8, marginTop: 2 }}>Add to your home screen for offline access</div>
+            <div style={{ fontWeight: 800, fontSize: 14 }}>Install Kisan AI App</div>
+            <div style={{ fontSize: 12, opacity: 0.8, marginTop: 2 }}>Add to your home screen for offline access</div>
           </div>
           <button className="pwa-install-btn" onClick={handlePwaInstall}>Install</button>
-          <button onClick={() => setPwaVisible(false)} style={{ background: 'none', border: 'none', color: '#ffffff', opacity: 0.6, cursor: 'pointer', fontSize: 18, padding: '0 4px' }}>✕</button>
+          <button onClick={() => setPwaVisible(false)} style={{ background: 'none', border: 'none', color: '#ffffff', opacity: 0.6, cursor: 'pointer', fontSize: 19.5, padding: '0 4px' }}>✕</button>
         </div>
       )}
     </AppShell>

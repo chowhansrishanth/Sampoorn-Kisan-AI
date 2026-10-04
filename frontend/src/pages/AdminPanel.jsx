@@ -13,29 +13,29 @@ function UserRow({ u, onToggle, currentUserId }) {
   return (
     <tr>
       <td>
-        <div style={{ fontWeight: 700, fontSize: 13 }}>{u.name || "—"}</div>
-        <div style={{ fontSize: 11, color: "#64748b" }}>{u.email}</div>
+        <div style={{ fontWeight: 700, fontSize: 14 }}>{u.name || "—"}</div>
+        <div style={{ fontSize: 12, color: "#64748b" }}>{u.email}</div>
       </td>
-      <td style={{ fontSize: 12 }}>{u.phone || "—"}</td>
+      <td style={{ fontSize: 13 }}>{u.phone || "—"}</td>
       <td>
-        <span style={{ padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700, background: u.role === "admin" ? "rgba(139,92,246,0.12)" : "rgba(16,185,129,0.10)", color: u.role === "admin" ? "#7c3aed" : "#059669" }}>
+        <span style={{ padding: "2px 8px", borderRadius: 10, fontSize: 12, fontWeight: 700, background: u.role === "admin" ? "rgba(139,92,246,0.12)" : "rgba(16,185,129,0.10)", color: u.role === "admin" ? "#7c3aed" : "#059669" }}>
           {u.role || "farmer"}
         </span>
       </td>
-      <td style={{ fontSize: 11 }}>{u.location || "—"}</td>
+      <td style={{ fontSize: 12 }}>{u.location || "—"}</td>
       <td>
-        <span style={{ padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700, background: u.isActive ? "rgba(34,197,94,0.10)" : "rgba(239,68,68,0.10)", color: u.isActive ? "#16a34a" : "#dc2626" }}>
+        <span style={{ padding: "2px 8px", borderRadius: 10, fontSize: 12, fontWeight: 700, background: u.isActive ? "rgba(34,197,94,0.10)" : "rgba(239,68,68,0.10)", color: u.isActive ? "#16a34a" : "#dc2626" }}>
           {u.isActive ? "Active" : "Inactive"}
         </span>
       </td>
       <td>
         {isSelf ? (
-          <span style={{ fontSize: 11, color: "#94a3b8" }}>You</span>
+          <span style={{ fontSize: 12, color: "#94a3b8" }}>You</span>
         ) : (
           <button
             onClick={() => onToggle(u.id, !u.isActive)}
             title={u.isActive ? "Deactivate user" : "Activate user"}
-            style={{ background: "none", border: "none", cursor: "pointer", color: u.isActive ? "#ef4444" : "#22c55e", display: "flex", alignItems: "center", gap: 4, fontSize: 11 }}
+            style={{ background: "none", border: "none", cursor: "pointer", color: u.isActive ? "#ef4444" : "#22c55e", display: "flex", alignItems: "center", gap: 4, fontSize: 12 }}
           >
             {u.isActive ? <ToggleLeft size={18} /> : <ToggleRight size={18} />}
             {u.isActive ? "Deactivate" : "Activate"}
@@ -72,7 +72,7 @@ export default function AdminPanel({ user }) {
     background: tab === t ? "#22c55e" : "var(--fk-card)",
     color: tab === t ? "#ffffff" : "var(--fk-text-sub)",
     fontWeight: 700,
-    fontSize: 12,
+    fontSize: 13,
     cursor: "pointer",
   });
 
@@ -118,7 +118,7 @@ export default function AdminPanel({ user }) {
                 <StatCard icon={<Shield size={20} />} label="Admin Accounts" value={stats.adminCount} color="#7c3aed" />
               </div>
               <PremiumCard>
-                <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 16 }}>⚙️ System Status</div>
+                <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 16 }}>⚙️ System Status</div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
                   {[
                     { label: "Uptime", value: Math.floor(stats.uptimeSeconds / 60) + "m " + (stats.uptimeSeconds % 60) + "s" },
@@ -127,8 +127,8 @@ export default function AdminPanel({ user }) {
                     { label: "Environment", value: stats.environment },
                   ].map(row => (
                     <div key={row.label} style={{ padding: 12, borderRadius: 8, background: "var(--primary-surface)", border: "1px solid var(--primary-border)" }}>
-                      <div style={{ fontSize: 11, color: "#64748b" }}>{row.label}</div>
-                      <div style={{ fontSize: 15, fontWeight: 800, color: "var(--fk-text)" }}>{row.value}</div>
+                      <div style={{ fontSize: 12, color: "#64748b" }}>{row.label}</div>
+                      <div style={{ fontSize: 16, fontWeight: 800, color: "var(--fk-text)" }}>{row.value}</div>
                     </div>
                   ))}
                 </div>
@@ -138,7 +138,7 @@ export default function AdminPanel({ user }) {
 
           {tab === "users" && (
             <PremiumCard>
-              <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 16 }}>👥 All Farmer Accounts ({users.length})</div>
+              <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 16 }}>👥 All Farmer Accounts ({users.length})</div>
               <div style={{ overflowX: "auto" }}>
                 <table className="admin-user-table">
                   <thead>

@@ -66,13 +66,13 @@ export default function CropRotationSimulator() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap" }}>
             <div>
-              <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+              <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                 Agronomy Template
               </label>
               <select
                 value={selectedTemplate}
                 onChange={(e) => handleTemplateChange(e.target.value)}
-                style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
               >
                 {templates.map((tmpl) => (
                   <option key={tmpl.id} value={tmpl.id}>
@@ -83,7 +83,7 @@ export default function CropRotationSimulator() {
             </div>
 
             <div>
-              <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+              <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                 Farm Land Area (Hectares)
               </label>
               <input
@@ -93,12 +93,12 @@ export default function CropRotationSimulator() {
                 step="0.5"
                 value={hectares}
                 onChange={(e) => setHectares(Number(e.target.value) || 1)}
-                style={{ width: "100px", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                style={{ width: "100px", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
               />
             </div>
           </div>
 
-          <div style={{ fontSize: "12px", color: "#15803d", fontWeight: "700", display: "flex", alignItems: "center", gap: "6px" }}>
+          <div style={{ fontSize: "13px", color: "#15803d", fontWeight: "700", display: "flex", alignItems: "center", gap: "6px" }}>
             <Sparkles size={16} /> Chemical Fertilizer Savings: -{simulation?.recommendedChemicalFertilizerReductionPercent || 30}% Urea Recommended
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function CropRotationSimulator() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "18px", flexWrap: "wrap", gap: "10px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Layers size={22} style={{ color: "#15803d" }} />
-            <h3 style={{ fontSize: "17px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
+            <h3 style={{ fontSize: "18px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
               Seasonal Crop Succession Timeline & Soil Nutrient Tracker
             </h3>
           </div>
@@ -170,15 +170,15 @@ export default function CropRotationSimulator() {
               >
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                    <span style={{ fontSize: "11px", fontWeight: "800", color: isNFixing ? "#15803d" : "#2563eb", textTransform: "uppercase" }}>
+                    <span style={{ fontSize: "12px", fontWeight: "800", color: isNFixing ? "#15803d" : "#2563eb", textTransform: "uppercase" }}>
                       {step.season}
                     </span>
                     {isNFixing ? (
-                      <span style={{ fontSize: "10px", fontWeight: "800", background: "#dcfce7", color: "#15803d", padding: "2px 6px", borderRadius: "4px" }}>
+                      <span style={{ fontSize: "11px", fontWeight: "800", background: "#dcfce7", color: "#15803d", padding: "2px 6px", borderRadius: "4px" }}>
                         +N Fixer 🌱
                       </span>
                     ) : (
-                      <span style={{ fontSize: "10px", fontWeight: "700", background: "rgba(0,0,0,0.06)", color: "var(--fk-text-sub, #64748b)", padding: "2px 6px", borderRadius: "4px" }}>
+                      <span style={{ fontSize: "11px", fontWeight: "700", background: "rgba(0,0,0,0.06)", color: "var(--fk-text-sub, #64748b)", padding: "2px 6px", borderRadius: "4px" }}>
                         {step.cropType}
                       </span>
                     )}
@@ -188,7 +188,7 @@ export default function CropRotationSimulator() {
                     <select
                       value={step.crop}
                       onChange={(e) => handleCropChange(idx, e.target.value)}
-                      style={{ width: "100%", padding: "6px 8px", borderRadius: "6px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                      style={{ width: "100%", padding: "6px 8px", borderRadius: "6px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
                     >
                       {availableCrops.map((c) => (
                         <option key={c} value={c}>
@@ -198,7 +198,7 @@ export default function CropRotationSimulator() {
                     </select>
                   </div>
 
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "12px", marginBottom: "10px" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "13px", marginBottom: "10px" }}>
                     <div>
                       <span style={{ color: "var(--fk-text-sub, #64748b)" }}>Nitrogen Delta:</span>{" "}
                       <strong style={{ color: isNFixing ? "#15803d" : "#dc2626" }}>
@@ -211,7 +211,7 @@ export default function CropRotationSimulator() {
                     </div>
                   </div>
 
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "var(--fk-text-sub, #64748b)", marginBottom: "4px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "var(--fk-text-sub, #64748b)", marginBottom: "4px" }}>
                     <span>Disease Suppression Score:</span>
                     <strong style={{ color: "#2563eb" }}>{step.diseaseSuppressionScore}%</strong>
                   </div>
@@ -220,9 +220,9 @@ export default function CropRotationSimulator() {
                   </div>
                 </div>
 
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--fk-border, #e2e8f0)", paddingTop: "8px", fontSize: "12px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--fk-border, #e2e8f0)", paddingTop: "8px", fontSize: "13px" }}>
                   <span style={{ color: "var(--fk-text-sub, #64748b)" }}>Net Expected Return:</span>
-                  <strong style={{ color: step.netProfitRs >= 0 ? "#15803d" : "#dc2626", fontSize: "14px" }}>
+                  <strong style={{ color: step.netProfitRs >= 0 ? "#15803d" : "#dc2626", fontSize: "15px" }}>
                     ₹{step.netProfitRs.toLocaleString()}
                   </strong>
                 </div>

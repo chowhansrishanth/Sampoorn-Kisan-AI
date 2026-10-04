@@ -68,12 +68,12 @@ export default function PremiumButton({
   const getSizeStyles = () => {
     switch (size) {
       case 'sm':
-        return { padding: '6px 14px', fontSize: '13px', borderRadius: '7px', gap: '6px', minHeight: '34px' };
+        return { padding: '6px 14px', fontSize: '14px', borderRadius: '7px', gap: '6px', minHeight: '34px' };
       case 'lg':
-        return { padding: '12px 24px', fontSize: '16px', borderRadius: '10px', gap: '10px', minHeight: '48px' };
+        return { padding: '12px 24px', fontSize: '17px', borderRadius: '10px', gap: '10px', minHeight: '48px' };
       case 'md':
       default:
-        return { padding: '9px 18px', fontSize: '14px', borderRadius: '8px', gap: '8px', minHeight: '40px' };
+        return { padding: '9px 18px', fontSize: '15px', borderRadius: '8px', gap: '8px', minHeight: '40px' };
     }
   };
 

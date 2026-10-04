@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../api/client';
 
@@ -13,17 +13,20 @@ export default function GDDRadar() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const runRadar = async() => {
+    const runRadar = async (targetCrop = crop) => {
         setLoading(true);
         setError('');
-        setResult(null);
         try {
-            const { data } = await axios.post(`${API}/api/gdd/radar`, { crop });
+            const { data } = await axios.post(`${API}/api/gdd/radar`, { crop: targetCrop });
             setResult(data);
         } catch (e) {
             setError(e.response?.data?.error || 'Radar computation failed');
         } finally { setLoading(false); }
     };
+
+    useEffect(() => {
+        runRadar('Cotton');
+    }, []);
 
     return ( <
             div style = {
@@ -38,10 +41,10 @@ export default function GDDRadar() {
             } >
             <
             div style = {
-                { fontSize: '3rem' }
+                { fontSize: '3.1rem' }
             } > 🌦️ < /div> <
             h1 style = {
-                { margin: 0, fontSize: '2rem', fontWeight: 800, background: 'linear-gradient(90deg,#38bdf8,#7dd3fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }
+                { margin: 0, fontSize: '2.1rem', fontWeight: 800, background: 'linear-gradient(90deg,#38bdf8,#7dd3fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }
             } > GDD Pest Outbreak Radar < /h1> <
             p style = {
                 { color: '#94a3b8', marginTop: '0.4rem' }
@@ -58,12 +61,12 @@ export default function GDDRadar() {
             } >
             <
             label style = {
-                { display: 'block', fontSize: '0.82rem', color: '#94a3b8', marginBottom: '0.4rem', fontWeight: 600 }
+                { display: 'block', fontSize: '0.88rem', color: '#94a3b8', marginBottom: '0.4rem', fontWeight: 600 }
             } > 🌱Select Crop < /label> <
             select value = { crop }
             onChange = { e => setCrop(e.target.value) }
             style = {
-                { width: '100%', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '0.7rem', color: '#e2e8f0', fontSize: '0.9rem' }
+                { width: '100%', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '0.7rem', color: '#e2e8f0', fontSize: '0.96rem' }
             } > {
                 CROPS.map(c => < option key = { c }
                     value = { c } > { c } < /option>)} < /
@@ -72,7 +75,7 @@ export default function GDDRadar() {
                     button onClick = { runRadar }
                     disabled = { loading }
                     style = {
-                        { padding: '0.75rem 2rem', background: loading ? '#334155' : 'linear-gradient(135deg,#0ea5e9,#0284c7)', border: 'none', borderRadius: 12, color: '#fff', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', fontSize: '0.95rem', whiteSpace: 'nowrap' }
+                        { padding: '0.75rem 2rem', background: loading ? '#334155' : 'linear-gradient(135deg,#0ea5e9,#0284c7)', border: 'none', borderRadius: 12, color: '#fff', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', fontSize: '1.01rem', whiteSpace: 'nowrap' }
                     } > { loading ? '⏳ Computing...' : '📡 Run Pest Radar' } <
                     /button> < /
                     div >
@@ -93,10 +96,10 @@ export default function GDDRadar() {
                                 div >
                                 <
                                 div style = {
-                                    { fontWeight: 700, color: '#38bdf8', fontSize: '1rem' }
+                                    { fontWeight: 700, color: '#38bdf8', fontSize: '1.06rem' }
                                 } > 📡Radar Results— { result.crop } < /div> <
                                 div style = {
-                                    { color: '#94a3b8', fontSize: '0.82rem' }
+                                    { color: '#94a3b8', fontSize: '0.88rem' }
                                 } > Based on { result.daysAnalyzed } - day temperature history simulation < /div> < /
                                 div > <
                                 div style = {
@@ -109,7 +112,7 @@ export default function GDDRadar() {
                                         } >
                                         <
                                         div style = {
-                                            { color: ALERT_COLORS[p.alertLevel] || '#22c55e', fontWeight: 700, fontSize: '0.8rem' }
+                                            { color: ALERT_COLORS[p.alertLevel] || '#22c55e', fontWeight: 700, fontSize: '0.86rem' }
                                         } > { PEST_EMOJIS[p.pestId] || '🐛' } { p.alertLevel.split('—')[0].trim() } < /div> < /
                                         div >
                                     ))
@@ -136,15 +139,15 @@ export default function GDDRadar() {
                                             } >
                                             <
                                             span style = {
-                                                { fontSize: '2rem' }
+                                                { fontSize: '2.1rem' }
                                             } > { PEST_EMOJIS[pest.pestId] || '🐛' } < /span> <
                                             div >
                                             <
                                             div style = {
-                                                { fontWeight: 800, color: '#e2e8f0', fontSize: '1rem' }
+                                                { fontWeight: 800, color: '#e2e8f0', fontSize: '1.06rem' }
                                             } > { pest.name } < /div> <
                                             div style = {
-                                                { color: '#64748b', fontSize: '0.8rem' }
+                                                { color: '#64748b', fontSize: '0.86rem' }
                                             } > Crop: { pest.crop } < /div> < /
                                             div > <
                                             /div> < /
@@ -154,7 +157,7 @@ export default function GDDRadar() {
                                             } >
                                             <
                                             div style = {
-                                                { fontSize: '0.82rem', padding: '0.35rem 0.9rem', borderRadius: 999, background: `${alertColor}22`, color: alertColor, fontWeight: 700, border: `1px solid ${alertColor}44` }
+                                                { fontSize: '0.88rem', padding: '0.35rem 0.9rem', borderRadius: 999, background: `${alertColor}22`, color: alertColor, fontWeight: 700, border: `1px solid ${alertColor}44` }
                                             } > { pest.alertLevel } < /div> < /
                                             div > <
                                             /div>
@@ -165,7 +168,7 @@ export default function GDDRadar() {
                                             } >
                                             <
                                             div style = {
-                                                { display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#94a3b8', marginBottom: '0.4rem' }
+                                                { display: 'flex', justifyContent: 'space-between', fontSize: '0.86rem', color: '#94a3b8', marginBottom: '0.4rem' }
                                             } >
                                             <
                                             span > GDD Accumulated: < strong style = {
@@ -199,7 +202,7 @@ export default function GDDRadar() {
                                                         ].map(([label, date]) => date && ( <
                                                             div key = { label }
                                                             style = {
-                                                                { background: 'rgba(0,0,0,0.25)', borderRadius: 10, padding: '0.5rem 0.85rem', fontSize: '0.8rem' }
+                                                                { background: 'rgba(0,0,0,0.25)', borderRadius: 10, padding: '0.5rem 0.85rem', fontSize: '0.86rem' }
                                                             } >
                                                             <
                                                             div style = {
@@ -217,7 +220,7 @@ export default function GDDRadar() {
 
                                             { /* ETI */ } <
                                             div style = {
-                                                { background: 'rgba(0,0,0,0.2)', borderRadius: 10, padding: '0.75rem', marginBottom: '1rem', fontSize: '0.82rem' }
+                                                { background: 'rgba(0,0,0,0.2)', borderRadius: 10, padding: '0.75rem', marginBottom: '1rem', fontSize: '0.88rem' }
                                             } >
                                             <
                                             div style = {
@@ -232,7 +235,7 @@ export default function GDDRadar() {
                                             div >
                                             <
                                             div style = {
-                                                { color: '#38bdf8', fontWeight: 700, fontSize: '0.85rem', marginBottom: '0.5rem' }
+                                                { color: '#38bdf8', fontWeight: 700, fontSize: '0.91rem', marginBottom: '0.5rem' }
                                             } > 🛡️IPM Management Protocol < /div> <
                                             div style = {
                                                 { display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: '0.5rem' }
@@ -240,7 +243,7 @@ export default function GDDRadar() {
                                                 pest.managementProtocol?.map((step, i) => ( <
                                                     div key = { i }
                                                     style = {
-                                                        { padding: '0.6rem 0.8rem', background: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.12)', borderRadius: 8, fontSize: '0.78rem', color: '#bae6fd', lineHeight: 1.5 }
+                                                        { padding: '0.6rem 0.8rem', background: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.12)', borderRadius: 8, fontSize: '0.84rem', color: '#bae6fd', lineHeight: 1.5 }
                                                     } >
                                                     <
                                                     span style = {
@@ -259,7 +262,7 @@ export default function GDDRadar() {
                                 {
                                     result.pests?.length === 0 && ( <
                                         div style = {
-                                            { textAlign: 'center', color: '#64748b', padding: '3rem', fontSize: '0.95rem' }
+                                            { textAlign: 'center', color: '#64748b', padding: '3rem', fontSize: '1.01rem' }
                                         } > No GDD pest models available
                                         for < strong > { result.crop } < /strong> yet. More crops being added.</div >
                                     )

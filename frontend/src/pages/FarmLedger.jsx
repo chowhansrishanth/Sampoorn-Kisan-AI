@@ -119,12 +119,12 @@ export default function FarmLedger({ user }) {
         {/* ADD TRANSACTION FORM */}
         {showAddForm && (
           <PremiumCard style={{ marginBottom: "24px", background: "var(--fk-bg, #f8fafc)", border: "1px solid var(--fk-border, #e2e8f0)" }}>
-            <h3 style={{ fontSize: "16px", fontWeight: "800", color: "var(--fk-text, #0f172a)", marginBottom: "14px", fontFamily: "Outfit, sans-serif" }}>
+            <h3 style={{ fontSize: "17px", fontWeight: "800", color: "var(--fk-text, #0f172a)", marginBottom: "14px", fontFamily: "Outfit, sans-serif" }}>
               New Farm Financial Entry
             </h3>
             <form onSubmit={handleAddTransaction} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "14px", alignItems: "flex-end" }}>
               <div>
-                <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                   Entry Type
                 </label>
                 <select
@@ -133,7 +133,7 @@ export default function FarmLedger({ user }) {
                     setType(e.target.value);
                     setCategory(e.target.value === "income" ? INCOME_CATEGORIES[0] : EXPENSE_CATEGORIES[0]);
                   }}
-                  style={{ width: "100%", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                  style={{ width: "100%", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
                 >
                   <option value="expense">Expense (Outflow 🔴)</option>
                   <option value="income">Income (Inflow 🟢)</option>
@@ -141,13 +141,13 @@ export default function FarmLedger({ user }) {
               </div>
 
               <div>
-                <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                   Category
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  style={{ width: "100%", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                  style={{ width: "100%", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
                 >
                   {(type === "income" ? INCOME_CATEGORIES : EXPENSE_CATEGORIES).map((c) => (
                     <option key={c} value={c}>
@@ -158,7 +158,7 @@ export default function FarmLedger({ user }) {
               </div>
 
               <div>
-                <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                   Amount (₹)
                 </label>
                 <input
@@ -167,24 +167,24 @@ export default function FarmLedger({ user }) {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   required
-                  style={{ width: "100%", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                  style={{ width: "100%", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
                 />
               </div>
 
               <div>
-                <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                   Date
                 </label>
                 <input
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  style={{ width: "100%", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                  style={{ width: "100%", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
                 />
               </div>
 
               <div>
-                <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                   Notes / Receipt Detail
                 </label>
                 <input
@@ -192,7 +192,7 @@ export default function FarmLedger({ user }) {
                   placeholder="e.g. 2 bags DAP fertilizer"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  style={{ width: "100%", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "600", fontSize: "13px" }}
+                  style={{ width: "100%", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "600", fontSize: "14px" }}
                 />
               </div>
 
@@ -246,11 +246,11 @@ export default function FarmLedger({ user }) {
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <Building size={22} style={{ color: "#2563eb" }} />
-              <h3 style={{ fontSize: "18px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
+              <h3 style={{ fontSize: "19.5px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
                 Kisan Credit Card (KCC) Bank Financial Statement
               </h3>
             </div>
-            <p style={{ fontSize: "12px", color: "var(--fk-text-sub, #64748b)", margin: "4px 0 0" }}>
+            <p style={{ fontSize: "13px", color: "var(--fk-text-sub, #64748b)", margin: "4px 0 0" }}>
               Official verification sheet for SBI, PNB, Canara Bank, and Regional Rural Bank agricultural crop loan applications.
             </p>
           </div>
@@ -260,26 +260,26 @@ export default function FarmLedger({ user }) {
         {/* Bank Eligibility Overview Box */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "14px", padding: "14px", background: "var(--fk-bg, #f8fafc)", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", marginBottom: "20px" }}>
           <div>
-            <div style={{ fontSize: "11px", color: "var(--fk-text-sub, #64748b)", fontWeight: "700" }}>FARMER NAME</div>
-            <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--fk-text, #0f172a)" }}>{kccStatement?.farmerName || "Farmer"}</div>
+            <div style={{ fontSize: "12px", color: "var(--fk-text-sub, #64748b)", fontWeight: "700" }}>FARMER NAME</div>
+            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--fk-text, #0f172a)" }}>{kccStatement?.farmerName || "Farmer"}</div>
           </div>
           <div>
-            <div style={{ fontSize: "11px", color: "var(--fk-text-sub, #64748b)", fontWeight: "700" }}>OPERATING HOLDING</div>
-            <div style={{ fontSize: "14px", fontWeight: "800", color: "var(--fk-text, #0f172a)" }}>{kccStatement?.farmSizeAcres || 2.5} Acres ({kccStatement?.cropType})</div>
+            <div style={{ fontSize: "12px", color: "var(--fk-text-sub, #64748b)", fontWeight: "700" }}>OPERATING HOLDING</div>
+            <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--fk-text, #0f172a)" }}>{kccStatement?.farmSizeAcres || 2.5} Acres ({kccStatement?.cropType})</div>
           </div>
           <div>
-            <div style={{ fontSize: "11px", color: "var(--fk-text-sub, #64748b)", fontWeight: "700" }}>SCALE OF FINANCE</div>
-            <div style={{ fontSize: "14px", fontWeight: "800", color: "#2563eb" }}>₹{kcc?.scaleOfFinancePerAcre?.toLocaleString()}/Acre</div>
+            <div style={{ fontSize: "12px", color: "var(--fk-text-sub, #64748b)", fontWeight: "700" }}>SCALE OF FINANCE</div>
+            <div style={{ fontSize: "15px", fontWeight: "800", color: "#2563eb" }}>₹{kcc?.scaleOfFinancePerAcre?.toLocaleString()}/Acre</div>
           </div>
           <div>
-            <div style={{ fontSize: "11px", color: "var(--fk-text-sub, #64748b)", fontWeight: "700" }}>CREDIT RATING</div>
-            <div style={{ fontSize: "14px", fontWeight: "800", color: "#15803d" }}>{kcc?.bankRecommendationScore}</div>
+            <div style={{ fontSize: "12px", color: "var(--fk-text-sub, #64748b)", fontWeight: "700" }}>CREDIT RATING</div>
+            <div style={{ fontSize: "15px", fontWeight: "800", color: "#15803d" }}>{kcc?.bankRecommendationScore}</div>
           </div>
         </div>
 
         {/* Transactions Table */}
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "14px" }}>
             <thead>
               <tr style={{ borderBottom: "2px solid var(--fk-border, #e2e8f0)", color: "var(--fk-text-sub, #64748b)" }}>
                 <th style={{ padding: "10px 8px" }}>Date</th>
@@ -297,7 +297,7 @@ export default function FarmLedger({ user }) {
                   <tr key={tx.id} style={{ borderBottom: "1px solid var(--fk-border, #e2e8f0)" }}>
                     <td style={{ padding: "10px 8px", color: "var(--fk-text-sub, #64748b)" }}>{tx.date}</td>
                     <td style={{ padding: "10px 8px" }}>
-                      <span style={{ fontSize: "10px", fontWeight: "800", textTransform: "uppercase", padding: "2px 6px", borderRadius: "4px", background: isInc ? "#dcfce7" : "rgba(239,68,68,0.1)", color: isInc ? "#15803d" : "#dc2626" }}>
+                      <span style={{ fontSize: "11px", fontWeight: "800", textTransform: "uppercase", padding: "2px 6px", borderRadius: "4px", background: isInc ? "#dcfce7" : "rgba(239,68,68,0.1)", color: isInc ? "#15803d" : "#dc2626" }}>
                         {tx.type}
                       </span>
                     </td>

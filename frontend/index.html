@@ -28,11 +28,21 @@
     <!-- Service Worker Registration -->
     <script>
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(reg => console.log('[SW] Registered, scope:', reg.scope))
-            .catch(err => console.warn('[SW] Registration failed:', err));
-        });
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          // Dev mode: Unregister service workers and clear cache so latest code always loads
+          navigator.serviceWorker.getRegistrations().then(regs => {
+            regs.forEach(r => r.unregister());
+          });
+          if ('caches' in window) {
+            caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+          }
+        } else {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+              .then(reg => console.log('[SW] Registered, scope:', reg.scope))
+              .catch(err => console.warn('[SW] Registration failed:', err));
+          });
+        }
       }
     </script>
   </body>

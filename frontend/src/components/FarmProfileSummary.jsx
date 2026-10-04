@@ -28,8 +28,8 @@ export default function FarmProfileSummary({ user, onEdit }) {
             <Sprout size={20} />
           </div>
           <div>
-            <h3 style={{ fontSize: "16px", fontWeight: "800", color: "var(--fk-text)", margin: 0 }}>🌾 My Farm</h3>
-            <span style={{ fontSize: "12px", color: "var(--fk-text-sub)" }}>AI Decision Support Active</span>
+            <h3 style={{ fontSize: "17px", fontWeight: "800", color: "var(--fk-text)", margin: 0 }}>🌾 My Farm</h3>
+            <span style={{ fontSize: "13px", color: "var(--fk-text-sub)" }}>AI Decision Support Active</span>
           </div>
         </div>
 
@@ -42,7 +42,7 @@ export default function FarmProfileSummary({ user, onEdit }) {
             color: "#2874f0",
             padding: "6px 12px",
             borderRadius: "4px",
-            fontSize: "12px",
+            fontSize: "13px",
             fontWeight: "700",
             cursor: "pointer",
             display: "flex",
@@ -64,29 +64,29 @@ export default function FarmProfileSummary({ user, onEdit }) {
         borderRadius: "6px",
         border: "1px solid var(--fk-border)"
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", color: "var(--fk-text)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", color: "var(--fk-text)" }}>
           <MapPin size={15} color="#2874f0" /> <span>{location.split(",")[0] || location}</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", color: "var(--fk-text)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", color: "var(--fk-text)" }}>
           📐 <span>{landSize}</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", color: "var(--fk-text)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", color: "var(--fk-text)" }}>
           🌱 <span>{crops.length} Crop{crops.length > 1 ? "s" : ""}</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", color: "var(--fk-text)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", color: "var(--fk-text)" }}>
           <Droplets size={15} color="#00bcd4" /> <span style={{ textTransform: "capitalize" }}>{irrigation}</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", color: "var(--fk-text)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", color: "var(--fk-text)" }}>
           <Globe size={15} color="#795548" /> <span style={{ textTransform: "capitalize" }}>{soil}</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", color: "var(--fk-text)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", color: "var(--fk-text)" }}>
           <Calendar size={15} color="#ff9800" /> <span style={{ textTransform: "capitalize" }}>{season}</span>
         </div>
       </div>
 
       {/* Crops Tag List */}
       <div>
-        <span style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
+        <span style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
           Cultivated Crops
         </span>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
@@ -99,7 +99,7 @@ export default function FarmProfileSummary({ user, onEdit }) {
                 gap: "4px",
                 padding: "4px 10px",
                 borderRadius: "14px",
-                fontSize: "12px",
+                fontSize: "13px",
                 fontWeight: "600",
                 background: c.isPrimary ? "rgba(40, 116, 240, 0.15)" : "var(--fk-card)",
                 border: c.isPrimary ? "1px solid #2874f0" : "1px solid var(--fk-border)",
@@ -108,7 +108,7 @@ export default function FarmProfileSummary({ user, onEdit }) {
             >
               <span>{c.icon || "🌱"}</span>
               <span>{c.name}</span>
-              {c.isPrimary && <strong style={{ color: "#2874f0", fontSize: "10px" }}> (PRIMARY)</strong>}
+              {c.isPrimary && <strong style={{ color: "#2874f0", fontSize: "11px" }}> (PRIMARY)</strong>}
             </span>
           ))}
         </div>

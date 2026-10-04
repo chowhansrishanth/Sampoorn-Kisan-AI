@@ -38,7 +38,7 @@ export default function SupportModal({ onClose }) {
         
         <div className="auth-header" style={{ marginBottom: '20px' }}>
           <div className="auth-logo" style={{ marginBottom: '15px' }}><HelpCircle size={28} /></div>
-          <h2 style={{ fontSize: '22px' }}>Support & Help</h2>
+          <h2 style={{ fontSize: '23.5px' }}>Support & Help</h2>
           <p>How can we assist you today?</p>
         </div>
 
@@ -47,7 +47,7 @@ export default function SupportModal({ onClose }) {
             type="button"
             onClick={() => { setActiveTab("contact"); setError(""); setSuccess(""); }}
             style={{ 
-              flex: 1, padding: '10px', borderRadius: '10px', fontSize: '13px', fontWeight: 600,
+              flex: 1, padding: '10px', borderRadius: '10px', fontSize: '14px', fontWeight: 600,
               background: activeTab === "contact" ? 'rgba(168,233,104,0.15)' : 'rgba(255,255,255,0.05)',
               color: activeTab === "contact" ? '#a8e968' : '#aebbb3',
               border: `1px solid ${activeTab === "contact" ? 'rgba(168,233,104,0.3)' : 'transparent'}`
@@ -59,7 +59,7 @@ export default function SupportModal({ onClose }) {
             type="button"
             onClick={() => { setActiveTab("forgot"); setError(""); setSuccess(""); }}
             style={{ 
-              flex: 1, padding: '10px', borderRadius: '10px', fontSize: '13px', fontWeight: 600,
+              flex: 1, padding: '10px', borderRadius: '10px', fontSize: '14px', fontWeight: 600,
               background: activeTab === "forgot" ? 'rgba(168,233,104,0.15)' : 'rgba(255,255,255,0.05)',
               color: activeTab === "forgot" ? '#a8e968' : '#aebbb3',
               border: `1px solid ${activeTab === "forgot" ? 'rgba(168,233,104,0.3)' : 'transparent'}`
@@ -85,7 +85,7 @@ export default function SupportModal({ onClose }) {
               </div>
               <div className="input-group" style={{ padding: '0 16px', marginBottom: '15px' }}>
                 <HelpCircle size={18} className="input-icon" />
-                <select value={formData.issueType} onChange={e => setFormData({...formData, issueType: e.target.value})} style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--fk-text)', fontSize: '14px', padding: '12px 0', cursor: 'pointer' }}>
+                <select value={formData.issueType} onChange={e => setFormData({...formData, issueType: e.target.value})} style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--fk-text)', fontSize: '15px', padding: '12px 0', cursor: 'pointer' }}>
                   <option value="General Inquiry" style={{ background: 'var(--fk-card)', color: 'var(--fk-text)' }}>General Inquiry</option>
                   <option value="Technical Issue" style={{ background: 'var(--fk-card)', color: 'var(--fk-text)' }}>Technical Issue</option>
                   <option value="Account Access" style={{ background: 'var(--fk-card)', color: 'var(--fk-text)' }}>Account Access</option>
@@ -94,12 +94,12 @@ export default function SupportModal({ onClose }) {
               </div>
               <div className="input-group" style={{ padding: '12px 16px', marginBottom: '20px', alignItems: 'flex-start' }}>
                 <MessageSquare size={18} className="input-icon" style={{ marginTop: '4px' }} />
-                <textarea placeholder="Describe your issue..." value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--fk-text)', fontSize: '14px', resize: 'none', minHeight: '80px', fontFamily: 'inherit' }}></textarea>
+                <textarea placeholder="Describe your issue..." value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--fk-text)', fontSize: '15px', resize: 'none', minHeight: '80px', fontFamily: 'inherit' }}></textarea>
               </div>
             </>
           ) : (
             <>
-              <p style={{ fontSize: '13px', color: '#8e9c94', marginBottom: '15px', textAlign: 'center' }}>
+              <p style={{ fontSize: '14px', color: '#8e9c94', marginBottom: '15px', textAlign: 'center' }}>
                 Enter the email associated with your account. We will send you instructions to reset your password or recover your username.
               </p>
               <div className="input-group" style={{ padding: '0 16px', marginBottom: '20px' }}>

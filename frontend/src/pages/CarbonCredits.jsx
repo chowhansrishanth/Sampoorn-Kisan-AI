@@ -42,17 +42,17 @@ export default function CarbonCredits() {
             color: "#34d399",
             padding: "4px 14px",
             borderRadius: "20px",
-            fontSize: "12px",
+            fontSize: "13px",
             fontWeight: 700,
             marginBottom: "0.8rem"
           }}
         >
           <Sparkles size={14} /> VERRA (VM0042) & GOLD STANDARD CARBON ACCOUNTING
         </div>
-        <h1 style={{ fontSize: "2.2rem", fontWeight: 900, margin: "0 0 0.5rem 0", letterSpacing: "-0.02em" }}>
+        <h1 style={{ fontSize: "2.3rem", fontWeight: 900, margin: "0 0 0.5rem 0", letterSpacing: "-0.02em" }}>
           Regenerative Farm & Carbon Credit Tracker
         </h1>
-        <p style={{ color: "var(--fk-text-sub, #94a3b8)", fontSize: "1rem", maxWidth: "750px", margin: "0 auto" }}>
+        <p style={{ color: "var(--fk-text-sub, #94a3b8)", fontSize: "1.06rem", maxWidth: "750px", margin: "0 auto" }}>
           Quantify annual soil organic carbon (SOC) sequestration from regenerative practices. Monetize certified carbon offsets in the global voluntary carbon market.
         </p>
       </div>
@@ -60,12 +60,12 @@ export default function CarbonCredits() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "1.5rem", marginBottom: "2rem" }}>
         {/* Practice Selection Card */}
         <div className="glass" style={{ padding: "1.8rem", borderRadius: "16px", border: "1px solid var(--fk-border, #334155)" }}>
-          <h2 style={{ fontSize: "1.2rem", fontWeight: 800, margin: "0 0 1.2rem 0", display: "flex", alignItems: "center", gap: "8px" }}>
+          <h2 style={{ fontSize: "1.3rem", fontWeight: 800, margin: "0 0 1.2rem 0", display: "flex", alignItems: "center", gap: "8px" }}>
             <Leaf size={20} color="#34d399" /> Regenerative Farm Practices
           </h2>
 
           <div style={{ marginBottom: "1.4rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", fontWeight: 700, marginBottom: "6px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", fontWeight: 700, marginBottom: "6px" }}>
               <span>FARM SIZE (ACRES)</span>
               <span style={{ color: "#34d399" }}>{acres} Acres</span>
             </div>
@@ -81,7 +81,7 @@ export default function CarbonCredits() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "1.4rem" }}>
-            <label style={{ fontSize: "12px", fontWeight: 700, color: "var(--fk-text-sub, #94a3b8)" }}>
+            <label style={{ fontSize: "13px", fontWeight: 700, color: "var(--fk-text-sub, #94a3b8)" }}>
               SELECT ACTIVE REGENERATIVE PRACTICES:
             </label>
             {AVAILABLE_PRACTICES.map((p) => {
@@ -102,12 +102,12 @@ export default function CarbonCredits() {
                   }}
                 >
                   <div>
-                    <div style={{ fontSize: "13px", fontWeight: 700, color: isChecked ? "#34d399" : "#ffffff" }}>
+                    <div style={{ fontSize: "14px", fontWeight: 700, color: isChecked ? "#34d399" : "#ffffff" }}>
                       {isChecked ? "✓ " : "+ "} {p.name}
                     </div>
-                    <div style={{ fontSize: "11px", color: "#94a3b8" }}>{p.desc}</div>
+                    <div style={{ fontSize: "12px", color: "#94a3b8" }}>{p.desc}</div>
                   </div>
-                  <span style={{ fontSize: "11px", fontWeight: 800, color: "#10b981", background: "rgba(16, 185, 129, 0.2)", padding: "2px 8px", borderRadius: "10px" }}>
+                  <span style={{ fontSize: "12px", fontWeight: 800, color: "#10b981", background: "rgba(16, 185, 129, 0.2)", padding: "2px 8px", borderRadius: "10px" }}>
                     {p.rate}
                   </span>
                 </div>
@@ -116,7 +116,7 @@ export default function CarbonCredits() {
           </div>
 
           <div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", fontWeight: 700, marginBottom: "6px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", fontWeight: 700, marginBottom: "6px" }}>
               <span>VOLUNTARY CARBON CREDIT VALUE (₹ / tCO2e)</span>
               <span style={{ color: "#facc15" }}>₹{creditPriceINR}</span>
             </div>
@@ -136,44 +136,44 @@ export default function CarbonCredits() {
         {estimateData && (
           <div className="glass" style={{ padding: "1.8rem", borderRadius: "16px", border: "1px solid var(--fk-border, #334155)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.8rem" }}>
-              <span style={{ fontSize: "11px", fontWeight: 800, color: "#34d399", textTransform: "uppercase", background: "rgba(16, 185, 129, 0.15)", padding: "3px 10px", borderRadius: "10px" }}>
+              <span style={{ fontSize: "12px", fontWeight: 800, color: "#34d399", textTransform: "uppercase", background: "rgba(16, 185, 129, 0.15)", padding: "3px 10px", borderRadius: "10px" }}>
                 {estimateData.sustainabilityRating}
               </span>
               <Award size={20} color="#34d399" />
             </div>
 
-            <div style={{ fontSize: "12px", color: "#94a3b8" }}>ESTIMATED NET ANNUAL CARBON PAYOUT</div>
-            <div style={{ fontSize: "2.4rem", fontWeight: 900, color: "#10b981", margin: "0.2rem 0 0.8rem 0" }}>
+            <div style={{ fontSize: "13px", color: "#94a3b8" }}>ESTIMATED NET ANNUAL CARBON PAYOUT</div>
+            <div style={{ fontSize: "2.5rem", fontWeight: 900, color: "#10b981", margin: "0.2rem 0 0.8rem 0" }}>
               ₹{estimateData.netFarmerCarbonIncomeINR.toLocaleString("en-IN")}
-              <span style={{ fontSize: "14px", color: "#94a3b8", fontWeight: 500 }}> / year</span>
+              <span style={{ fontSize: "15px", color: "#94a3b8", fontWeight: 500 }}> / year</span>
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "1.4rem" }}>
               <div style={{ background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "10px", border: "1px solid var(--fk-border, #1e293b)" }}>
-                <div style={{ fontSize: "11px", color: "#94a3b8" }}>CARBON SEQUESTERED</div>
-                <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#38bdf8" }}>{estimateData.totalTCO2SequesteredAnnual} tCO2e</div>
-                <div style={{ fontSize: "11px", color: "#94a3b8" }}>{estimateData.totalSequesteredPerAcre} tons/acre/yr</div>
+                <div style={{ fontSize: "12px", color: "#94a3b8" }}>CARBON SEQUESTERED</div>
+                <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "#38bdf8" }}>{estimateData.totalTCO2SequesteredAnnual} tCO2e</div>
+                <div style={{ fontSize: "12px", color: "#94a3b8" }}>{estimateData.totalSequesteredPerAcre} tons/acre/yr</div>
               </div>
               <div style={{ background: "rgba(255,255,255,0.03)", padding: "12px", borderRadius: "10px", border: "1px solid var(--fk-border, #1e293b)" }}>
-                <div style={{ fontSize: "11px", color: "#94a3b8" }}>EST. 3-YR SOC GAIN</div>
-                <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#facc15" }}>+{estimateData.estimatedSocIncreasePercent}%</div>
-                <div style={{ fontSize: "11px", color: "#94a3b8" }}>Soil Organic Carbon</div>
+                <div style={{ fontSize: "12px", color: "#94a3b8" }}>EST. 3-YR SOC GAIN</div>
+                <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "#facc15" }}>+{estimateData.estimatedSocIncreasePercent}%</div>
+                <div style={{ fontSize: "12px", color: "#94a3b8" }}>Soil Organic Carbon</div>
               </div>
             </div>
 
-            <h4 style={{ fontSize: "12px", fontWeight: 800, color: "#cbd5e1", textTransform: "uppercase", marginBottom: "8px" }}>
+            <h4 style={{ fontSize: "13px", fontWeight: 800, color: "#cbd5e1", textTransform: "uppercase", marginBottom: "8px" }}>
               Practice Sequestration Breakdown
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "1.2rem" }}>
               {estimateData.practiceBreakdown.map((p) => (
-                <div key={p.id} style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", padding: "6px 10px", borderRadius: "6px", background: "rgba(255,255,255,0.02)" }}>
+                <div key={p.id} style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", padding: "6px 10px", borderRadius: "6px", background: "rgba(255,255,255,0.02)" }}>
                   <span>{p.name}:</span>
                   <strong style={{ color: "#34d399" }}>{p.totalTCO2} tCO2e/yr</strong>
                 </div>
               ))}
             </div>
 
-            <div style={{ fontSize: "11px", color: "#94a3b8", borderTop: "1px solid var(--fk-border, #1e293b)", paddingTop: "10px" }}>
+            <div style={{ fontSize: "12px", color: "#94a3b8", borderTop: "1px solid var(--fk-border, #1e293b)", paddingTop: "10px" }}>
               Certified under international MRV (Measurement, Reporting, and Verification) standards. 15% platform and verification cost deducted automatically.
             </div>
           </div>

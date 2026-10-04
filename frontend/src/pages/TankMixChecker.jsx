@@ -46,10 +46,10 @@ export default function TankMixChecker() {
         } >
         <
         div style = {
-            { fontSize: '3rem' }
+            { fontSize: '3.1rem' }
         } > 🔬 < /div> <
         h1 style = {
-            { margin: 0, fontSize: '2rem', fontWeight: 800, background: 'linear-gradient(90deg,#c084fc,#f0abfc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }
+            { margin: 0, fontSize: '2.1rem', fontWeight: 800, background: 'linear-gradient(90deg,#c084fc,#f0abfc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }
         } > Agro - Chemical Tank - Mix Safety < /h1> <
         p style = {
             { color: '#94a3b8', marginTop: '0.4rem' }
@@ -66,7 +66,7 @@ export default function TankMixChecker() {
                     () => setActiveFilter(cat)
                 }
                 style = {
-                    { padding: '0.4rem 1rem', borderRadius: 999, border: activeFilter === cat ? `2px solid ${CAT_COLORS[cat] || '#6366f1'}` : '1px solid rgba(255,255,255,0.1)', background: activeFilter === cat ? `${CAT_COLORS[cat] || '#6366f1'}22` : 'rgba(255,255,255,0.04)', color: activeFilter === cat ? (CAT_COLORS[cat] || '#818cf8') : '#94a3b8', fontWeight: activeFilter === cat ? 700 : 400, cursor: 'pointer', fontSize: '0.82rem', textTransform: 'capitalize' }
+                    { padding: '0.4rem 1rem', borderRadius: 999, border: activeFilter === cat ? `2px solid ${CAT_COLORS[cat] || '#6366f1'}` : '1px solid rgba(255,255,255,0.1)', background: activeFilter === cat ? `${CAT_COLORS[cat] || '#6366f1'}22` : 'rgba(255,255,255,0.04)', color: activeFilter === cat ? (CAT_COLORS[cat] || '#818cf8') : '#94a3b8', fontWeight: activeFilter === cat ? 700 : 400, cursor: 'pointer', fontSize: '0.88rem', textTransform: 'capitalize' }
                 } > { CAT_ICONS[cat] || '🔧' } { cat.replace(/_/g, ' ') } <
                 /button>
             ))
@@ -79,7 +79,7 @@ export default function TankMixChecker() {
         } >
         <
         div style = {
-            { color: '#94a3b8', fontSize: '0.9rem' }
+            { color: '#94a3b8', fontSize: '0.96rem' }
         } > { selected.length === 0 ? '☝️ Select 2+ products to check tank-mix safety' : `✅ ${selected.length} product(s) selected for mix-check` } <
         /div> <
         div style = {
@@ -92,12 +92,12 @@ export default function TankMixChecker() {
                 }
             }
             style = {
-                { padding: '0.5rem 1rem', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#94a3b8', cursor: 'pointer', fontSize: '0.85rem' }
+                { padding: '0.5rem 1rem', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#94a3b8', cursor: 'pointer', fontSize: '0.91rem' }
             } > Clear < /button>} <
             button onClick = { checkMix }
             disabled = { loading || selected.length < 2 }
             style = {
-                { padding: '0.55rem 1.4rem', background: selected.length >= 2 && !loading ? 'linear-gradient(135deg,#a855f7,#7c3aed)' : '#334155', border: 'none', borderRadius: 10, color: '#fff', fontWeight: 700, cursor: selected.length >= 2 && !loading ? 'pointer' : 'not-allowed', fontSize: '0.9rem' }
+                { padding: '0.55rem 1.4rem', background: selected.length >= 2 && !loading ? 'linear-gradient(135deg,#a855f7,#7c3aed)' : '#334155', border: 'none', borderRadius: 10, color: '#fff', fontWeight: 700, cursor: selected.length >= 2 && !loading ? 'pointer' : 'not-allowed', fontSize: '0.96rem' }
             } > { loading ? '⏳ Checking...' : '🔍 Check Compatibility' } <
             /button> < /
             div > <
@@ -119,27 +119,27 @@ export default function TankMixChecker() {
                                 { padding: '1.1rem', borderRadius: 14, border: `2px solid ${isSelected ? color : 'rgba(255,255,255,0.07)'}`, background: isSelected ? `${color}15` : 'rgba(255,255,255,0.03)', cursor: 'pointer', transition: 'all 0.2s', position: 'relative' }
                             } > {
                                 isSelected && < div style = {
-                                    { position: 'absolute', top: 10, right: 10, width: 22, height: 22, borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, color: '#fff' }
+                                    { position: 'absolute', top: 10, right: 10, width: 22, height: 22, borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.81rem', fontWeight: 700, color: '#fff' }
                                 } > ✓ < /div>} <
                                 div style = {
                                     { display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }
                                 } >
                                 <
                                 span style = {
-                                    { fontSize: '1.3rem' }
+                                    { fontSize: '1.4rem' }
                                 } > { CAT_ICONS[p.category] || '🧪' } < /span> <
                                 span style = {
-                                    { fontSize: '0.7rem', padding: '0.2rem 0.5rem', borderRadius: 5, background: `${color}22`, color, fontWeight: 700, textTransform: 'capitalize' }
+                                    { fontSize: '0.76rem', padding: '0.2rem 0.5rem', borderRadius: 5, background: `${color}22`, color, fontWeight: 700, textTransform: 'capitalize' }
                                 } > { p.category } < /span> < /
                                 div > <
                                 div style = {
-                                    { fontWeight: 700, color: '#e2e8f0', fontSize: '0.88rem', lineHeight: 1.3 }
+                                    { fontWeight: 700, color: '#e2e8f0', fontSize: '0.94rem', lineHeight: 1.3 }
                                 } > { p.name } < /div> <
                                 div style = {
-                                    { color: '#64748b', fontSize: '0.75rem', marginTop: '0.25rem' }
+                                    { color: '#64748b', fontSize: '0.81rem', marginTop: '0.25rem' }
                                 } > Active: { p.activeIngredient } | Form: { p.formulation } < /div> {
                                 p.note && < div style = {
-                                    { marginTop: '0.4rem', fontSize: '0.75rem', color: '#fca5a5' }
+                                    { marginTop: '0.4rem', fontSize: '0.81rem', color: '#fca5a5' }
                                 } > ⚠️{ p.note } < /div>} < /
                                 div >
                             );
@@ -158,10 +158,10 @@ export default function TankMixChecker() {
                         } >
                         <
                         h3 style = {
-                            { margin: 0, color: '#c084fc', fontWeight: 800, fontSize: '1.1rem' }
+                            { margin: 0, color: '#c084fc', fontWeight: 800, fontSize: '1.2rem' }
                         } > 🧪Compatibility Report < /h3> <
                         div style = {
-                            { fontSize: '1.4rem', fontWeight: 800, color: ratingColors[result.overallRating] || '#22c55e' }
+                            { fontSize: '1.5rem', fontWeight: 800, color: ratingColors[result.overallRating] || '#22c55e' }
                         } > { result.overallRating } < /div> < /
                         div >
 
@@ -181,10 +181,10 @@ export default function TankMixChecker() {
                                     } >
                                     <
                                     div style = {
-                                        { fontWeight: 700, color: '#fca5a5', fontSize: '0.9rem' }
+                                        { fontWeight: 700, color: '#fca5a5', fontSize: '0.96rem' }
                                     } > { issue.issue } < /div> <
                                     div style = {
-                                        { color: '#ef4444', fontSize: '0.82rem', marginTop: '0.4rem', fontWeight: 600 }
+                                        { color: '#ef4444', fontSize: '0.88rem', marginTop: '0.4rem', fontWeight: 600 }
                                     } > ⚠️{ issue.action } < /div> < /
                                     div >
                                 ))
@@ -205,7 +205,7 @@ export default function TankMixChecker() {
                                 result.warnings.map((w, i) => ( <
                                     div key = { i }
                                     style = {
-                                        { background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 10, padding: '0.75rem', marginBottom: '0.5rem', fontSize: '0.85rem', color: '#fbbf24' }
+                                        { background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 10, padding: '0.75rem', marginBottom: '0.5rem', fontSize: '0.91rem', color: '#fbbf24' }
                                     } > { w.issue }— < em > { w.action } < /em></div >
                                 ))
                             } <
@@ -225,12 +225,12 @@ export default function TankMixChecker() {
 
                 { /* Mixing Protocol */ }
                 <div style={{ background: 'rgba(99,102,241,0.08)', borderRadius: 14, border: '1px solid rgba(99,102,241,0.2)', padding: '1rem' }}>
-                    <div style={{ color: '#818cf8', fontWeight: 700, marginBottom: '0.75rem', fontSize: '0.9rem' }}>🧫 Recommended Mixing Protocol</div>
+                    <div style={{ color: '#818cf8', fontWeight: 700, marginBottom: '0.75rem', fontSize: '0.96rem' }}>🧫 Recommended Mixing Protocol</div>
                     {result.mixingOrderProtocol?.map((step, i) => (
-                        <div key={i} style={{ fontSize: '0.82rem', color: '#c7d2fe', marginBottom: '0.3rem' }}>{step}</div>
+                        <div key={i} style={{ fontSize: '0.88rem', color: '#c7d2fe', marginBottom: '0.3rem' }}>{step}</div>
                     ))}
                     {result.jarTestRequired && (
-                        <div style={{ marginTop: '0.75rem', fontSize: '0.82rem', color: '#fbbf24', fontWeight: 700 }}>
+                        <div style={{ marginTop: '0.75rem', fontSize: '0.88rem', color: '#fbbf24', fontWeight: 700 }}>
                             ⚗️ Jar Test Required: Mix a small trial batch (500 mL) and observe for precipitation or layer separation before full tank mixing.
                         </div>
                     )}

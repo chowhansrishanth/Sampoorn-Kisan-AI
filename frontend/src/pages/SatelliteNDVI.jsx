@@ -45,13 +45,13 @@ export default function SatelliteNDVI() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap" }}>
             <div>
-              <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+              <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                 Target Crop
               </label>
               <select
                 value={crop}
                 onChange={(e) => setCrop(e.target.value)}
-                style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
               >
                 <option value="Cotton">Cotton (Kharif)</option>
                 <option value="Paddy / Rice">Paddy / Rice</option>
@@ -63,13 +63,13 @@ export default function SatelliteNDVI() {
             </div>
 
             <div>
-              <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+              <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                 Growth Phenology Stage
               </label>
               <select
                 value={stage}
                 onChange={(e) => setStage(e.target.value)}
-                style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
               >
                 <option value="initial">Initial Seedling (Low Canopy Cover)</option>
                 <option value="vegetative">Vegetative (Rapid Leaf Expansion)</option>
@@ -79,7 +79,7 @@ export default function SatelliteNDVI() {
             </div>
           </div>
 
-          <div style={{ fontSize: "12px", color: "var(--fk-text-sub, #64748b)", display: "flex", alignItems: "center", gap: "6px" }}>
+          <div style={{ fontSize: "13px", color: "var(--fk-text-sub, #64748b)", display: "flex", alignItems: "center", gap: "6px" }}>
             <Compass size={16} color="#2563eb" /> Sentinel-2 MSI Multi-Band Pass: <strong>36 hrs ago</strong>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function SatelliteNDVI() {
         {/* Spatial NDVI Heatmap Grid */}
         <PremiumCard>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-            <h3 style={{ fontSize: "17px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
+            <h3 style={{ fontSize: "18px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
               Field Pixel Heatmap (6x6 Grid • 2.5 Acres)
             </h3>
             <StatusBadge status="info">Click Cell to Inspect</StatusBadge>
@@ -165,7 +165,7 @@ export default function SatelliteNDVI() {
                       justifyContent: "center",
                       color: "#ffffff",
                       fontWeight: "800",
-                      fontSize: "11px",
+                      fontSize: "12px",
                       transform: isSelected ? "scale(1.08)" : "none",
                       transition: "all 0.15s ease",
                       boxShadow: isSelected ? "0 4px 10px rgba(0,0,0,0.2)" : "none",
@@ -179,7 +179,7 @@ export default function SatelliteNDVI() {
           </div>
 
           {/* Color Gradient Legend */}
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "16px", fontSize: "11px", color: "var(--fk-text-sub, #64748b)", fontWeight: "700" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "16px", fontSize: "12px", color: "var(--fk-text-sub, #64748b)", fontWeight: "700" }}>
             <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
               <span style={{ width: "10px", height: "10px", borderRadius: "2px", background: "#ef4444" }} /> Severe Stress (&lt;0.38)
             </span>
@@ -201,27 +201,27 @@ export default function SatelliteNDVI() {
             <PremiumCard>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
                 <Eye size={18} color="#2563eb" />
-                <h4 style={{ fontSize: "15px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
+                <h4 style={{ fontSize: "16px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
                   Selected Pixel Inspection: Sector R{selectedCell.row + 1} / C{selectedCell.col + 1}
                 </h4>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", fontSize: "13px", marginBottom: "14px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", fontSize: "14px", marginBottom: "14px" }}>
                 <div style={{ padding: "10px", background: "var(--fk-bg, #f8fafc)", borderRadius: "8px" }}>
-                  <span style={{ fontSize: "11px", color: "var(--fk-text-sub, #64748b)" }}>NDVI Reading</span>
-                  <div style={{ fontSize: "20px", fontWeight: "800", color: selectedCell.statusColor }}>
+                  <span style={{ fontSize: "12px", color: "var(--fk-text-sub, #64748b)" }}>NDVI Reading</span>
+                  <div style={{ fontSize: "21.5px", fontWeight: "800", color: selectedCell.statusColor }}>
                     {selectedCell.ndvi}
                   </div>
                 </div>
                 <div style={{ padding: "10px", background: "var(--fk-bg, #f8fafc)", borderRadius: "8px" }}>
-                  <span style={{ fontSize: "11px", color: "var(--fk-text-sub, #64748b)" }}>Biomass Yield Index</span>
-                  <div style={{ fontSize: "20px", fontWeight: "800", color: "var(--fk-text, #0f172a)" }}>
+                  <span style={{ fontSize: "12px", color: "var(--fk-text-sub, #64748b)" }}>Biomass Yield Index</span>
+                  <div style={{ fontSize: "21.5px", fontWeight: "800", color: "var(--fk-text, #0f172a)" }}>
                     {selectedCell.estimatedBiomassKgM2} kg/m²
                   </div>
                 </div>
               </div>
 
-              <div style={{ fontSize: "12px", color: "var(--fk-text-sub, #64748b)" }}>
+              <div style={{ fontSize: "13px", color: "var(--fk-text-sub, #64748b)" }}>
                 Condition Assessment:{" "}
                 <strong style={{ textTransform: "capitalize", color: selectedCell.statusColor }}>
                   {selectedCell.status.replace("_", " ")}
@@ -234,16 +234,16 @@ export default function SatelliteNDVI() {
           <PremiumCard style={{ background: "rgba(239, 68, 68, 0.04)", border: "1px solid rgba(239, 68, 68, 0.25)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
               <AlertTriangle size={18} color="#dc2626" />
-              <h4 style={{ fontSize: "15px", fontWeight: "800", color: "#dc2626", margin: 0, fontFamily: "Outfit, sans-serif" }}>
+              <h4 style={{ fontSize: "16px", fontWeight: "800", color: "#dc2626", margin: 0, fontFamily: "Outfit, sans-serif" }}>
                 Field Stress Hotspot: {stress?.criticalQuadrant}
               </h4>
             </div>
 
-            <p style={{ fontSize: "12px", color: "var(--fk-text-sub, #475569)", margin: "0 0 10px" }}>
+            <p style={{ fontSize: "13px", color: "var(--fk-text-sub, #475569)", margin: "0 0 10px" }}>
               <strong>Anomaly Level:</strong> {stress?.anomalyFactor}
             </p>
 
-            <div style={{ fontSize: "12px", color: "var(--fk-text, #0f172a)", marginBottom: "10px" }}>
+            <div style={{ fontSize: "13px", color: "var(--fk-text, #0f172a)", marginBottom: "10px" }}>
               <strong>Probable Root Causes:</strong>
               <ul style={{ margin: "4px 0 0", paddingLeft: "18px", color: "var(--fk-text-sub, #475569)" }}>
                 {stress?.probableCauses?.map((cause, i) => (
@@ -252,7 +252,7 @@ export default function SatelliteNDVI() {
               </ul>
             </div>
 
-            <div style={{ padding: "10px 12px", background: "rgba(21, 128, 61, 0.08)", borderRadius: "8px", border: "1px solid rgba(21, 128, 61, 0.2)", fontSize: "12px", color: "#15803d" }}>
+            <div style={{ padding: "10px 12px", background: "rgba(21, 128, 61, 0.08)", borderRadius: "8px", border: "1px solid rgba(21, 128, 61, 0.2)", fontSize: "13px", color: "#15803d" }}>
               <strong>Actionable Protocol:</strong> {stress?.recommendedAction}
             </div>
           </PremiumCard>

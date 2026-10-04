@@ -157,10 +157,10 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
             >
               <ShieldCheck size={28} />
             </div>
-            <h1 style={{ fontSize: "24px", fontWeight: "800", color: "#1e293b", margin: "0 0 6px 0" }}>
+            <h1 style={{ fontSize: "25.5px", fontWeight: "800", color: "#1e293b", margin: "0 0 6px 0" }}>
               Reset Your Password
             </h1>
-            <p style={{ fontSize: "14px", color: "#64748b", margin: 0 }}>
+            <p style={{ fontSize: "15px", color: "#64748b", margin: 0 }}>
               Create a strong, secure password for your Sampoorn Kisan AI account.
             </p>
           </div>
@@ -183,10 +183,10 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
               >
                 <CheckCircle2 size={36} />
               </div>
-              <h2 style={{ fontSize: "20px", fontWeight: "700", color: "#166534", marginBottom: "8px" }}>
+              <h2 style={{ fontSize: "21.5px", fontWeight: "700", color: "#166534", marginBottom: "8px" }}>
                 Password Reset Successfully!
               </h2>
-              <p style={{ fontSize: "14px", color: "#475569", lineHeight: 1.5, marginBottom: "24px" }}>
+              <p style={{ fontSize: "15px", color: "#475569", lineHeight: 1.5, marginBottom: "24px" }}>
                 Your account password has been updated. All previous active sessions have been revoked for your security.
               </p>
               <div
@@ -194,7 +194,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                   padding: "12px",
                   background: "#f8fafc",
                   borderRadius: "8px",
-                  fontSize: "13px",
+                  fontSize: "14px",
                   color: "#64748b",
                   marginBottom: "20px",
                 }}
@@ -211,7 +211,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                   color: "#ffffff",
                   border: "none",
                   borderRadius: "10px",
-                  fontSize: "15px",
+                  fontSize: "16px",
                   fontWeight: "700",
                   cursor: "pointer",
                   display: "flex",
@@ -240,7 +240,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                     border: "1px solid #fecaca",
                     borderRadius: "8px",
                     color: "#b91c1c",
-                    fontSize: "13px",
+                    fontSize: "14px",
                     lineHeight: 1.4,
                     marginBottom: "20px",
                   }}
@@ -256,7 +256,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                   htmlFor="reset-new-password"
                   style={{
                     display: "block",
-                    fontSize: "13px",
+                    fontSize: "14px",
                     fontWeight: "700",
                     color: "#334155",
                     marginBottom: "6px",
@@ -293,7 +293,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                       padding: "12px 42px 12px 40px",
                       border: "1px solid #cbd5e1",
                       borderRadius: "8px",
-                      fontSize: "14px",
+                      fontSize: "15px",
                       outline: "none",
                       boxSizing: "border-box",
                       transition: "border-color 0.2s, box-shadow 0.2s",
@@ -333,8 +333,8 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                         marginBottom: "4px",
                       }}
                     >
-                      <span style={{ fontSize: "11px", color: "#64748b" }}>Password Strength:</span>
-                      <span style={{ fontSize: "11px", fontWeight: "700", color: strength.color }}>
+                      <span style={{ fontSize: "12px", color: "#64748b" }}>Password Strength:</span>
+                      <span style={{ fontSize: "12px", fontWeight: "700", color: strength.color }}>
                         {strength.label}
                       </span>
                     </div>
@@ -365,7 +365,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                   htmlFor="reset-confirm-password"
                   style={{
                     display: "block",
-                    fontSize: "13px",
+                    fontSize: "14px",
                     fontWeight: "700",
                     color: "#334155",
                     marginBottom: "6px",
@@ -402,7 +402,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                       padding: "12px 42px 12px 40px",
                       border: "1px solid #cbd5e1",
                       borderRadius: "8px",
-                      fontSize: "14px",
+                      fontSize: "15px",
                       outline: "none",
                       boxSizing: "border-box",
                       transition: "border-color 0.2s, box-shadow 0.2s",
@@ -442,7 +442,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                   marginBottom: "24px",
                 }}
               >
-                <div style={{ fontSize: "12px", fontWeight: "700", color: "#475569", marginBottom: "8px" }}>
+                <div style={{ fontSize: "13px", fontWeight: "700", color: "#475569", marginBottom: "8px" }}>
                   Password Requirements:
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -459,7 +459,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                         display: "flex",
                         alignItems: "center",
                         gap: "8px",
-                        fontSize: "12px",
+                        fontSize: "13px",
                         color: req.met ? "#15803d" : "#64748b",
                         fontWeight: req.met ? "600" : "400",
                       }}
@@ -474,7 +474,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          fontSize: "9px",
+                          fontSize: "10px",
                           fontWeight: "bold",
                         }}
                       >
@@ -499,7 +499,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                   color: "#ffffff",
                   border: "none",
                   borderRadius: "10px",
-                  fontSize: "15px",
+                  fontSize: "16px",
                   fontWeight: "700",
                   cursor: canSubmit ? "pointer" : "not-allowed",
                   display: "flex",
@@ -529,7 +529,7 @@ export default function ResetPassword({ token: propToken, onNavigateLogin }) {
                     background: "none",
                     border: "none",
                     color: "#059669",
-                    fontSize: "13px",
+                    fontSize: "14px",
                     fontWeight: "600",
                     cursor: "pointer",
                     textDecoration: "underline",

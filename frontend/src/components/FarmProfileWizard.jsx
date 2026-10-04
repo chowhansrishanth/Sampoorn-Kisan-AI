@@ -239,8 +239,8 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
               <Sprout size={22} />
             </div>
             <div>
-              <h2 style={{ fontSize: "18px", fontWeight: "800", color: "var(--fk-text)" }}>🌾 My Farm Profile</h2>
-              <span style={{ fontSize: "12px", color: "var(--fk-text-sub)" }}>Step {step} of {totalSteps} — {
+              <h2 style={{ fontSize: "19.5px", fontWeight: "800", color: "var(--fk-text)" }}>🌾 My Farm Profile</h2>
+              <span style={{ fontSize: "13px", color: "var(--fk-text-sub)" }}>Step {step} of {totalSteps} — {
                 step === 1 ? "Farm Location" :
                 step === 2 ? "Land & Farm Type" :
                 step === 3 ? "Select Crops & Growth Stages" :
@@ -266,13 +266,13 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
         </div>
 
         {error && (
-          <div style={{ background: "rgba(211, 47, 47, 0.12)", border: "1px solid #d32f2f", color: "#d32f2f", padding: "8px 12px", borderRadius: "4px", fontSize: "13px", display: "flex", alignItems: "center", gap: "8px", marginBottom: "14px" }}>
+          <div style={{ background: "rgba(211, 47, 47, 0.12)", border: "1px solid #d32f2f", color: "#d32f2f", padding: "8px 12px", borderRadius: "4px", fontSize: "14px", display: "flex", alignItems: "center", gap: "8px", marginBottom: "14px" }}>
             <AlertCircle size={16} /> {error}
           </div>
         )}
 
         {savedSuccess && (
-          <div style={{ background: "rgba(56, 142, 60, 0.15)", border: "1px solid #388e3c", color: "#388e3c", padding: "8px 12px", borderRadius: "4px", fontSize: "13px", display: "flex", alignItems: "center", gap: "8px", marginBottom: "14px" }}>
+          <div style={{ background: "rgba(56, 142, 60, 0.15)", border: "1px solid #388e3c", color: "#388e3c", padding: "8px 12px", borderRadius: "4px", fontSize: "14px", display: "flex", alignItems: "center", gap: "8px", marginBottom: "14px" }}>
             <CheckCircle2 size={16} /> Farm profile saved successfully! Context updated for Sahayak AI.
           </div>
         )}
@@ -285,33 +285,33 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               <div style={{ background: "rgba(40, 116, 240, 0.04)", border: "1px solid rgba(40, 116, 240, 0.15)", borderRadius: "6px", padding: "12px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                  <span style={{ fontSize: "12px", fontWeight: "700", color: "#2874f0", textTransform: "uppercase" }}>
+                  <span style={{ fontSize: "13px", fontWeight: "700", color: "#2874f0", textTransform: "uppercase" }}>
                     📍 Detect GPS Location
                   </span>
                   <button
                     type="button"
                     onClick={handleDetectGPS}
                     disabled={detectingGps}
-                    style={{ background: "#2874f0", border: "none", color: "#ffffff", padding: "6px 12px", borderRadius: "4px", fontSize: "12px", fontWeight: "700", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}
+                    style={{ background: "#2874f0", border: "none", color: "#ffffff", padding: "6px 12px", borderRadius: "4px", fontSize: "13px", fontWeight: "700", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}
                   >
                     {detectingGps ? <Loader2 size={14} className="spin" /> : <Compass size={14} />}
                     {detectingGps ? "Detecting..." : "Detect Device Location"}
                   </button>
                 </div>
                 {detectingGps && gpsStatus && (
-                  <div style={{ fontSize: "12px", color: "#2874f0", display: "flex", alignItems: "center", gap: "6px" }}>
+                  <div style={{ fontSize: "13px", color: "#2874f0", display: "flex", alignItems: "center", gap: "6px" }}>
                     <Loader2 size={12} className="spin" /> {gpsStatus}
                   </div>
                 )}
                 {accuracyMsg && (
-                  <div style={{ fontSize: "11px", color: "var(--fk-text-sub)", marginTop: "4px" }}>
+                  <div style={{ fontSize: "12px", color: "var(--fk-text-sub)", marginTop: "4px" }}>
                     📍 {accuracyMsg}
                   </div>
                 )}
               </div>
 
               <div>
-                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
                   Farmer Full Name
                 </label>
                 <input
@@ -319,12 +319,12 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                   placeholder="Enter your name"
                   value={farmerName}
                   onChange={e => setFarmerName(e.target.value)}
-                  style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "14px", background: "var(--fk-card)", color: "var(--fk-text)" }}
+                  style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "15px", background: "var(--fk-card)", color: "var(--fk-text)" }}
                 />
               </div>
 
               <div>
-                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
                   Farm Location (Village / Mandal, District, State, India)
                 </label>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "10px", border: "1px solid var(--fk-border)", borderRadius: "4px", background: "var(--fk-card)" }}>
@@ -334,7 +334,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                     placeholder="e.g. Kukatpally, Hyderabad, Telangana, India"
                     value={locationInput}
                     onChange={e => setLocationInput(e.target.value)}
-                    style={{ width: "100%", border: "none", outline: "none", fontSize: "14px", background: "transparent", color: "var(--fk-text)" }}
+                    style={{ width: "100%", border: "none", outline: "none", fontSize: "15px", background: "transparent", color: "var(--fk-text)" }}
                   />
                 </div>
               </div>
@@ -345,13 +345,13 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
           {step === 2 && (
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               <div>
-                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
                   Total Land Size
                 </label>
                 <select
                   value={landPreset}
                   onChange={e => setLandPreset(e.target.value)}
-                  style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "14px", background: "var(--fk-card)", color: "var(--fk-text)" }}
+                  style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "15px", background: "var(--fk-card)", color: "var(--fk-text)" }}
                 >
                   {LAND_SIZE_OPTIONS.map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
@@ -362,7 +362,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
               {landPreset === "Custom Size" && (
                 <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "10px" }}>
                   <div>
-                    <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", display: "block", marginBottom: "4px" }}>
+                    <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", display: "block", marginBottom: "4px" }}>
                       Exact Size Number
                     </label>
                     <input
@@ -371,17 +371,17 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                       step="0.1"
                       value={customLandSize}
                       onChange={e => setCustomLandSize(e.target.value)}
-                      style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "14px", background: "var(--fk-card)", color: "var(--fk-text)" }}
+                      style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "15px", background: "var(--fk-card)", color: "var(--fk-text)" }}
                     />
                   </div>
                   <div>
-                    <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", display: "block", marginBottom: "4px" }}>
+                    <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", display: "block", marginBottom: "4px" }}>
                       Land Unit
                     </label>
                     <select
                       value={landUnit}
                       onChange={e => setLandUnit(e.target.value)}
-                      style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "14px", background: "var(--fk-card)", color: "var(--fk-text)" }}
+                      style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "15px", background: "var(--fk-card)", color: "var(--fk-text)" }}
                     >
                       <option value="Acres">Acres</option>
                       <option value="Hectares">Hectares</option>
@@ -393,13 +393,13 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
               )}
 
               <div>
-                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
                   Farm Holding Type
                 </label>
                 <select
                   value={farmType}
                   onChange={e => setFarmType(e.target.value)}
-                  style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "14px", background: "var(--fk-card)", color: "var(--fk-text)" }}
+                  style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "15px", background: "var(--fk-card)", color: "var(--fk-text)" }}
                 >
                   {FARM_TYPES.map(ft => (
                     <option key={ft} value={ft}>{ft}</option>
@@ -424,7 +424,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
           {/* STEP 4: WATER & IRRIGATION */}
           {step === 4 && (
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase" }}>
+              <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase" }}>
                 Select All Irrigation & Water Sources
               </label>
 
@@ -449,8 +449,8 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                         textAlign: "left"
                       }}
                     >
-                      <span style={{ fontSize: "18px" }}>{src.icon}</span>
-                      <span style={{ fontSize: "13px", fontWeight: "600", flex: 1 }}>{src.label}</span>
+                      <span style={{ fontSize: "19.5px" }}>{src.icon}</span>
+                      <span style={{ fontSize: "14px", fontWeight: "600", flex: 1 }}>{src.label}</span>
                       {isSelected && <Check size={16} color="#2874f0" />}
                     </button>
                   );
@@ -463,13 +463,13 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
           {step === 5 && (
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase" }}>
+                <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase" }}>
                   Select Soil Type
                 </label>
                 <button
                   type="button"
                   className="lg-text-btn"
-                  style={{ fontSize: "12px" }}
+                  style={{ fontSize: "13px" }}
                   onClick={() => setShowSoilHelp(!showSoilHelp)}
                 >
                   <HelpCircle size={14} /> Help me identify my soil
@@ -477,7 +477,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
               </div>
 
               {showSoilHelp && (
-                <div style={{ background: "rgba(40, 116, 240, 0.08)", border: "1px solid rgba(40, 116, 240, 0.25)", borderRadius: "6px", padding: "12px", fontSize: "12px", color: "var(--fk-text)" }}>
+                <div style={{ background: "rgba(40, 116, 240, 0.08)", border: "1px solid rgba(40, 116, 240, 0.25)", borderRadius: "6px", padding: "12px", fontSize: "13px", color: "var(--fk-text)" }}>
                   💡 <strong>Soil Identification Quick Guide:</strong>
                   <ul style={{ paddingLeft: "16px", marginTop: "6px", display: "flex", flexDirection: "column", gap: "4px" }}>
                     <li><strong>Black Soil:</strong> Sticky when wet, develops deep cracks in summer. High cotton suitability.</li>
@@ -510,10 +510,10 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                       }}
                     >
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <strong style={{ fontSize: "14px" }}>{soil.label}</strong>
+                        <strong style={{ fontSize: "15px" }}>{soil.label}</strong>
                         {isSelected && <Check size={16} color="#388e3c" />}
                       </div>
-                      <span style={{ fontSize: "12px", color: "var(--fk-text-sub)" }}>{soil.desc}</span>
+                      <span style={{ fontSize: "13px", color: "var(--fk-text-sub)" }}>{soil.desc}</span>
                     </button>
                   );
                 })}
@@ -525,7 +525,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
           {step === 6 && (
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               <div>
-                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "8px" }}>
+                <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "8px" }}>
                   Current Farming Season
                 </label>
 
@@ -549,8 +549,8 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                           cursor: "pointer"
                         }}
                       >
-                        <span style={{ fontSize: "18px" }}>{s.icon}</span>
-                        <span style={{ fontSize: "13px", fontWeight: "600", flex: 1 }}>{s.label}</span>
+                        <span style={{ fontSize: "19.5px" }}>{s.icon}</span>
+                        <span style={{ fontSize: "14px", fontWeight: "600", flex: 1 }}>{s.label}</span>
                         {isSelected && <Check size={16} color="#2874f0" />}
                       </button>
                     );
@@ -561,12 +561,12 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
               {/* Crop Growth Summary */}
               {crops.length > 0 && (
                 <div style={{ marginTop: "10px", background: "var(--fk-card)", border: "1px solid var(--fk-border)", borderRadius: "6px", padding: "12px" }}>
-                  <strong style={{ fontSize: "13px", color: "var(--fk-text)", display: "block", marginBottom: "8px" }}>
+                  <strong style={{ fontSize: "14px", color: "var(--fk-text)", display: "block", marginBottom: "8px" }}>
                     Selected Crops & Current Stages:
                   </strong>
                   <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                     {crops.map(c => (
-                      <div key={c.name} style={{ display: "flex", justifyContent: "space-between", fontSize: "13px" }}>
+                      <div key={c.name} style={{ display: "flex", justifyContent: "space-between", fontSize: "14px" }}>
                         <span>{c.icon} <strong>{c.name}</strong></span>
                         <span style={{ color: "#2874f0", fontWeight: "600" }}>{c.stage || "Vegetative Growth"}</span>
                       </div>
@@ -581,7 +581,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
           {step === 7 && (
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               <div>
-                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "8px" }}>
+                <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "8px" }}>
                   What do you want help with? (Select Goals)
                 </label>
 
@@ -607,7 +607,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                         }}
                       >
                         <span>{g.icon}</span>
-                        <span style={{ fontSize: "12px", fontWeight: "600", flex: 1 }}>{g.label}</span>
+                        <span style={{ fontSize: "13px", fontWeight: "600", flex: 1 }}>{g.label}</span>
                         {isSelected && <Check size={14} color="#388e3c" />}
                       </button>
                     );
@@ -616,13 +616,13 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
               </div>
 
               <div>
-                <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
+                <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub)", textTransform: "uppercase", display: "block", marginBottom: "6px" }}>
                   Primary Farming Method
                 </label>
                 <select
                   value={farmingMethod}
                   onChange={e => setFarmingMethod(e.target.value)}
-                  style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "14px", background: "var(--fk-card)", color: "var(--fk-text)" }}
+                  style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid var(--fk-border)", fontSize: "15px", background: "var(--fk-card)", color: "var(--fk-text)" }}
                 >
                   <option value="Conventional">Conventional Farming (Synthetic Fertilizers & Pesticides)</option>
                   <option value="Organic">Organic Farming (Bio-fertilizers & Natural Neem)</option>
@@ -634,7 +634,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
               </div>
 
               <div>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "14px", fontWeight: "700", color: "var(--fk-text)" }}>
+                <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "15px", fontWeight: "700", color: "var(--fk-text)" }}>
                   <input
                     type="checkbox"
                     checked={hasLivestock}
@@ -658,7 +658,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                             border: isSelected ? "1px solid #2874f0" : "1px solid var(--fk-border)",
                             background: isSelected ? "rgba(40, 116, 240, 0.12)" : "var(--fk-card)",
                             color: isSelected ? "#2874f0" : "var(--fk-text-sub)",
-                            fontSize: "12px",
+                            fontSize: "13px",
                             fontWeight: "600",
                             cursor: "pointer"
                           }}
@@ -682,11 +682,11 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                 borderRadius: "8px",
                 padding: "16px"
               }}>
-                <h3 style={{ fontSize: "16px", fontWeight: "800", color: "var(--fk-text)", marginBottom: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
+                <h3 style={{ fontSize: "17px", fontWeight: "800", color: "var(--fk-text)", marginBottom: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
                   <Sprout size={18} color="#2874f0" /> Farm Profile Summary
                 </h3>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", fontSize: "13px", color: "var(--fk-text)" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", fontSize: "14px", color: "var(--fk-text)" }}>
                   <div>📍 <strong>Location:</strong> {locationInput}</div>
                   <div>📐 <strong>Land Size:</strong> {numericLandSizeAcres()} Acres ({landPreset})</div>
                   <div>🌾 <strong>Farm Type:</strong> {farmType}</div>
@@ -698,7 +698,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                 </div>
 
                 <div style={{ marginTop: "14px", paddingTop: "10px", borderTop: "1px solid var(--fk-border)" }}>
-                  <strong style={{ fontSize: "13px", color: "var(--fk-text)", display: "block", marginBottom: "6px" }}>
+                  <strong style={{ fontSize: "14px", color: "var(--fk-text)", display: "block", marginBottom: "6px" }}>
                     Cultivated Crops ({crops.length}):
                   </strong>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
@@ -706,7 +706,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                       <span
                         key={c.name}
                         style={{
-                          fontSize: "12px",
+                          fontSize: "13px",
                           padding: "4px 8px",
                           borderRadius: "12px",
                           background: c.isPrimary ? "rgba(40, 116, 240, 0.15)" : "rgba(0,0,0,0.05)",
@@ -738,7 +738,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
               background: "var(--fk-card)",
               color: step === 1 ? "var(--fk-text-sub)" : "var(--fk-text)",
               fontWeight: "700",
-              fontSize: "13px",
+              fontSize: "14px",
               cursor: step === 1 ? "not-allowed" : "pointer",
               display: "flex",
               alignItems: "center",
@@ -760,7 +760,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                 background: "#2874f0",
                 color: "#ffffff",
                 fontWeight: "700",
-                fontSize: "13px",
+                fontSize: "14px",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
@@ -781,7 +781,7 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                 background: "#fb641b",
                 color: "#ffffff",
                 fontWeight: "700",
-                fontSize: "14px",
+                fontSize: "15px",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",

@@ -30,17 +30,17 @@ export function StatCard({ icon: Icon, title, value, unit, subtitle, trend, tren
         </div>
       )}
       <div style={{ flex: 1 }}>
-        <p style={{ fontSize: '12px', fontWeight: '600', color: 'var(--fk-text-sub, #64748b)', margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <p style={{ fontSize: '13px', fontWeight: '600', color: 'var(--fk-text-sub, #64748b)', margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
           {title}
         </p>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
-          <span style={{ fontSize: '22px', fontWeight: '800', color: 'var(--fk-text, #0f172a)', fontFamily: 'Outfit, sans-serif' }}>
+          <span style={{ fontSize: '23.5px', fontWeight: '800', color: 'var(--fk-text, #0f172a)', fontFamily: 'Outfit, sans-serif' }}>
             {value}
           </span>
-          {unit && <span style={{ fontSize: '13px', color: 'var(--fk-text-sub, #64748b)', fontWeight: '600' }}>{unit}</span>}
+          {unit && <span style={{ fontSize: '14px', color: 'var(--fk-text-sub, #64748b)', fontWeight: '600' }}>{unit}</span>}
           {trend && (
             <span style={{
-              fontSize: '11px',
+              fontSize: '12px',
               fontWeight: '700',
               padding: '2px 6px',
               borderRadius: '4px',
@@ -52,7 +52,7 @@ export function StatCard({ icon: Icon, title, value, unit, subtitle, trend, tren
             </span>
           )}
         </div>
-        {subtitle && <p style={{ fontSize: '12px', color: 'var(--fk-text-sub, #64748b)', margin: '2px 0 0' }}>{subtitle}</p>}
+        {subtitle && <p style={{ fontSize: '13px', color: 'var(--fk-text-sub, #64748b)', margin: '2px 0 0' }}>{subtitle}</p>}
       </div>
     </div>
   );
@@ -86,7 +86,7 @@ export function StatusBadge({ status = 'success', children, icon: Icon }) {
       gap: '4px',
       padding: '3px 9px',
       borderRadius: '20px',
-      fontSize: '12px',
+      fontSize: '13px',
       fontWeight: '700',
       background: colors.bg,
       color: colors.text,

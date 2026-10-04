@@ -40,10 +40,10 @@ export function EmptyState({
       }}>
         <Icon size={28} />
       </div>
-      <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--fk-text, #0f172a)', margin: '0 0 8px', fontFamily: 'Outfit, sans-serif' }}>
+      <h3 style={{ fontSize: '19.5px', fontWeight: '800', color: 'var(--fk-text, #0f172a)', margin: '0 0 8px', fontFamily: 'Outfit, sans-serif' }}>
         {title}
       </h3>
-      <p style={{ fontSize: '14px', color: 'var(--fk-text-sub, #64748b)', margin: '0 0 16px', maxWidth: '440px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.5 }}>
+      <p style={{ fontSize: '15px', color: 'var(--fk-text-sub, #64748b)', margin: '0 0 16px', maxWidth: '440px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.5 }}>
         {description}
       </p>
       {tip && (
@@ -55,7 +55,7 @@ export function EmptyState({
           borderRadius: '20px',
           background: 'var(--primary-surface)',
           color: 'var(--primary)',
-          fontSize: '12px',
+          fontSize: '13px',
           fontWeight: 600,
           marginBottom: '20px'
         }}>
@@ -110,10 +110,10 @@ export function ErrorState({
         <AlertTriangle size={22} />
       </div>
       <div style={{ flex: 1 }}>
-        <h4 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--fk-text, #0f172a)', margin: '0 0 4px', fontFamily: 'Outfit, sans-serif' }}>
+        <h4 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--fk-text, #0f172a)', margin: '0 0 4px', fontFamily: 'Outfit, sans-serif' }}>
           {title}
         </h4>
-        <p style={{ fontSize: '13px', color: 'var(--fk-text-sub, #64748b)', margin: '0 0 14px', lineHeight: 1.5 }}>
+        <p style={{ fontSize: '14px', color: 'var(--fk-text-sub, #64748b)', margin: '0 0 14px', lineHeight: 1.5 }}>
           {message}
         </p>
         {onRetry && (

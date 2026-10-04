@@ -25,11 +25,11 @@ function GaugeCard({ sensor, value }) {
       <div className="iot-gauge-ring" style={{ "--gauge-color": color, "--gauge-pct": pct + "%" }}>
         <div className="iot-gauge-value">
           <Icon size={18} color={color} />
-          <div style={{ fontSize: 13, fontWeight: 800, color }}>{value}{sensor.unit}</div>
+          <div style={{ fontSize: 14, fontWeight: 800, color }}>{value}{sensor.unit}</div>
         </div>
       </div>
-      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--fk-text)" }}>{sensor.label}</div>
-      <div style={{ fontSize: 11, color: bad ? "#ef4444" : "#64748b" }}>{bad ? "⚠ Out of range" : sensor.tip}</div>
+      <div style={{ fontSize: 13, fontWeight: 700, color: "var(--fk-text)" }}>{sensor.label}</div>
+      <div style={{ fontSize: 12, color: bad ? "#ef4444" : "#64748b" }}>{bad ? "⚠ Out of range" : sensor.tip}</div>
     </div>
   );
 }
@@ -89,10 +89,10 @@ export default function IoTTelemetry() {
       {/* Connection status bar */}
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, padding: "10px 16px", background: connected ? "rgba(34, 197, 94, 0.08)" : "rgba(239, 68, 68, 0.08)", borderRadius: 10, border: "1px solid " + (connected ? "rgba(34,197,94,0.2)" : "rgba(239,68,68,0.2)") }}>
         <span className="iot-live-dot" style={{ background: connected ? "#22c55e" : "#ef4444" }}></span>
-        <span style={{ fontSize: 13, fontWeight: 700, color: connected ? "#16a34a" : "#dc2626" }}>
+        <span style={{ fontSize: 14, fontWeight: 700, color: connected ? "#16a34a" : "#dc2626" }}>
           {connected ? "DEMO — Simulated sensor data" : "Connecting to sensor hub…"}
         </span>
-        {data && <span style={{ marginLeft: "auto", fontSize: 11, color: "#64748b" }}>Last update: {new Date(data.timestamp).toLocaleTimeString()}</span>}
+        {data && <span style={{ marginLeft: "auto", fontSize: 12, color: "#64748b" }}>Last update: {new Date(data.timestamp).toLocaleTimeString()}</span>}
       </div>
 
       {error && (
@@ -103,7 +103,7 @@ export default function IoTTelemetry() {
 
       {/* Gauges grid */}
       <PremiumCard style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 16, color: "var(--fk-text)" }}>📡 Sensor Readings</div>
+        <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 16, color: "var(--fk-text)" }}>📡 Sensor Readings</div>
         <div className="calendar-grid">
           {SENSORS.map(s => (
             <GaugeCard key={s.key} sensor={s} value={data ? (typeof data[s.key] === "number" ? data[s.key] : 0) : 0} />
@@ -114,7 +114,7 @@ export default function IoTTelemetry() {
       {/* History table */}
       {history.length > 0 && (
         <PremiumCard>
-          <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 12, color: "var(--fk-text)" }}>📊 Reading History (last 20)</div>
+          <div style={{ fontSize: 15, fontWeight: 800, marginBottom: 12, color: "var(--fk-text)" }}>📊 Reading History (last 20)</div>
           <div style={{ overflowX: "auto" }}>
             <table className="admin-user-table">
               <thead>
@@ -133,7 +133,7 @@ export default function IoTTelemetry() {
               <tbody>
                 {[...history].reverse().map((row, i) => (
                   <tr key={i}>
-                    <td style={{ fontVariantNumeric: "tabular-nums", fontSize: 11 }}>{row.t}</td>
+                    <td style={{ fontVariantNumeric: "tabular-nums", fontSize: 12 }}>{row.t}</td>
                     <td>{row.soilMoisture}</td>
                     <td>{row.temperature}</td>
                     <td>{row.humidity}</td>

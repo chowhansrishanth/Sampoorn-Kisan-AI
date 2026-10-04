@@ -253,6 +253,31 @@ export default function LoginGate({ onLoginSuccess }) {
       `}</style>
         <div className="lg-form-panel" key={animKey}>
           <div className="lg-card lg-mode-enter">
+            {mode !== "forgot" && (
+              <div className="lg-tabs">
+                <button
+                  type="button"
+                  className={`lg-tab-btn ${mode === "login" ? "active" : ""}`}
+                  onClick={() => switchMode("login")}
+                >
+                  Sign In
+                </button>
+                <button
+                  type="button"
+                  className={`lg-tab-btn ${mode === "register" ? "active" : ""}`}
+                  onClick={() => {
+                    const entered = (formData.identifier || "").trim();
+                    if (entered && !formData.name) {
+                      set("name", entered);
+                    }
+                    switchMode("register");
+                  }}
+                >
+                  Create Account
+                </button>
+              </div>
+            )}
+
             {mode === "register" && (
               <div className="lg-progress-wrap">
                 <div className="lg-progress-bar">
@@ -263,21 +288,34 @@ export default function LoginGate({ onLoginSuccess }) {
             )}
 
             {error && (
-              <div className="lg-alert lg-alert-error">
-                <AlertCircle size={16} />{error}
-                {error === "No details found" && (
-                  <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(239, 68, 68, 0.2)', fontSize: '13px', color: 'var(--fk-text)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span>Don't have an account?</span>
-                    <button type="button" onClick={() => switchMode("register")} style={{ background: 'none', border: 'none', color: '#2563eb', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline' }}>
-                      Register
+              <div className="lg-alert lg-alert-error" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '6px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
+                  <AlertCircle size={16} style={{ flexShrink: 0 }} />
+                  <span>{error}</span>
+                </div>
+                {mode === "login" && (
+                  <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px solid rgba(239, 68, 68, 0.25)', fontSize: '14px', width: '100%', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                    <span style={{ color: '#4b5563' }}>Don't have an account or trying to sign up?</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const entered = (formData.identifier || "").trim();
+                        if (entered && !formData.name) {
+                          set("name", entered);
+                        }
+                        switchMode("register");
+                      }}
+                      style={{ background: 'none', border: 'none', color: '#006948', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}
+                    >
+                      Click here to Create Account →
                     </button>
                   </div>
                 )}
                 {error === "User already exists" && (
-                  <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(239, 68, 68, 0.2)', fontSize: '13px', color: 'var(--fk-text)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span>Already have an account?</span>
-                    <button type="button" onClick={() => switchMode("login")} style={{ background: 'none', border: 'none', color: '#2563eb', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline' }}>
-                      Sign in
+                  <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px solid rgba(239, 68, 68, 0.25)', fontSize: '14px', width: '100%', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ color: '#4b5563' }}>Already have an account?</span>
+                    <button type="button" onClick={() => switchMode("login")} style={{ background: 'none', border: 'none', color: '#006948', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>
+                      Sign In →
                     </button>
                   </div>
                 )}
@@ -410,7 +448,7 @@ export default function LoginGate({ onLoginSuccess }) {
                       style={{
                         width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                         padding: '10px 14px', borderRadius: '4px', background: 'rgba(40, 116, 240, 0.15)', border: '1px solid #2874f0',
-                        color: '#2874f0', fontWeight: '700', fontSize: '13px', cursor: 'pointer'
+                        color: '#2874f0', fontWeight: '700', fontSize: '14px', cursor: 'pointer'
                       }}
                     >
                       {geoLoading ? <Loader2 size={16} className="spin" /> : <Compass size={16} />}
@@ -482,7 +520,7 @@ export default function LoginGate({ onLoginSuccess }) {
                     <User size={17} className="lg-input-icon" />
                     <input
                       id="login-identifier"
-                      type="text" placeholder="Email Address or Mobile Number"
+                      type="text" placeholder="Email, Mobile (+91), or Full Name"
                       value={formData.identifier}
                       onChange={e => set("identifier", e.target.value)}
                       required autoFocus
@@ -539,7 +577,7 @@ export default function LoginGate({ onLoginSuccess }) {
             <div style={{ textAlign: "center", marginTop: 16 }}>
               <button
                 className="lg-text-btn"
-                style={{ fontSize: 12, color: "#637068" }}
+                style={{ fontSize: 13, color: "#637068" }}
                 onClick={() => setIsSupportOpen(true)}
               >
                 <HelpCircle size={12} /> Need support?

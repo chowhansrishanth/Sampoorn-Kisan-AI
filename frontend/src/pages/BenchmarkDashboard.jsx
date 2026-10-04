@@ -105,10 +105,10 @@ export default function BenchmarkDashboard() {
         <div style={{ padding: "30px", background: "#0b1329", color: "#f8fafc", minHeight: "100vh", fontFamily: "Inter, sans-serif" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
                 <div>
-                    <h1 style={{ fontSize: "28px", fontWeight: "700", color: "#38bdf8", margin: 0 }}>
+                    <h1 style={{ fontSize: "30px", fontWeight: "700", color: "#38bdf8", margin: 0 }}>
                         🌾 Sampoorn Kisan AI — Benchmark & Evaluation Dashboard
                     </h1>
-                    <p style={{ color: "#94a3b8", fontSize: "14px", marginTop: "6px" }}>
+                    <p style={{ color: "#94a3b8", fontSize: "15px", marginTop: "6px" }}>
                         3,500 Agricultural Questions • 21 Categories • Golden Behavior Evaluation Engine
                     </p>
                 </div>
@@ -125,7 +125,7 @@ export default function BenchmarkDashboard() {
                 <h3 style={{ margin: "0 0 12px 0", color: "#f8fafc" }}>⚙️ Execute Evaluation Benchmark</h3>
                 <div style={{ display: "flex", gap: "16px", alignItems: "center", flexWrap: "wrap" }}>
                     <div>
-                        <label style={{ fontSize: "12px", color: "#94a3b8", display: "block", marginBottom: "4px" }}>Dataset Split</label>
+                        <label style={{ fontSize: "13px", color: "#94a3b8", display: "block", marginBottom: "4px" }}>Dataset Split</label>
                         <select
                             value={selectedSplit}
                             onChange={(e) => setSelectedSplit(e.target.value)}
@@ -139,7 +139,7 @@ export default function BenchmarkDashboard() {
                     </div>
 
                     <div>
-                        <label style={{ fontSize: "12px", color: "#94a3b8", display: "block", marginBottom: "4px" }}>Evaluation Sample Limit</label>
+                        <label style={{ fontSize: "13px", color: "#94a3b8", display: "block", marginBottom: "4px" }}>Evaluation Sample Limit</label>
                         <select
                             value={recordLimit}
                             onChange={(e) => setRecordLimit(e.target.value)}
@@ -175,51 +175,51 @@ export default function BenchmarkDashboard() {
             {/* Metric KPI Cards */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px", marginBottom: "28px" }}>
                 <div style={{ background: "#1e293b", border: "1px solid #334155", borderRadius: "12px", padding: "18px" }}>
-                    <div style={{ fontSize: "12px", color: "#94a3b8" }}>Overall Accuracy</div>
-                    <div style={{ fontSize: "32px", fontWeight: "bold", color: "#4ade80", marginTop: "4px" }}>
+                    <div style={{ fontSize: "13px", color: "#94a3b8" }}>Overall Accuracy</div>
+                    <div style={{ fontSize: "34px", fontWeight: "bold", color: "#4ade80", marginTop: "4px" }}>
                         {results?.overallAccuracy || 96.0}%
                     </div>
-                    <div style={{ fontSize: "11px", color: "#64748b", marginTop: "4px" }}>Target: &ge; 90%</div>
+                    <div style={{ fontSize: "12px", color: "#64748b", marginTop: "4px" }}>Target: &ge; 90%</div>
                 </div>
 
                 <div style={{ background: "#1e293b", border: "1px solid #334155", borderRadius: "12px", padding: "18px" }}>
-                    <div style={{ fontSize: "12px", color: "#94a3b8" }}>Intent Recognition</div>
-                    <div style={{ fontSize: "32px", fontWeight: "bold", color: "#38bdf8", marginTop: "4px" }}>
+                    <div style={{ fontSize: "13px", color: "#94a3b8" }}>Intent Recognition</div>
+                    <div style={{ fontSize: "34px", fontWeight: "bold", color: "#38bdf8", marginTop: "4px" }}>
                         {metrics.intentAccuracy}%
                     </div>
-                    <div style={{ fontSize: "11px", color: "#64748b", marginTop: "4px" }}>Multi-intent & Typos</div>
+                    <div style={{ fontSize: "12px", color: "#64748b", marginTop: "4px" }}>Multi-intent & Typos</div>
                 </div>
 
                 <div style={{ background: "#1e293b", border: "1px solid #334155", borderRadius: "12px", padding: "18px" }}>
-                    <div style={{ fontSize: "12px", color: "#94a3b8" }}>Entity Normalization</div>
-                    <div style={{ fontSize: "32px", fontWeight: "bold", color: "#a78bfa", marginTop: "4px" }}>
+                    <div style={{ fontSize: "13px", color: "#94a3b8" }}>Entity Normalization</div>
+                    <div style={{ fontSize: "34px", fontWeight: "bold", color: "#a78bfa", marginTop: "4px" }}>
                         {metrics.entityAccuracy}%
                     </div>
-                    <div style={{ fontSize: "11px", color: "#64748b", marginTop: "4px" }}>Crops, Soil & Locations</div>
+                    <div style={{ fontSize: "12px", color: "#64748b", marginTop: "4px" }}>Crops, Soil & Locations</div>
                 </div>
 
                 <div style={{ background: "#1e293b", border: "1px solid #334155", borderRadius: "12px", padding: "18px" }}>
-                    <div style={{ fontSize: "12px", color: "#94a3b8" }}>Tool & Agent Selection</div>
-                    <div style={{ fontSize: "32px", fontWeight: "bold", color: "#facc15", marginTop: "4px" }}>
+                    <div style={{ fontSize: "13px", color: "#94a3b8" }}>Tool & Agent Selection</div>
+                    <div style={{ fontSize: "34px", fontWeight: "bold", color: "#facc15", marginTop: "4px" }}>
                         {metrics.toolSelectionAccuracy}%
                     </div>
-                    <div style={{ fontSize: "11px", color: "#64748b", marginTop: "4px" }}>Calculator & APIs</div>
+                    <div style={{ fontSize: "12px", color: "#64748b", marginTop: "4px" }}>Calculator & APIs</div>
                 </div>
 
                 <div style={{ background: "#1e293b", border: "1px solid #334155", borderRadius: "12px", padding: "18px" }}>
-                    <div style={{ fontSize: "12px", color: "#94a3b8" }}>Hallucination Rate</div>
-                    <div style={{ fontSize: "32px", fontWeight: "bold", color: metrics.hallucinationRate === 0 ? "#4ade80" : "#f87171", marginTop: "4px" }}>
+                    <div style={{ fontSize: "13px", color: "#94a3b8" }}>Hallucination Rate</div>
+                    <div style={{ fontSize: "34px", fontWeight: "bold", color: metrics.hallucinationRate === 0 ? "#4ade80" : "#f87171", marginTop: "4px" }}>
                         {metrics.hallucinationRate}%
                     </div>
-                    <div style={{ fontSize: "11px", color: "#64748b", marginTop: "4px" }}>Target: 0.0%</div>
+                    <div style={{ fontSize: "12px", color: "#64748b", marginTop: "4px" }}>Target: 0.0%</div>
                 </div>
 
                 <div style={{ background: "#1e293b", border: "1px solid #334155", borderRadius: "12px", padding: "18px" }}>
-                    <div style={{ fontSize: "12px", color: "#94a3b8" }}>P95 Latency SLA</div>
-                    <div style={{ fontSize: "32px", fontWeight: "bold", color: "#38bdf8", marginTop: "4px" }}>
+                    <div style={{ fontSize: "13px", color: "#94a3b8" }}>P95 Latency SLA</div>
+                    <div style={{ fontSize: "34px", fontWeight: "bold", color: "#38bdf8", marginTop: "4px" }}>
                         {metrics.p95LatencyMs} ms
                     </div>
-                    <div style={{ fontSize: "11px", color: "#64748b", marginTop: "4px" }}>P50: {metrics.p50LatencyMs} ms</div>
+                    <div style={{ fontSize: "12px", color: "#64748b", marginTop: "4px" }}>P50: {metrics.p50LatencyMs} ms</div>
                 </div>
             </div>
 
@@ -232,7 +232,7 @@ export default function BenchmarkDashboard() {
                     </div>
                 ) : (
                     <div style={{ overflowX: "auto" }}>
-                        <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
+                        <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "14px" }}>
                             <thead>
                                 <tr style={{ background: "#0f172a", color: "#94a3b8" }}>
                                     <th style={{ padding: "10px" }}>ID</th>
@@ -252,13 +252,13 @@ export default function BenchmarkDashboard() {
                                         <td style={{ padding: "10px" }}>
                                             <button
                                                 onClick={() => handleReviewAction(item.id, "resolve")}
-                                                style={{ background: "#16a34a", border: "none", color: "#fff", padding: "4px 8px", borderRadius: "4px", cursor: "pointer", fontSize: "11px", marginRight: "6px" }}
+                                                style={{ background: "#16a34a", border: "none", color: "#fff", padding: "4px 8px", borderRadius: "4px", cursor: "pointer", fontSize: "12px", marginRight: "6px" }}
                                             >
                                                 Approve
                                             </button>
                                             <button
                                                 onClick={() => handleReviewAction(item.id, "dismiss")}
-                                                style={{ background: "#64748b", border: "none", color: "#fff", padding: "4px 8px", borderRadius: "4px", cursor: "pointer", fontSize: "11px" }}
+                                                style={{ background: "#64748b", border: "none", color: "#fff", padding: "4px 8px", borderRadius: "4px", cursor: "pointer", fontSize: "12px" }}
                                             >
                                                 Dismiss
                                             </button>

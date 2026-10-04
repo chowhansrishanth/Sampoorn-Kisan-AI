@@ -24,16 +24,47 @@ router.get('/samples/:sampleId', (req, res) => {
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024, files: 1, fields: 3, fieldSize: 8000, parts: 4 },
-  fileFilter(req, file, cb) {
-    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/bmp'];
-    cb(allowed.includes(file.mimetype) ? null : new Error('Unsupported image format.'), allowed.includes(file.mimetype));
+  limits: {
+    fileSize: 20 * 1024 * 1024,
+    files: 2,
+    fields: 20,
+    fieldSize: 1024 * 1024,
+    parts: 30,
   },
-}).fields([{ name: 'image', maxCount: 1 }, { name: 'file', maxCount: 1 }]);
+  fileFilter(req, file, cb) {
+    const rawMime = (file.mimetype || '').split(';')[0].trim().toLowerCase();
+    const ext = path.extname(file.originalname || '').toLowerCase();
+    const allowedMimes = [
+      'image/jpeg',
+      'image/jpg',
+      'image/pjpeg',
+      'image/png',
+      'image/x-png',
+      'image/webp',
+      'image/bmp',
+      'image/x-ms-bmp',
+      'application/octet-stream',
+    ];
+    const allowedExts = ['.jpg', '.jpeg', '.png', '.webp', '.bmp'];
+    if (allowedMimes.includes(rawMime) || allowedExts.includes(ext) || rawMime.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Upload one JPEG, PNG, WebP or BMP image.'));
+    }
+  },
+}).fields([{ name: 'image', maxCount: 1 }, { name: 'file', maxCount: 1 }, { name: 'photo', maxCount: 1 }]);
+
 router.post('/diagnose', (req, res, next) => {
   upload(req, res, error => {
-    if (error) return res.status(error.code === 'LIMIT_FILE_SIZE' ? 413 : 400).json({ success: false, error: error.code === 'LIMIT_FILE_SIZE' ? 'Image must be no larger than 10 MB.' : 'Upload one JPEG, PNG, WebP or BMP image.' });
-    req.file = req.files?.image?.[0] || req.files?.file?.[0];
+    if (error) {
+      console.error('[DiseaseRoutes] Upload error:', error.message || error);
+      const isSize = error.code === 'LIMIT_FILE_SIZE';
+      return res.status(isSize ? 413 : 400).json({
+        success: false,
+        error: isSize ? 'Image must be no larger than 20 MB.' : (error.message || 'Upload one JPEG, PNG, WebP or BMP image.')
+      });
+    }
+    req.file = req.files?.image?.[0] || req.files?.file?.[0] || req.files?.photo?.[0];
     next();
   });
 }, diagnoseDisease);

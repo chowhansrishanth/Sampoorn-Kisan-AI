@@ -102,7 +102,7 @@ export default function SearchableCropSelector({
               outline: "none",
               background: "transparent",
               color: "var(--fk-text)",
-              fontSize: "14px",
+              fontSize: "15px",
               width: "100%"
             }}
           />
@@ -138,7 +138,7 @@ export default function SearchableCropSelector({
                   gap: "5px",
                   padding: "5px 12px",
                   borderRadius: "20px",
-                  fontSize: "12px",
+                  fontSize: "13px",
                   fontWeight: "600",
                   whiteSpace: "nowrap",
                   cursor: "pointer",
@@ -165,7 +165,7 @@ export default function SearchableCropSelector({
           padding: "12px"
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-            <span style={{ fontSize: "12px", fontWeight: "700", color: "#2874f0", textTransform: "uppercase", letterSpacing: "0.03em" }}>
+            <span style={{ fontSize: "13px", fontWeight: "700", color: "#2874f0", textTransform: "uppercase", letterSpacing: "0.03em" }}>
               Selected Crops ({selectedCrops.length})
             </span>
             <button
@@ -174,7 +174,7 @@ export default function SearchableCropSelector({
               style={{
                 background: "none",
                 border: "none",
-                fontSize: "12px",
+                fontSize: "13px",
                 color: "#d32f2f",
                 fontWeight: "700",
                 cursor: "pointer",
@@ -198,7 +198,7 @@ export default function SearchableCropSelector({
                   background: crop.isPrimary ? "rgba(40, 116, 240, 0.15)" : "var(--fk-card)",
                   border: crop.isPrimary ? "1px solid #2874f0" : "1px solid var(--fk-border)",
                   color: "var(--fk-text)",
-                  fontSize: "13px",
+                  fontSize: "14px",
                   fontWeight: "600"
                 }}
               >
@@ -206,7 +206,7 @@ export default function SearchableCropSelector({
                 <span>{crop.name}</span>
                 {crop.isPrimary && (
                   <span style={{
-                    fontSize: "10px",
+                    fontSize: "11px",
                     fontWeight: "800",
                     background: "#2874f0",
                     color: "#ffffff",
@@ -237,7 +237,7 @@ export default function SearchableCropSelector({
 
           {/* Area Allocation Validator */}
           {totalFarmArea > 0 && (
-            <div style={{ marginTop: "12px", paddingTop: "8px", borderTop: "1px dashed rgba(40, 116, 240, 0.2)", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12px" }}>
+            <div style={{ marginTop: "12px", paddingTop: "8px", borderTop: "1px dashed rgba(40, 116, 240, 0.2)", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "13px" }}>
               <span style={{ color: "var(--fk-text-sub)", fontWeight: "600" }}>
                 Crop Area Allocated: <strong>{totalAllocatedArea} {landUnit}</strong> / <strong>{totalFarmArea} {landUnit}</strong>
               </span>
@@ -264,7 +264,7 @@ export default function SearchableCropSelector({
         gap: "8px"
       }}>
         {filteredCrops.length === 0 ? (
-          <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "20px", color: "var(--fk-text-sub)", fontSize: "13px" }}>
+          <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "20px", color: "var(--fk-text-sub)", fontSize: "14px" }}>
             No matching crops found for "{searchQuery}".
           </div>
         ) : (
@@ -302,8 +302,8 @@ export default function SearchableCropSelector({
                 }}>
                   {isSelected && <Check size={14} />}
                 </div>
-                <span style={{ fontSize: "16px" }}>{crop.icon}</span>
-                <span style={{ fontSize: "13px", fontWeight: "600", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flex: 1 }}>
+                <span style={{ fontSize: "17px" }}>{crop.icon}</span>
+                <span style={{ fontSize: "14px", fontWeight: "600", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flex: 1 }}>
                   {crop.name}
                 </span>
               </button>
@@ -321,13 +321,13 @@ export default function SearchableCropSelector({
           background: "var(--fk-card)"
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-            <span style={{ fontSize: "13px", fontWeight: "800", color: "var(--fk-text)", display: "flex", alignItems: "center", gap: "6px" }}>
+            <span style={{ fontSize: "14px", fontWeight: "800", color: "var(--fk-text)", display: "flex", alignItems: "center", gap: "6px" }}>
               <Sprout size={16} color="#2874f0" /> Primary & Secondary Crop Details
             </span>
             <button
               type="button"
               className="lg-text-btn"
-              style={{ fontSize: "12px" }}
+              style={{ fontSize: "13px" }}
               onClick={() => setShowAreaDetails(!showAreaDetails)}
             >
               {showAreaDetails ? "Hide Details" : "Configure Area & Stages"}
@@ -351,8 +351,8 @@ export default function SearchableCropSelector({
                 >
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <span style={{ fontSize: "16px" }}>{crop.icon}</span>
-                      <strong style={{ fontSize: "14px", color: "var(--fk-text)" }}>{crop.name}</strong>
+                      <span style={{ fontSize: "17px" }}>{crop.icon}</span>
+                      <strong style={{ fontSize: "15px", color: "var(--fk-text)" }}>{crop.name}</strong>
                     </div>
 
                     <button
@@ -364,7 +364,7 @@ export default function SearchableCropSelector({
                         color: crop.isPrimary ? "#2874f0" : "var(--fk-text-sub)",
                         padding: "3px 8px",
                         borderRadius: "4px",
-                        fontSize: "11px",
+                        fontSize: "12px",
                         fontWeight: "700",
                         cursor: "pointer",
                         display: "flex",
@@ -379,7 +379,7 @@ export default function SearchableCropSelector({
 
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
                     <div>
-                      <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub)", display: "block", marginBottom: "4px" }}>
+                      <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", display: "block", marginBottom: "4px" }}>
                         Crop Area ({landUnit})
                       </label>
                       <input
@@ -394,7 +394,7 @@ export default function SearchableCropSelector({
                           padding: "6px 8px",
                           borderRadius: "4px",
                           border: "1px solid var(--fk-border)",
-                          fontSize: "13px",
+                          fontSize: "14px",
                           background: "var(--fk-card)",
                           color: "var(--fk-text)"
                         }}
@@ -402,7 +402,7 @@ export default function SearchableCropSelector({
                     </div>
 
                     <div>
-                      <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub)", display: "block", marginBottom: "4px" }}>
+                      <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", display: "block", marginBottom: "4px" }}>
                         Growth Stage
                       </label>
                       <select
@@ -413,7 +413,7 @@ export default function SearchableCropSelector({
                           padding: "6px 8px",
                           borderRadius: "4px",
                           border: "1px solid var(--fk-border)",
-                          fontSize: "13px",
+                          fontSize: "14px",
                           background: "var(--fk-card)",
                           color: "var(--fk-text)"
                         }}

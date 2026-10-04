@@ -28,8 +28,8 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Skip non-GET and API calls
-  if (url.origin !== self.location.origin || request.method !== "GET" || url.pathname.startsWith("/api/") || url.pathname.startsWith("/ws/")) return;
+  // Skip non-GET and API calls, and bypass cache completely on localhost/development
+  if (url.origin !== self.location.origin || request.method !== "GET" || url.pathname.startsWith("/api/") || url.pathname.startsWith("/ws/") || url.hostname === "localhost" || url.hostname === "127.0.0.1") return;
 
   // Navigation requests: network-first, fallback to offline.html
   if (request.mode === "navigate") {

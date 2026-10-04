@@ -72,7 +72,8 @@ const memFindByEmail = (identifier) => {
         if (!u) continue;
         const uEmail = (u.email || "").toLowerCase().trim();
         const uPhone = (u.phone || "").trim();
-        if (uEmail === lower || uPhone === lower || (lower.includes("@") && uEmail === lower)) {
+        const uName = (u.name || "").toLowerCase().trim();
+        if (uEmail === lower || uPhone === lower || uName === lower || (lower.includes("@") && uEmail === lower)) {
             return u;
         }
     }
@@ -430,10 +431,12 @@ const login = async (req, res) => {
         // 2. Lookup in MongoDB
         if (isDbOperational()) {
             try {
+                const escaped = rawId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                 targetUser = await User.findOne({
                     $or: [
                         { email: inputLC },
-                        { phone: rawId }
+                        { phone: rawId },
+                        { name: { $regex: new RegExp(`^${escaped}$`, 'i') } }
                     ]
                 });
                 if (targetUser) isMongo = true;

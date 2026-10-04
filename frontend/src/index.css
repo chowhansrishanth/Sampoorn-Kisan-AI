@@ -165,14 +165,19 @@
 }
 
 html {
+    font-size: 16.5px;
     scroll-behavior: smooth;
+
 }
 
 body {
+    font-size: 15px;
+    line-height: 1.55;
     min-width: 320px;
     min-height: 100vh;
     background-color: var(--fk-bg);
     color: var(--fk-text);
+
 }
 
 /* Chrome / Edge autofill fix — prevents dark/black/yellow box on saved credentials */
@@ -261,7 +266,7 @@ button {
 
 .fk-brand-name {
     font-family: "Outfit", "Plus Jakarta Sans", sans-serif;
-    font-size: 21px;
+    font-size: 22.5px;
     font-weight: 800;
     font-style: normal;
     letter-spacing: -0.02em;
@@ -271,7 +276,7 @@ button {
 }
 
 .fk-plus-tag {
-    font-size: 11px;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.9);
     font-style: normal;
     margin-top: 3px;
@@ -314,7 +319,7 @@ button {
     width: 100%;
     border: none !important;
     outline: none !important;
-    font-size: 14px;
+    font-size: 15px;
     color: var(--fk-text) !important;
     background: transparent !important;
     background-color: transparent !important;
@@ -365,7 +370,7 @@ button {
     border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 20px;
     padding: 5px 12px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -392,7 +397,7 @@ button {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 6px;
     padding: 5px 8px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     outline: none;
@@ -517,7 +522,7 @@ button {
 }
 
 .fk-drawer-section-label {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -540,7 +545,7 @@ button {
     border-radius: 10px;
     text-decoration: none;
     color: var(--fk-text);
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     transition: all 0.15s ease;
 }
@@ -569,7 +574,7 @@ button {
     background: transparent;
     border: 1px solid var(--fk-border);
     color: var(--fk-text);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     width: 100%;
@@ -585,7 +590,7 @@ button {
     background: #ffffff;
     color: #064e3b;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 15px;
     padding: 8px 20px;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -609,7 +614,7 @@ button {
     gap: 6px;
     color: #ffffff;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
     padding: 6px 12px;
     border-radius: 8px;
@@ -626,7 +631,7 @@ button {
 }
 
 .fk-user-pill-loc {
-    font-size: 11px;
+    font-size: 12px;
     opacity: 0.85;
     display: inline-flex;
     align-items: center;
@@ -644,7 +649,7 @@ button {
     color: #ffffff;
     text-decoration: none;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 15px;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -677,7 +682,7 @@ button {
     gap: 5px;
     text-decoration: none;
     color: var(--fk-text-sub);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
@@ -720,7 +725,7 @@ button {
     right: 2px;
     background: var(--accent-amber);
     color: #ffffff;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 800;
     padding: 2px 6px;
     border-radius: 6px;
@@ -771,7 +776,7 @@ button {
 
 .fk-slide-content h1 {
     font-family: "Outfit", "Plus Jakarta Sans", sans-serif;
-    font-size: clamp(26px, 3.2vw, 38px);
+    font-size: clamp(28px, 3.4vw, 40px);
     font-weight: 800;
     line-height: 1.18;
     margin-bottom: 12px;
@@ -783,7 +788,7 @@ button {
 }
 
 .fk-slide-content p {
-    font-size: 15px;
+    font-size: 16px;
     color: #e2e8f0;
     max-width: 600px;
     margin-bottom: 24px;
@@ -797,7 +802,7 @@ button {
     background: rgba(255, 255, 255, 0.16);
     padding: 5px 14px;
     border-radius: 20px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--accent-gold);
     margin-bottom: 16px;
@@ -821,7 +826,7 @@ button {
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     outline: none;
-    font-size: 14px;
+    font-size: 15px;
     color: #0f172a !important;
     background: #ffffff !important;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
@@ -831,7 +836,7 @@ button {
     background: #22c55e;
     color: #ffffff;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 15px;
     padding: 12px 20px;
     border-radius: 8px;
     border: none;
@@ -852,7 +857,7 @@ button {
     background: var(--primary-gradient);
     color: #ffffff;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 15px;
     padding: 12px 26px;
     border-radius: 8px;
     border: none;
@@ -963,7 +968,7 @@ button {
 
 .fk-section-title {
     font-family: "Outfit", "Plus Jakarta Sans", sans-serif;
-    font-size: 19px;
+    font-size: 20.5px;
     font-weight: 800;
     color: var(--fk-text);
     letter-spacing: -0.01em;
@@ -975,7 +980,7 @@ button {
     gap: 6px;
     background: var(--primary-surface);
     color: var(--primary-light);
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 6px;
@@ -986,7 +991,7 @@ button {
     background: var(--primary-surface);
     color: var(--primary-light);
     font-weight: 700;
-    font-size: 12px;
+    font-size: 13px;
     padding: 8px 18px;
     border-radius: 8px;
     border: 1px solid var(--primary-border);
@@ -1058,7 +1063,7 @@ button {
     left: 8px;
     background: var(--primary);
     color: #ffffff;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     padding: 3px 8px;
     border-radius: 6px;
@@ -1072,7 +1077,7 @@ button {
     background: var(--primary-surface);
     color: var(--primary-light);
     border: 1px solid var(--primary-border);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     padding: 3px 8px;
     border-radius: 6px;
@@ -1081,7 +1086,7 @@ button {
 }
 
 .fk-product-title {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 800;
     color: var(--fk-text);
     margin-bottom: 6px;
@@ -1100,7 +1105,7 @@ button {
     background: var(--primary-surface);
     color: var(--primary-light);
     border: 1px solid var(--primary-border);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     padding: 2px 8px;
     border-radius: 6px;
@@ -1111,12 +1116,12 @@ button {
 
 .fk-rating-count {
     color: var(--fk-text-muted);
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
 }
 
 .fk-product-desc {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--fk-text-sub);
     line-height: 1.5;
     margin-bottom: 16px;
@@ -1135,19 +1140,19 @@ button {
 }
 
 .fk-price {
-    font-size: 18px;
+    font-size: 19.5px;
     font-weight: 800;
     color: var(--fk-text);
 }
 
 .fk-original-price {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--fk-text-muted);
     text-decoration: line-through;
 }
 
 .fk-discount-percent {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--primary-light);
 }
@@ -1158,7 +1163,7 @@ button {
     border: none;
     padding: 10px 16px;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 14px;
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -1200,25 +1205,25 @@ button {
 
 .fk-mandi-crop {
     font-weight: 700;
-    font-size: 14px;
+    font-size: 15px;
     color: var(--fk-text);
 }
 
 .fk-mandi-market {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--fk-text-muted);
     margin-top: 2px;
 }
 
 .fk-mandi-price {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 800;
     color: var(--primary-light);
     font-family: "Outfit", sans-serif;
 }
 
 .fk-mandi-trend {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--primary-light);
     display: flex;
@@ -1258,14 +1263,14 @@ button {
 }
 
 .fk-trust-item strong {
-    font-size: 14px;
+    font-size: 15px;
     color: var(--fk-text);
     display: block;
     margin-bottom: 2px;
 }
 
 .fk-trust-item span {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--fk-text-sub);
 }
 
@@ -1298,21 +1303,21 @@ footer {
 .footer-brand h2 {
     color: var(--fk-text);
     font-family: "Outfit", "Plus Jakarta Sans", sans-serif;
-    font-size: 22px;
+    font-size: 23.5px;
     font-weight: 800;
     margin-bottom: 8px;
     letter-spacing: -0.02em;
 }
 
 .footer-brand p {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.6;
     color: var(--fk-text-sub);
 }
 
 .footer-links-col h4 {
     color: var(--fk-text);
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -1329,7 +1334,7 @@ footer {
 .footer-links-col a {
     color: var(--fk-text-sub);
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
     transition: all 0.15s ease;
 }
 
@@ -1341,7 +1346,7 @@ footer {
 .footer-bottom {
     text-align: center;
     padding-top: 24px;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--fk-text-muted);
 }
 
@@ -1366,7 +1371,7 @@ footer {
 
 .page-title {
     font-family: "Outfit", "Plus Jakarta Sans", sans-serif;
-    font-size: 24px;
+    font-size: 25.5px;
     font-weight: 800;
     color: var(--fk-text) !important;
     letter-spacing: -0.02em;
@@ -1375,7 +1380,7 @@ footer {
 .page-subtitle {
     margin-top: 4px;
     color: var(--fk-text-sub);
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.5;
 }
 
@@ -1634,6 +1639,41 @@ td {
     .lg-card { padding: 28px 20px; }
 }
 
+/* ── Auth Mode Tabs ── */
+.lg-tabs {
+    display: flex;
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 22px;
+    gap: 4px;
+    border: 1px solid #e2e8f0;
+}
+.lg-tab-btn {
+    flex: 1;
+    padding: 9px 14px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+.lg-tab-btn:hover {
+    color: #1e293b;
+}
+.lg-tab-btn.active {
+    background: #ffffff;
+    color: #006948;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
 /* ── Progress bar ── */
 .lg-progress-wrap { margin-bottom: 22px; }
 .lg-progress-bar {
@@ -1649,7 +1689,7 @@ td {
     border-radius: 4px;
     transition: width 0.4s ease;
 }
-.lg-progress-label { font-size: 11px; color: #757575; text-align: right; display: block; }
+.lg-progress-label { font-size: 12px; color: #757575; text-align: right; display: block; }
 
 /* ── Alerts ── */
 .lg-alert {
@@ -1658,7 +1698,7 @@ td {
     gap: 9px;
     padding: 12px 14px; 
     border-radius: 4px;
-    font-size: 13px; 
+    font-size: 14px; 
     margin-bottom: 18px;
 }
 .lg-alert-error { background: #ffebee; border: 1px solid #ffcdd2; color: #c62828; }
@@ -1677,8 +1717,8 @@ td {
     border: 1px solid #bbdefb;
     color: var(--fk-blue);
 }
-.lg-form-header h2 { font-family: "Plus Jakarta Sans", sans-serif; font-size: 24px; font-weight: 800; color: #212121; }
-.lg-form-header p { font-size: 13px; color: #757575; margin-top: 5px; }
+.lg-form-header h2 { font-family: "Plus Jakarta Sans", sans-serif; font-size: 25.5px; font-weight: 800; color: #212121; }
+.lg-form-header p { font-size: 14px; color: #757575; margin-top: 5px; }
 
 /* ── Inputs ── */
 .lg-form { display: flex; flex-direction: column; gap: 0; }
@@ -1704,7 +1744,7 @@ td {
     border: none !important; 
     outline: none !important;
     color: var(--fk-text) !important; 
-    font-size: 14px; 
+    font-size: 15px; 
     font-family: inherit;
     width: 100%;
 }
@@ -1727,7 +1767,7 @@ td {
     border: none !important; 
     outline: none !important;
     color: var(--fk-text) !important; 
-    font-size: 14px; 
+    font-size: 15px; 
     font-family: inherit; 
     cursor: pointer;
 }
@@ -1736,7 +1776,7 @@ td {
 .lg-eye-btn:hover { color: var(--fk-blue); }
 
 /* ── Field label ── */
-.lg-field-label { font-size: 12px; color: var(--fk-text-sub) !important; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+.lg-field-label { font-size: 13px; color: var(--fk-text-sub) !important; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
 
 /* ── Password strength ── */
 .lg-pwd-strength { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
@@ -1745,14 +1785,14 @@ td {
 .lg-pwd-fill.weak { background: #e53935; }
 .lg-pwd-fill.medium { background: #fb8c00; }
 .lg-pwd-fill.strong { background: #43a047; }
-.lg-pwd-strength span { font-size: 11px; color: #757575; min-width: 42px; }
+.lg-pwd-strength span { font-size: 12px; color: #757575; min-width: 42px; }
 
 /* ── Crop chips ── */
 .lg-crop-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
 .lg-crop-chip {
     padding: 7px 13px; 
     border-radius: 16px; 
-    font-size: 12px;
+    font-size: 13px;
     background: #f1f3f6;
     border: 1px solid #e0e0e0;
     color: #424242; 
@@ -1776,7 +1816,7 @@ td {
     background: var(--fk-orange);
     color: #ffffff; 
     font-weight: 700; 
-    font-size: 15px;
+    font-size: 16px;
     cursor: pointer; 
     transition: all 0.2s;
     margin-top: 6px;
@@ -1795,7 +1835,7 @@ td {
     border: 1px solid var(--fk-blue);
     background: #ffffff;
     color: var(--fk-blue); 
-    font-size: 14px; 
+    font-size: 15px; 
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
@@ -1810,7 +1850,7 @@ td {
     margin-bottom: 18px; 
     margin-top: -2px;
 }
-.lg-remember { display: flex; align-items: center; gap: 7px; color: #616161; font-size: 13px; cursor: pointer; user-select: none; }
+.lg-remember { display: flex; align-items: center; gap: 7px; color: #616161; font-size: 14px; cursor: pointer; user-select: none; }
 .lg-remember input { accent-color: var(--fk-blue); width: 15px; height: 15px; cursor: pointer; }
 
 /* ── Divider ── */
@@ -1819,7 +1859,7 @@ td {
     align-items: center; 
     gap: 12px;
     color: #9e9e9e; 
-    font-size: 12px; 
+    font-size: 13px; 
     margin: 22px 0 18px;
 }
 .lg-divider::before, .lg-divider::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
@@ -1827,7 +1867,7 @@ td {
 /* ── Footer link / text btn ── */
 .lg-footer-link {
     text-align: center; 
-    font-size: 13px; 
+    font-size: 14px; 
     color: #757575;
     margin-top: 18px; 
     display: flex; 
@@ -1842,7 +1882,7 @@ td {
     background: none; 
     border: none; 
     color: var(--fk-blue); 
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700; 
     cursor: pointer; 
     padding: 0; 
@@ -1909,7 +1949,7 @@ html, body, #root, .app {
     }
     .fk-category-item {
         padding: 4px 8px;
-        font-size: 11px;
+        font-size: 12px;
     }
     .fk-category-icon-box {
         width: 32px;
@@ -1951,26 +1991,26 @@ html, body, #root, .app {
     .fk-user-pill {
         max-width: 120px;
         padding: 5px 8px;
-        font-size: 12px;
+        font-size: 13px;
     }
     .fk-lang-select {
         padding: 4px 4px;
-        font-size: 11px;
+        font-size: 12px;
         max-width: 85px;
     }
     .fk-trust-strip {
         grid-template-columns: 1fr;
     }
     .fk-carousel-slide h1 {
-        font-size: 1.5rem !important;
+        font-size: 1.6rem !important;
         line-height: 1.25 !important;
     }
     .fk-carousel-slide p {
-        font-size: 0.9rem !important;
+        font-size: 0.96rem !important;
         margin-bottom: 16px !important;
     }
     .page-title {
-        font-size: 20px !important;
+        font-size: 21.5px !important;
     }
     .page-header {
         margin-bottom: 16px !important;
@@ -1983,7 +2023,7 @@ html, body, #root, .app {
         gap: 6px;
     }
     .fk-brand-name {
-        font-size: 16px !important;
+        font-size: 17px !important;
     }
     .fk-brand-name svg {
         width: 18px !important;
@@ -2033,14 +2073,14 @@ html, body, #root, .app {
 
 .page-title {
     font-family: "Outfit", "Plus Jakarta Sans", sans-serif;
-    font-size: 24px;
+    font-size: 25.5px;
     font-weight: 800;
     color: var(--fk-text);
     letter-spacing: -0.01em;
 }
 
 .page-subtitle {
-    font-size: 14px;
+    font-size: 15px;
     color: var(--fk-text-sub);
     margin-top: 4px;
     line-height: 1.5;
@@ -2091,7 +2131,7 @@ html, body, #root, .app {
     background: var(--primary-surface);
     color: var(--primary-light);
     font-weight: 700;
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     display: inline-flex;
@@ -2119,7 +2159,7 @@ html, body, #root, .app {
     border-radius: 8px;
     padding: 10px 20px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
     box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     display: inline-flex;
@@ -2155,7 +2195,7 @@ html, body, #root, .app {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     color: #1a73e8;
 }
@@ -2195,12 +2235,12 @@ html, body, #root, .app {
 }
 
 .dropzone-label p {
-    font-size: 14px;
+    font-size: 15px;
     color: #212121;
 }
 
 .dropzone-label span {
-    font-size: 12px;
+    font-size: 13px;
     color: #757575;
 }
 
@@ -2217,7 +2257,7 @@ html, body, #root, .app {
     gap: 8px;
     margin-top: 16px;
     flex-wrap: wrap;
-    font-size: 13px;
+    font-size: 14px;
     color: #616161;
 }
 
@@ -2227,7 +2267,7 @@ html, body, #root, .app {
     border: 1px solid #e0e0e0;
     background: #ffffff;
     color: #212121;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
@@ -2251,7 +2291,7 @@ html, body, #root, .app {
     color: #2e7d32;
     padding: 4px 10px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
@@ -2263,7 +2303,7 @@ html, body, #root, .app {
     color: #e65100;
     padding: 4px 10px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
@@ -2275,7 +2315,7 @@ html, body, #root, .app {
     color: #1565c0;
     padding: 4px 10px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
@@ -2283,14 +2323,14 @@ html, body, #root, .app {
 }
 
 .disease-title {
-    font-size: 22px;
+    font-size: 23.5px;
     font-weight: 800;
     color: #212121;
     margin-bottom: 8px;
 }
 
 .symptoms-text {
-    font-size: 14px;
+    font-size: 15px;
     color: #424242;
     line-height: 1.5;
     margin-bottom: 16px;
@@ -2320,7 +2360,7 @@ html, body, #root, .app {
 }
 
 .remedy-box h4 {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 800;
     margin-bottom: 6px;
     display: flex;
@@ -2332,7 +2372,7 @@ html, body, #root, .app {
 .remedy-box.organic h4 { color: #2e7d32; }
 
 .remedy-box p {
-    font-size: 13px;
+    font-size: 14px;
     color: #333333;
     line-height: 1.4;
 }
@@ -2354,7 +2394,7 @@ html, body, #root, .app {
 }
 
 .gradcam-desc {
-    font-size: 13px;
+    font-size: 14px;
     color: #616161;
     margin-bottom: 12px;
 }
@@ -2374,7 +2414,7 @@ html, body, #root, .app {
 }
 
 .empty-state p {
-    font-size: 14px;
+    font-size: 15px;
     margin-top: 12px;
     max-width: 400px;
     margin: 12px auto 0;
@@ -2411,7 +2451,7 @@ html, body, #root, .app {
     padding: 6px 12px;
     border-radius: 4px;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -2439,13 +2479,13 @@ html, body, #root, .app {
 }
 
 .chat-brand h2 {
-    font-size: 18px;
+    font-size: 19.5px;
     font-weight: 800;
     margin: 0;
 }
 
 .agent-badge {
-    font-size: 11px;
+    font-size: 12px;
     background: #ffe500;
     color: #172337;
     font-weight: 800;
@@ -2467,7 +2507,7 @@ html, body, #root, .app {
     max-width: 75%;
     padding: 14px 18px;
     border-radius: 12px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.5;
 }
 
@@ -2501,7 +2541,7 @@ html, body, #root, .app {
     padding: 12px 16px;
     border: 1px solid #cccccc;
     border-radius: 24px;
-    font-size: 14px;
+    font-size: 15px;
     outline: none;
     transition: border-color 0.2s;
 }
@@ -2542,7 +2582,7 @@ html, body, #root, .app {
     border: 1px solid #bbdefb;
     background: #e8f0fe;
     color: #1a73e8;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
@@ -2609,7 +2649,7 @@ html, body, #root, .app {
 }
 
 .stat-label {
-    font-size: 12px;
+    font-size: 13px;
     color: #757575;
     font-weight: 600;
     text-transform: uppercase;
@@ -2617,14 +2657,14 @@ html, body, #root, .app {
 }
 
 .stat-value {
-    font-size: 20px;
+    font-size: 21.5px;
     font-weight: 800;
     color: #212121;
     margin: 2px 0;
 }
 
 .stat-badge {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     padding: 2px 8px;
     border-radius: 10px;
@@ -2650,7 +2690,7 @@ html, body, #root, .app {
 }
 
 .weather-main h2 {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: 800;
     color: #2874f0;
     margin: 0;
@@ -2661,7 +2701,7 @@ html, body, #root, .app {
 }
 
 .weather-main p {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--fk-text-sub);
     margin-top: 2px;
 }
@@ -2670,7 +2710,7 @@ html, body, #root, .app {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--fk-text-sub);
 }
 
@@ -2691,7 +2731,7 @@ html, body, #root, .app {
     border: 1px solid #c8e6c9;
     border-radius: 4px;
     color: #2e7d32;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 [data-theme='dark'] .irrigation-box {
@@ -2718,13 +2758,13 @@ html, body, #root, .app {
 }
 
 .fl-metric span {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--fk-text-sub);
     font-weight: 600;
 }
 
 .fl-metric strong {
-    font-size: 16px;
+    font-size: 17px;
     color: var(--fk-text);
     font-weight: 800;
 }
@@ -2732,7 +2772,7 @@ html, body, #root, .app {
 .fl-nodes-table table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13px;
+    font-size: 14px;
     margin-top: 10px;
 }
 
@@ -2752,7 +2792,7 @@ html, body, #root, .app {
     background: #ede7f6;
     color: #512da8;
     font-weight: 700;
-    font-size: 11px;
+    font-size: 12px;
     padding: 2px 6px;
     border-radius: 4px;
 }
@@ -2760,7 +2800,7 @@ html, body, #root, .app {
 .status-online {
     color: #2e7d32;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 /* ==========================================
@@ -2806,7 +2846,7 @@ html, body, #root, .app {
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 8px 16px;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     backdrop-filter: blur(8px);
@@ -2838,7 +2878,7 @@ html, body, #root, .app {
 }
 
 .chat-brand h2 {
-    font-size: 19px;
+    font-size: 20.5px;
     font-weight: 800;
     color: #ffffff;
     margin: 0;
@@ -2849,7 +2889,7 @@ html, body, #root, .app {
 
 .agent-badge {
     display: inline-block;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--accent-gold);
     background: rgba(0, 0, 0, 0.25);
@@ -2875,7 +2915,7 @@ html, body, #root, .app {
     border: 1px solid rgba(255, 255, 255, 0.22);
     padding: 7px 14px;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -2890,7 +2930,7 @@ html, body, #root, .app {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     color: #ffffff;
     background: rgba(255, 255, 255, 0.12);
@@ -2982,7 +3022,7 @@ html, body, #root, .app {
 .message-bubble {
     padding: 14px 18px;
     border-radius: 14px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.65;
     position: relative;
     word-break: break-word;
@@ -3008,7 +3048,7 @@ html, body, #root, .app {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--primary-light);
     background: var(--primary-surface);
@@ -3052,7 +3092,7 @@ html, body, #root, .app {
     padding: 2px 6px;
     border-radius: 4px;
     font-family: monospace;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .message-bubble pre {
@@ -3091,7 +3131,7 @@ html, body, #root, .app {
     border: 1px solid var(--fk-border);
     padding: 8px 16px;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -3130,7 +3170,7 @@ html, body, #root, .app {
     flex: 1;
     border: none !important;
     outline: none !important;
-    font-size: 14px;
+    font-size: 15px;
     font-family: inherit;
     background: transparent !important;
     color: var(--fk-text) !important;
@@ -3171,7 +3211,7 @@ html, body, #root, .app {
 
 .ai-disclaimer {
     text-align: center;
-    font-size: 12px;
+    font-size: 13px;
     color: #64748b;
     margin-top: 10px;
     margin-bottom: 0;
@@ -3208,7 +3248,7 @@ html, body, #root, .app {
     }
 
     .chat-brand h2 {
-        font-size: 17px;
+        font-size: 18px;
     }
 
     .chat-header-actions {
@@ -3220,7 +3260,7 @@ html, body, #root, .app {
     }
 
     .suggestions button {
-        font-size: 12px;
+        font-size: 13px;
         padding: 6px 12px;
     }
 }
@@ -3264,7 +3304,7 @@ html, body, #root, .app {
     gap: 8px;
     flex-wrap: wrap;
     margin-top: 12px;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--fk-text-sub);
 }
 
@@ -3274,7 +3314,7 @@ html, body, #root, .app {
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 8px;
-    font-size: 11px;
+    font-size: 12px;
     border: 1px solid var(--primary-border);
 }
 
@@ -3320,14 +3360,14 @@ html, body, #root, .app {
 }
 
 .xai-stat-card span {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--fk-text-sub) !important;
     font-weight: 600;
     display: block;
 }
 
 .xai-stat-card h3 {
-    font-size: 20px;
+    font-size: 21.5px;
     font-weight: 800;
     color: var(--fk-text) !important;
     margin-top: 2px;
@@ -3335,7 +3375,7 @@ html, body, #root, .app {
 }
 
 .method-tag {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 800;
     padding: 4px 10px;
     border-radius: 8px;
@@ -3351,7 +3391,7 @@ html, body, #root, .app {
 }
 
 .xai-desc {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--fk-text-sub);
     line-height: 1.5;
     margin-bottom: 16px;
@@ -3372,7 +3412,7 @@ html, body, #root, .app {
     background: var(--fk-card);
     border: 1px solid var(--fk-border);
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 14px;
     transition: background 0.2s;
 }
 
@@ -3390,7 +3430,7 @@ html, body, #root, .app {
 }
 
 .lime-impact {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 800;
     padding: 3px 8px;
     border-radius: 6px;
@@ -3408,7 +3448,7 @@ html, body, #root, .app {
     border-radius: 8px;
     padding: 14px;
     color: var(--primary-light);
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.5;
 }
 
@@ -3446,14 +3486,14 @@ body {
 
 .page-title, .dashboard-header h1, h1.page-title {
     color: var(--fk-text) !important;
-    font-size: 24px;
+    font-size: 25.5px;
     font-weight: 800;
     margin-bottom: 6px;
 }
 
 .page-subtitle, .dashboard-header p {
     color: var(--fk-text-sub) !important;
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 16px;
 }
 
@@ -3488,7 +3528,7 @@ body {
 }
 
 .stat-label {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--fk-text-muted) !important;
     font-weight: 600;
     text-transform: uppercase;
@@ -3516,7 +3556,7 @@ body {
 
 .card-header h3, .card-title h3 {
     color: var(--fk-text) !important;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 700;
     font-family: "Outfit", "Plus Jakarta Sans", sans-serif;
 }
@@ -3697,7 +3737,7 @@ td {
 
 /* XAI & Badges Dark Mode */
 .method-tag {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 800;
     padding: 4px 10px;
     border-radius: 12px;
@@ -3730,7 +3770,7 @@ td {
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 12px;
-    font-size: 11px;
+    font-size: 12px;
     border: 1px solid #bbdefb;
 }
 
@@ -3746,7 +3786,7 @@ td {
     border-radius: 6px;
     padding: 14px;
     color: #1565c0;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.5;
 }
 
@@ -3972,7 +4012,7 @@ td {
     align-items: center;
     gap: 8px;
     white-space: nowrap;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--fk-text);
 }
@@ -4082,7 +4122,7 @@ td {
     -webkit-mask: radial-gradient(circle at center, transparent 56%, black 57%);
 }
 .iot-gauge-value {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 800;
     color: var(--fk-text);
     z-index: 1;
@@ -4099,7 +4139,7 @@ td {
     border-radius: 10px;
     border-left: 4px solid;
     margin-bottom: 8px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     animation: slide-in-top 0.3s var(--ease-spring);
 }
@@ -4153,7 +4193,7 @@ td {
     transform: translateY(-2px);
 }
 .calendar-month-name {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 800;
     color: var(--primary-light);
     margin-bottom: 10px;
@@ -4168,13 +4208,13 @@ td {
     align-items: flex-start;
     gap: 6px;
     padding: 4px 0;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--fk-text-sub);
     border-bottom: 1px dotted var(--fk-border);
 }
 .calendar-task-item:last-child { border-bottom: none; }
 .calendar-task-icon {
-    font-size: 14px;
+    font-size: 15px;
     flex-shrink: 0;
     margin-top: 1px;
 }
@@ -4183,7 +4223,7 @@ td {
 .admin-user-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13px;
+    font-size: 14px;
 }
 .admin-user-table th {
     background: var(--primary-surface);
@@ -4223,7 +4263,7 @@ td {
     display: flex;
     align-items: center;
     gap: 14px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     z-index: 9998;
@@ -4246,7 +4286,7 @@ td {
     padding: 8px 16px;
     border-radius: 8px;
     font-weight: 800;
-    font-size: 12px;
+    font-size: 13px;
     cursor: pointer;
     white-space: nowrap;
     transition: background var(--motion-fast) ease;

@@ -373,7 +373,7 @@ export default function AIChat({ user }) {
           padding: '10px 18px',
           borderRadius: '8px',
           fontWeight: 700,
-          fontSize: '13px',
+          fontSize: '14px',
           boxShadow: '0 10px 15px -3px rgba(0,0,0,0.2)',
           zIndex: 9999,
           display: 'flex',
@@ -394,7 +394,7 @@ export default function AIChat({ user }) {
             <Sprout size={24} color="#ffffff" />
           </div>
           <div>
-            <h2 style={{ fontSize: '17px', fontWeight: 800 }}>Sahayak AI Expert</h2>
+            <h2 style={{ fontSize: '18px', fontWeight: 800 }}>Sahayak AI Expert</h2>
             <span className="agent-badge" style={{ background: 'rgba(34, 197, 94, 0.2)', color: '#22c55e' }}>{activeAgent} Active</span>
           </div>
         </div>
@@ -439,7 +439,7 @@ export default function AIChat({ user }) {
         overflowX: 'auto',
         alignItems: 'center'
       }}>
-        <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--fk-text-sub, #94a3b8)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+        <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--fk-text-sub, #94a3b8)', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
           Specialist:
         </span>
         {[
@@ -462,7 +462,7 @@ export default function AIChat({ user }) {
                 border: isAct ? '1px solid #22c55e' : '1px solid var(--fk-border, #334155)',
                 background: isAct ? 'rgba(34, 197, 94, 0.15)' : 'transparent',
                 color: isAct ? '#4ade80' : 'var(--fk-text, #cbd5e1)',
-                fontSize: '12px',
+                fontSize: '13px',
                 fontWeight: isAct ? 800 : 500,
                 cursor: 'pointer',
                 whiteSpace: 'nowrap'
@@ -480,7 +480,7 @@ export default function AIChat({ user }) {
           backgroundColor: '#064e3b',
           color: '#a7f3d0',
           padding: '8px 16px',
-          fontSize: '13px',
+          fontSize: '14px',
           display: 'flex',
           alignItems: 'center',
           gap: '12px',
@@ -493,7 +493,7 @@ export default function AIChat({ user }) {
               backgroundColor: 'rgba(255,255,255,0.15)',
               padding: '2px 10px',
               borderRadius: '12px',
-              fontSize: '12px',
+              fontSize: '13px',
               fontWeight: 600
             }}>
               {pill}
@@ -520,7 +520,7 @@ export default function AIChat({ user }) {
                       {ttsSupported && ttsEnabled && (
                         <button
                           onClick={() => speakingIndex === idx ? stopSpeaking() : speakText(msg.text, idx)}
-                          style={{ background: 'none', border: 'none', color: speakingIndex === idx ? '#22c55e' : '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '11px' }}
+                          style={{ background: 'none', border: 'none', color: speakingIndex === idx ? '#22c55e' : '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px' }}
                           title={speakingIndex === idx ? "Stop speaking" : "Speak response"}
                         >
                           {speakingIndex === idx
@@ -530,7 +530,7 @@ export default function AIChat({ user }) {
                       )}
                       <button 
                         onClick={() => handleCopy(msg.text, idx)}
-                        style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '11px' }}
+                        style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px' }}
                         title="Copy response"
                       >
                         {copiedIndex === idx ? <Check size={13} style={{ color: '#16a34a' }} /> : <Copy size={13} />}
@@ -556,7 +556,7 @@ export default function AIChat({ user }) {
                         padding: '6px 14px',
                         borderRadius: '6px',
                         fontWeight: 700,
-                        fontSize: '12px',
+                        fontSize: '13px',
                         cursor: 'pointer',
                         display: 'inline-flex',
                         alignItems: 'center',
@@ -572,7 +572,7 @@ export default function AIChat({ user }) {
                       components={{
                         table: ({ ...props }) => (
                           <div style={{ overflowX: 'auto', margin: '12px 0', borderRadius: '8px', border: '1px solid var(--fk-border)' }}>
-                            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }} {...props} />
+                            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }} {...props} />
                           </div>
                         ),
                         th: ({ ...props }) => (
@@ -589,11 +589,11 @@ export default function AIChat({ user }) {
                       {msg.text}
                     </ReactMarkdown>
                     {msg.sources && msg.sources.length > 0 ? (
-                      <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px solid var(--fk-border)', fontSize: '11px', color: '#16a34a', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px solid var(--fk-border)', fontSize: '12px', color: '#16a34a', display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <span>🛡️ <strong>Data Trust Layer:</strong> Grounded in {msg.sources.join(" | ")}</span>
                       </div>
                     ) : (
-                      <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px solid var(--fk-border)', fontSize: '11px', color: '#d97706', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px solid var(--fk-border)', fontSize: '12px', color: '#d97706', display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <span>⚠️ <strong>Data Trust Notice:</strong> General agronomic advice; verify with local KVK before chemical application.</span>
                       </div>
                     )}

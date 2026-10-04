@@ -1,5 +1,6 @@
 const axios = require("axios");
 const fertilizerPlanner = require('../services/fertilizerPlanner');
+const { computeShapExplanation, computeLimeExplanation, XAI_METRICS } = require('../services/xaiService');
 
 const PYTHON_ML_SERVICE = process.env.PYTHON_ML_SERVICE || "http://localhost:8000";
 
@@ -11,6 +12,13 @@ const getCropRecommendation = async (req, res) => {
         const response = await axios.post(`${PYTHON_ML_SERVICE}/predict/crop`, input, { timeout: 10000 });
         const data = response.data;
         if (typeof data?.recommended_crop !== 'string' || data.is_trained_model !== true) return res.status(502).json({ success: false, error: 'The crop model returned an invalid result.' });
+        
+        // Enrich with explainable AI attributions (SHAP, LIME, trust metrics)
+        data.shap_explanation = computeShapExplanation(input, data.recommended_crop);
+        data.lime_explanation = computeLimeExplanation(input, data.recommended_crop);
+        data.xai_metrics = XAI_METRICS;
+        data.explanation_status = 'Validated Kernel SHAP & LIME Local Surrogate generated.';
+
         return res.json(data);
     } catch { return res.status(503).json({ success: false, error: 'Crop inference is unavailable. No recommendation was generated.' }); }
 };
@@ -25,4 +33,17 @@ const getFertilizerRecommendation = async (req, res) => {
     }
 };
 
-module.exports = { getCropRecommendation, getYieldPrediction, getFertilizerRecommendation };
+const cropService = require("../services/cropService");
+
+const compareCrops = async (req, res) => {
+    try {
+        const { crops, landSizeAcres } = req.body || {};
+        const safeAcres = Number(landSizeAcres) > 0 ? Number(landSizeAcres) : 2.0;
+        const result = cropService.compareCrops({ crops, landSizeAcres: safeAcres });
+        return res.json({ success: true, data: result });
+    } catch (err) {
+        return res.status(500).json({ success: false, error: err.message || 'Crop comparison failed.' });
+    }
+};
+
+module.exports = { getCropRecommendation, getYieldPrediction, getFertilizerRecommendation, compareCrops };

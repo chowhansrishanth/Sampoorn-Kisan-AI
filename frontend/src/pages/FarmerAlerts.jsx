@@ -41,15 +41,15 @@ export default function FarmerAlerts({ user }) {
           { label: "Advisories", count: alerts.filter(a => a.severity === "advisory").length, color: "#0284c7", bg: "rgba(2,132,199,0.10)" },
           { label: "Total Active", count: alerts.length, color: "#059669", bg: "rgba(16,185,129,0.10)" },
         ].map(p => (
-          <div key={p.label} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: p.bg, fontWeight: 700, fontSize: 13 }}>
-            <span style={{ color: p.color, fontSize: 18, fontWeight: 900 }}>{p.count}</span>
+          <div key={p.label} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: p.bg, fontWeight: 700, fontSize: 14 }}>
+            <span style={{ color: p.color, fontSize: 19.5, fontWeight: 900 }}>{p.count}</span>
             <span style={{ color: "var(--fk-text-sub)" }}>{p.label}</span>
           </div>
         ))}
         <button
           onClick={fetchAlerts}
           disabled={loading}
-          style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 10, background: "var(--fk-card)", border: "1px solid var(--fk-border)", fontWeight: 600, fontSize: 12, cursor: "pointer", color: "var(--fk-text-sub)" }}
+          style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 10, background: "var(--fk-card)", border: "1px solid var(--fk-border)", fontWeight: 600, fontSize: 13, cursor: "pointer", color: "var(--fk-text-sub)" }}
         >
           <RefreshCw size={13} style={{ animation: loading ? "spin 1s linear infinite" : "none" }} />
           Refresh
@@ -62,8 +62,8 @@ export default function FarmerAlerts({ user }) {
       ) : alerts.length === 0 ? (
         <PremiumCard style={{ textAlign: "center", padding: 40 }}>
           <CheckCircle2 size={40} color="#22c55e" style={{ margin: "0 auto 12px" }} />
-          <div style={{ fontWeight: 800, fontSize: 16, color: "var(--fk-text)" }}>All Clear! No active alerts.</div>
-          <div style={{ fontSize: 13, color: "#64748b", marginTop: 4 }}>Your farm is currently free of weather or pest warnings.</div>
+          <div style={{ fontWeight: 800, fontSize: 17, color: "var(--fk-text)" }}>All Clear! No active alerts.</div>
+          <div style={{ fontSize: 14, color: "#64748b", marginTop: 4 }}>Your farm is currently free of weather or pest warnings.</div>
         </PremiumCard>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
@@ -74,9 +74,9 @@ export default function FarmerAlerts({ user }) {
               <div key={alert.id} className={`alert-banner ${cfg.cls}`}>
                 <Icon size={18} style={{ flexShrink: 0, marginTop: 1 }} />
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{alert.title}</div>
-                  <div style={{ fontWeight: 400, fontSize: 12, lineHeight: 1.5 }}>{alert.message}</div>
-                  <div style={{ fontSize: 10, opacity: 0.6, marginTop: 4 }}>{new Date(alert.createdAt).toLocaleString()}</div>
+                  <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 2 }}>{alert.title}</div>
+                  <div style={{ fontWeight: 400, fontSize: 13, lineHeight: 1.5 }}>{alert.message}</div>
+                  <div style={{ fontSize: 11, opacity: 0.6, marginTop: 4 }}>{new Date(alert.createdAt).toLocaleString()}</div>
                 </div>
                 <button className="alert-dismiss-btn" onClick={() => dismiss(alert.id)} title="Dismiss alert">
                   <X size={14} />

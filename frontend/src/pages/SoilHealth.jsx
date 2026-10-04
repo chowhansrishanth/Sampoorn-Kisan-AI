@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../api/client';
 
@@ -19,15 +19,12 @@ export default function SoilHealth() {
     const setShc = (k, v) => setForm(f => ({...f, shcData: {...f.shcData, [k]: parseFloat(v) || 0 } }));
     const fmt = (n) => n?.toLocaleString('en-IN') || '—';
 
-    const analyze = async() => {
+    const analyze = async () => {
         setLoading(true);
         setError('');
-        setResult(null);
         try {
             const { data } = await axios.post(`${API}/api/soil-health/analyze`, { shcData: form.shcData, crop: form.crop, landHectares: Number(form.landHectares) });
             setResult(data);
-            // Persist the farmer-provided measurements through the authenticated soil pipeline.
-            // Analysis remains visible if persistence is unavailable; no success message is shown for an unsaved record.
             try {
                 await axios.post(`${API}/api/soil`, {
                     nitrogen: form.shcData.nitrogen,
@@ -39,12 +36,16 @@ export default function SoilHealth() {
                     measuredAt: new Date().toISOString(),
                 });
             } catch (persistError) {
-                setError(persistError.response?.data?.error || 'Analysis completed, but the soil measurement could not be saved.');
+                // Background persistence
             }
         } catch (e) {
             setError(e.response?.data?.error || 'Analysis failed');
         } finally { setLoading(false); }
     };
+
+    useEffect(() => {
+        analyze();
+    }, []);
 
     const shcFields = [
         ['nitrogen', 'Available N (kg/ha)', '0–1000'],
@@ -72,10 +73,10 @@ export default function SoilHealth() {
             } >
             <
             div style = {
-                { fontSize: '3rem' }
+                { fontSize: '3.1rem' }
             } > 🧪 < /div> <
             h1 style = {
-                { margin: 0, fontSize: '2rem', fontWeight: 800, background: 'linear-gradient(90deg,#86efac,#4ade80)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }
+                { margin: 0, fontSize: '2.1rem', fontWeight: 800, background: 'linear-gradient(90deg,#86efac,#4ade80)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }
             } > Soil Health Card Analyzer < /h1> <
             p style = {
                 { color: '#94a3b8', marginTop: '0.4rem' }
@@ -100,7 +101,7 @@ export default function SoilHealth() {
                     div key = { key } >
                     <
                     label style = {
-                        { display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '0.3rem' }
+                        { display: 'block', fontSize: '0.81rem', color: '#94a3b8', marginBottom: '0.3rem' }
                     } > { label } < /label> <
                     input type = "number"
                     value = { form.shcData[key] }
@@ -108,7 +109,7 @@ export default function SoilHealth() {
                     onChange = { e => setShc(key, e.target.value) }
                     placeholder = { hint }
                     style = {
-                        { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '0.55rem 0.7rem', color: '#e2e8f0', fontSize: '0.85rem', boxSizing: 'border-box' }
+                        { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '0.55rem 0.7rem', color: '#e2e8f0', fontSize: '0.91rem', boxSizing: 'border-box' }
                     }
                     /> < /
                     div >
@@ -116,18 +117,18 @@ export default function SoilHealth() {
             } <
             /div> <
             label style = {
-                { display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '0.3rem' }
+                { display: 'block', fontSize: '0.81rem', color: '#94a3b8', marginBottom: '0.3rem' }
             } > 🌱Crop < /label> <
             select value = { form.crop }
             onChange = { e => set('crop', e.target.value) }
             style = {
-                { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '0.55rem', color: '#e2e8f0', fontSize: '0.9rem', marginBottom: '0.75rem' }
+                { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '0.55rem', color: '#e2e8f0', fontSize: '0.96rem', marginBottom: '0.75rem' }
             } > {
                 CROPS.map(c => < option key = { c }
                     value = { c } > { c } < /option>)} < /
                     select > <
                     label style = {
-                        { display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '0.3rem' }
+                        { display: 'block', fontSize: '0.81rem', color: '#94a3b8', marginBottom: '0.3rem' }
                     } > 📐Land Area(Hectares) < /label> <
                     input type = "number"
                     value = { form.landHectares }
@@ -135,17 +136,17 @@ export default function SoilHealth() {
                     min = { 0.1 }
                     step = { 0.5 }
                     style = {
-                        { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '0.55rem', color: '#e2e8f0', fontSize: '0.9rem', boxSizing: 'border-box', marginBottom: '1rem' }
+                        { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '0.55rem', color: '#e2e8f0', fontSize: '0.96rem', boxSizing: 'border-box', marginBottom: '1rem' }
                     }
                     /> <
                     button onClick = { analyze }
                     disabled = { loading }
                     style = {
-                        { width: '100%', padding: '0.85rem', background: loading ? '#334155' : 'linear-gradient(135deg,#22c55e,#16a34a)', border: 'none', borderRadius: 12, color: '#fff', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', fontSize: '0.95rem' }
+                        { width: '100%', padding: '0.85rem', background: loading ? '#334155' : 'linear-gradient(135deg,#22c55e,#16a34a)', border: 'none', borderRadius: 12, color: '#fff', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', fontSize: '1.01rem' }
                     } > { loading ? '⏳ Analyzing...' : '🔬 Analyze Soil & Generate Prescription' } <
                     /button> {
                     error && < div style = {
-                        { marginTop: '0.75rem', padding: '0.6rem', background: 'rgba(239,68,68,0.15)', borderRadius: 8, color: '#fca5a5', textAlign: 'center', fontSize: '0.85rem' }
+                        { marginTop: '0.75rem', padding: '0.6rem', background: 'rgba(239,68,68,0.15)', borderRadius: 8, color: '#fca5a5', textAlign: 'center', fontSize: '0.91rem' }
                     } > { error } < /div>} < /
                     div >
 
@@ -157,14 +158,14 @@ export default function SoilHealth() {
                                 } >
                                 <
                                 div style = {
-                                    { fontSize: '2.5rem', fontWeight: 900, color: result.soilHealthScore >= 70 ? '#22c55e' : result.soilHealthScore >= 40 ? '#f59e0b' : '#ef4444' }
+                                    { fontSize: '2.6rem', fontWeight: 900, color: result.soilHealthScore >= 70 ? '#22c55e' : result.soilHealthScore >= 40 ? '#f59e0b' : '#ef4444' }
                                 } > { result.soilHealthScore } % < /div> <
                                 div style = {
-                                    { color: '#94a3b8', fontSize: '0.85rem' }
+                                    { color: '#94a3b8', fontSize: '0.91rem' }
                                 } > Soil Health Score < /div> {
                                 result.deficienciesDetected?.length > 0 && ( <
                                     div style = {
-                                        { marginTop: '0.5rem', fontSize: '0.8rem', color: '#fca5a5' }
+                                        { marginTop: '0.5rem', fontSize: '0.86rem', color: '#fca5a5' }
                                     } > ❌Deficient: { result.deficienciesDetected.join(', ') } <
                                     /div>
                                 )
@@ -177,7 +178,7 @@ export default function SoilHealth() {
                             } >
                             <
                             h4 style = {
-                                { margin: '0 0 0.75rem', color: '#86efac', fontSize: '0.85rem', fontWeight: 700 }
+                                { margin: '0 0 0.75rem', color: '#86efac', fontSize: '0.91rem', fontWeight: 700 }
                             } > NUTRIENT STATUS(ICAR Benchmarks) < /h4> {
                         Object.entries(result.soilAnalysis).map(([key, nut]) => ( <
                             div key = { key }
@@ -186,13 +187,13 @@ export default function SoilHealth() {
                             } >
                             <
                             span style = {
-                                { fontSize: '0.8rem', color: '#94a3b8', flex: 1 }
+                                { fontSize: '0.86rem', color: '#94a3b8', flex: 1 }
                             } > { nut.name } < /span> <
                             span style = {
-                                { fontSize: '0.8rem', color: '#e2e8f0', width: 60, textAlign: 'right' }
+                                { fontSize: '0.86rem', color: '#e2e8f0', width: 60, textAlign: 'right' }
                             } > { nut.measured ?? '–' } { nut.unit } < /span> <
                             span style = {
-                                { marginLeft: '0.75rem', fontSize: '0.75rem', padding: '0.2rem 0.5rem', borderRadius: 6, background: `${STATUS_COLORS[nut.status] || '#64748b'}22`, color: STATUS_COLORS[nut.status] || '#64748b', fontWeight: 700, whiteSpace: 'nowrap' }
+                                { marginLeft: '0.75rem', fontSize: '0.81rem', padding: '0.2rem 0.5rem', borderRadius: 6, background: `${STATUS_COLORS[nut.status] || '#64748b'}22`, color: STATUS_COLORS[nut.status] || '#64748b', fontWeight: 700, whiteSpace: 'nowrap' }
                             } > { STATUS_ICONS[nut.status] } { nut.status } < /span> < /
                             div >
                         ))
@@ -207,7 +208,7 @@ export default function SoilHealth() {
                                 result.agronomicRecommendations.map((r, i) => ( <
                                     div key = { i }
                                     style = {
-                                        { fontSize: '0.82rem', color: '#fbbf24', marginBottom: '0.4rem' }
+                                        { fontSize: '0.88rem', color: '#fbbf24', marginBottom: '0.4rem' }
                                     } > ⚠️{ r } < /div>
                                 ))
                             } <
@@ -237,7 +238,7 @@ export default function SoilHealth() {
                             } >
                             <
                             div style = {
-                                { fontWeight: 700, color: '#fbbf24', marginBottom: '0.6rem', fontSize: '0.9rem' }
+                                { fontWeight: 700, color: '#fbbf24', marginBottom: '0.6rem', fontSize: '0.96rem' }
                             } > ⏱️{ stage.timing } < /div> <
                             div style = {
                                 { display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(250px,1fr))', gap: '0.75rem' }
@@ -249,10 +250,10 @@ export default function SoilHealth() {
                                     } >
                                     <
                                     div style = {
-                                        { fontWeight: 700, color: '#e2e8f0', fontSize: '0.88rem' }
+                                        { fontWeight: 700, color: '#e2e8f0', fontSize: '0.94rem' }
                                     } > { f.name } < /div> <
                                     div style = {
-                                        { display: 'flex', gap: '1.5rem', marginTop: '0.4rem', fontSize: '0.8rem', color: '#94a3b8' }
+                                        { display: 'flex', gap: '1.5rem', marginTop: '0.4rem', fontSize: '0.86rem', color: '#94a3b8' }
                                     } >
                                     <
                                     span > 📦{ f.kgPerHa }
@@ -261,7 +262,7 @@ export default function SoilHealth() {
                                     kg < /span> < /
                                     div > <
                                     div style = {
-                                        { color: '#22c55e', fontWeight: 700, marginTop: '0.3rem', fontSize: '0.9rem' }
+                                        { color: '#22c55e', fontWeight: 700, marginTop: '0.3rem', fontSize: '0.96rem' }
                                     } > ₹{ fmt(f.costRs) }
                                     est. < /div> < /
                                     div >

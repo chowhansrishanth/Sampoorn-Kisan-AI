@@ -195,16 +195,19 @@ def explain_lime(req: CropPredictRequest):
 
 # ── Disease Diagnosis & Grad-CAM ─────────────────────────────────────────────
 @app.post("/diagnose/disease")
-async def diagnose_disease(file: Optional[UploadFile] = File(None)):
+async def diagnose_disease(
+    file: Optional[UploadFile] = File(None),
+    cropType: Optional[str] = Form("Tomato")
+):
     if vision_engine is None:
         raise HTTPException(status_code=503, detail="Disease model dependencies are not installed; no diagnosis was generated.")
     if file is None:
         raise HTTPException(status_code=400, detail="An image is required.")
     try:
-        contents = await file.read(10 * 1024 * 1024 + 1)
-        if len(contents) > 10 * 1024 * 1024:
-            raise HTTPException(status_code=413, detail="Image exceeds 10 MB.")
-        return await run_in_threadpool(vision_engine.diagnose_image, contents, file.filename)
+        contents = await file.read(20 * 1024 * 1024 + 1)
+        if len(contents) > 20 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="Image exceeds 20 MB.")
+        return await run_in_threadpool(vision_engine.diagnose_image, contents, file.filename, cropType)
     finally:
         await file.close()
 

@@ -26,7 +26,7 @@ export default function Footer() {
                 display: 'inline-flex', alignItems: 'center', gap: '8px', 
                 padding: '10px 20px', borderRadius: '8px', 
                 background: 'var(--primary-gradient)', border: 'none',
-                color: '#ffffff', fontSize: '13px', fontWeight: '700', cursor: 'pointer',
+                color: '#ffffff', fontSize: '14px', fontWeight: '700', cursor: 'pointer',
                 boxShadow: '0 2px 8px rgba(5, 150, 105, 0.3)',
                 transition: 'all 0.2s ease'
               }}
@@ -50,7 +50,7 @@ export default function Footer() {
         <div className="footer-links-col">
           <h4>FARMER RESOURCES</h4>
           <ul>
-            <li><Link to="/knowledge">PM-Kisan & Govt Subsidies</Link></li>
+            <li><Link to="/schemes">PM-Kisan & Govt Subsidies</Link></li>
             <li><Link to="/dashboard">Monsoon & Weather Radar</Link></li>
             <li><Link to="/knowledge">Fertilizer Dosing Guide</Link></li>
             <li><Link to="/knowledge">Organic Pest Control</Link></li>

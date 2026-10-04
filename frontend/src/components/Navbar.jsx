@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { LayoutDashboard, MessageCircle, ShieldCheck, Brain, Wheat, User, Globe, LogIn, LogOut, BookOpen, Settings, Search, MapPin, Sun, Moon, Menu, X, Sprout, Calendar, Bell, Wifi, Shield, Droplet, RotateCcw, FileText, Satellite, Truck, HeartPulse, Activity, TrendingUp, QrCode, Clock, FlaskConical, Leaf, SunMedium, Umbrella, Award } from "lucide-react";
+import { LayoutDashboard, MessageCircle, ShieldCheck, Brain, Wheat, User, Globe, LogIn, LogOut, BookOpen, Landmark, Settings, Search, MapPin, Sun, Moon, Menu, X, Sprout, Calendar, Bell, Wifi, Shield, Droplet, RotateCcw, FileText, Satellite, Truck, HeartPulse, Activity, TrendingUp, QrCode, Clock, FlaskConical, Leaf, SunMedium, Umbrella, Award } from "lucide-react";
 import ProfileModal from "./ProfileModal";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
@@ -8,12 +8,8 @@ import { useNetworkStatus } from "../utils/offlineSync";
 
 const LANGUAGES = [
   { code: "EN", name: "English" },
-  { code: "TE", name: "తెలుగు (Telugu)" },
   { code: "HI", name: "हिंदी (Hindi)" },
-  { code: "TA", name: "தமிழ் (Tamil)" },
-  { code: "KN", name: "ಕನ್ನಡ (Kannada)" },
-  { code: "MR", name: "मराठी (Marathi)" },
-  { code: "PA", name: "ਪੰਜਾਬੀ (Punjabi)" }
+  { code: "TE", name: "తెలుగు (Telugu)" }
 ];
 
 export default function Navbar({ onOpenAuth, user, onLogout, onUpdateUser }) {
@@ -68,7 +64,11 @@ export default function Navbar({ onOpenAuth, user, onLogout, onUpdateUser }) {
       navigate("/gdd-radar");
     } else if (query.includes("livestock") || query.includes("cattle") || query.includes("cow") || query.includes("buffalo") || query.includes("dairy") || query.includes("mastitis") || query.includes("fmd")) {
       navigate("/livestock");
-    } else if (query.includes("mandi") || query.includes("price") || query.includes("weather") || query.includes("dashboard")) {
+    } else if (query.includes("weather") || query.includes("rain") || query.includes("temperature") || query.includes("forecast")) {
+      navigate("/weather");
+    } else if (query.includes("mandi") || query.includes("price") || query.includes("market") || query.includes("rate") || query.includes("apmc")) {
+      navigate("/mandi");
+    } else if (query.includes("dashboard")) {
       navigate("/dashboard");
     } else if (query.includes("chat") || query.includes("sahayak") || query.includes("help") || query.includes("ask")) {
       navigate("/chat");
@@ -112,7 +112,7 @@ export default function Navbar({ onOpenAuth, user, onLogout, onUpdateUser }) {
             </div>
             <div className="fk-plus-tag fk-tag-desktop">
               <span>Agriculture Decision Support</span>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'rgba(34, 197, 94, 0.25)', color: '#4ade80', padding: '1px 6px', borderRadius: '10px', fontSize: '10px', fontWeight: 800, border: '1px solid rgba(34, 197, 94, 0.4)' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: 'rgba(34, 197, 94, 0.25)', color: '#4ade80', padding: '1px 6px', borderRadius: '10px', fontSize: '11px', fontWeight: 800, border: '1px solid rgba(34, 197, 94, 0.4)' }}>
                 <span className="dg-live-dot"></span> LIVE
               </span>
             </div>
@@ -156,7 +156,7 @@ export default function Navbar({ onOpenAuth, user, onLogout, onUpdateUser }) {
               gap: '6px',
               padding: '4px 10px',
               borderRadius: '20px',
-              fontSize: '11px',
+              fontSize: '12px',
               fontWeight: 700,
               background: isOnline ? 'rgba(34, 197, 94, 0.15)' : 'rgba(234, 179, 8, 0.18)',
               border: `1px solid ${isOnline ? 'rgba(34, 197, 94, 0.35)' : 'rgba(234, 179, 8, 0.45)'}`,
@@ -276,11 +276,18 @@ export default function Navbar({ onOpenAuth, user, onLogout, onUpdateUser }) {
           <span>{t('xai_visualizer', 'Explainable AI')}</span>
         </Link>
 
+        <Link to="/schemes" className={isActive("/schemes")} onClick={() => setMobileMenuOpen(false)}>
+          <div className="fk-category-icon-box">
+            <Landmark size={20} />
+          </div>
+          <span>{t('govt_schemes', 'Government Schemes & Subsidies')}</span>
+        </Link>
+
         <Link to="/knowledge" className={isActive("/knowledge")} onClick={() => setMobileMenuOpen(false)}>
           <div className="fk-category-icon-box">
             <BookOpen size={20} />
           </div>
-          <span>{t('govt_schemes', 'Government Schemes & Loans')}</span>
+          <span>{t('knowledge_hub', 'Knowledge Hub')}</span>
         </Link>
 
         <Link to="/benchmark" className={isActive("/benchmark")} onClick={() => setMobileMenuOpen(false)}>
@@ -478,8 +485,8 @@ export default function Navbar({ onOpenAuth, user, onLogout, onUpdateUser }) {
                   <User size={18} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontWeight: 700, fontSize: '14px', color: 'var(--fk-text)' }}>{getGreeting()}, {user.name}</div>
-                  <div style={{ fontSize: '12px', color: 'var(--fk-text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ fontWeight: 700, fontSize: '15px', color: 'var(--fk-text)' }}>{getGreeting()}, {user.name}</div>
+                  <div style={{ fontSize: '13px', color: 'var(--fk-text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <MapPin size={11} /> {user.location || 'India'}
                   </div>
                 </div>
@@ -509,9 +516,13 @@ export default function Navbar({ onOpenAuth, user, onLogout, onUpdateUser }) {
                 <Brain size={18} style={{ color: '#ec4899' }} />
                 <span>{t('xai_visualizer', 'Explainable AI (SHAP & LIME)')}</span>
               </Link>
+              <Link to="/schemes" className={isDrawerActive("/schemes")} onClick={() => setMobileMenuOpen(false)}>
+                <Landmark size={18} style={{ color: '#2563eb' }} />
+                <span>{t('govt_schemes', 'Government Schemes & Subsidies')}</span>
+              </Link>
               <Link to="/knowledge" className={isDrawerActive("/knowledge")} onClick={() => setMobileMenuOpen(false)}>
-                <BookOpen size={18} style={{ color: '#f59e0b' }} />
-                <span>{t('govt_schemes', 'Government Schemes & KCC Loans')}</span>
+                <BookOpen size={18} style={{ color: '#16a34a' }} />
+                <span>{t('knowledge_hub', 'Farmer Knowledge Hub')}</span>
               </Link>
               <Link to="/benchmark" className={isDrawerActive("/benchmark")} onClick={() => setMobileMenuOpen(false)}>
                 <Sprout size={18} style={{ color: '#10b981' }} />

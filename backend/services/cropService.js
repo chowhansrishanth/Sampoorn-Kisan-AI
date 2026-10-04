@@ -75,11 +75,33 @@ class CropService {
             "Cotton": { water: "Medium", duration: "160-210 days", costPerAcre: 22000, risk: "Medium-High", yieldPerAcre: 10, pricePerQtl: 7120, suitability: "Best for deep Black soils" },
             "Maize": { water: "Medium", duration: "95-110 days", costPerAcre: 16000, risk: "Low-Medium", yieldPerAcre: 26, pricePerQtl: 2225, suitability: "Ideal for well-drained loamy soils" },
             "Soybean": { water: "Medium", duration: "95-105 days", costPerAcre: 15000, risk: "Low", yieldPerAcre: 11, pricePerQtl: 4892, suitability: "Excellent monsoon cash crop" },
-            "Green Gram": { water: "Very Low", duration: "60-75 days", costPerAcre: 9500, risk: "Low", yieldPerAcre: 6, pricePerQtl: 8558, suitability: "Shortest duration drought crop" }
+            "Green Gram": { water: "Very Low", duration: "60-75 days", costPerAcre: 9500, risk: "Low", yieldPerAcre: 6, pricePerQtl: 8558, suitability: "Shortest duration drought crop" },
+            "Paddy": { water: "High", duration: "120-145 days", costPerAcre: 24000, risk: "Medium", yieldPerAcre: 25, pricePerQtl: 2300, suitability: "Clay and heavy alluvial soils with standing water" },
+            "Wheat": { water: "Medium", duration: "115-130 days", costPerAcre: 17000, risk: "Low", yieldPerAcre: 22, pricePerQtl: 2275, suitability: "Loamy and alluvial soils during Rabi" },
+            "Mustard": { water: "Low", duration: "90-105 days", costPerAcre: 11000, risk: "Low", yieldPerAcre: 9, pricePerQtl: 5650, suitability: "Light to heavy loams with good drainage" },
+            "Groundnut": { water: "Medium", duration: "105-125 days", costPerAcre: 19000, risk: "Medium", yieldPerAcre: 12, pricePerQtl: 6377, suitability: "Sandy loam & red friable soils with calcium" },
+            "Black Gram": { water: "Low", duration: "70-85 days", costPerAcre: 10500, risk: "Low", yieldPerAcre: 7, pricePerQtl: 7400, suitability: "Loamy to clay loam soils" },
+            "Chilli": { water: "Medium", duration: "150-180 days", costPerAcre: 38000, risk: "High", yieldPerAcre: 16, pricePerQtl: 16500, suitability: "Well-drained black & red loamy soils" },
+            "Tomato": { water: "Medium", duration: "90-120 days", costPerAcre: 32000, risk: "Medium-High", yieldPerAcre: 120, pricePerQtl: 1400, suitability: "Rich loamy soils with pH 6.0-7.0" },
+            "Pearl Millet": { water: "Very Low", duration: "75-85 days", costPerAcre: 8500, risk: "Very Low", yieldPerAcre: 14, pricePerQtl: 2625, suitability: "Sandy, arid, or shallow infertile soils" },
+            "Chickpea": { water: "Low", duration: "95-115 days", costPerAcre: 13000, risk: "Low", yieldPerAcre: 9, pricePerQtl: 5440, suitability: "Clay loam and black soils with residual moisture" },
+            "Sugarcane": { water: "Very High", duration: "300-360 days", costPerAcre: 46000, risk: "Medium", yieldPerAcre: 380, pricePerQtl: 315, suitability: "Deep fertile alluvial & clayey loams" },
+            "Onion": { water: "Medium-High", duration: "110-130 days", costPerAcre: 28000, risk: "Medium-High", yieldPerAcre: 85, pricePerQtl: 1800, suitability: "Well-drained friable loamy soils" }
         };
 
-        const comparisonList = crops.map(cName => {
-            const data = CROP_COMPARISON_DB[cName] || CROP_COMPARISON_DB["Maize"];
+        const findCropData = (name) => {
+            if (!name) return CROP_COMPARISON_DB["Maize"];
+            const clean = name.toLowerCase().trim();
+            for (const [key, val] of Object.entries(CROP_COMPARISON_DB)) {
+                if (key.toLowerCase() === clean || clean.includes(key.toLowerCase()) || key.toLowerCase().includes(clean)) {
+                    return val;
+                }
+            }
+            return CROP_COMPARISON_DB["Maize"];
+        };
+
+        const comparisonList = (crops && crops.length ? crops : ["Red Gram", "Cotton", "Maize", "Green Gram"]).map(cName => {
+            const data = findCropData(cName);
             const totalCost = data.costPerAcre * landSizeAcres;
             const totalYield = data.yieldPerAcre * landSizeAcres;
             const revenue = totalYield * data.pricePerQtl;
@@ -213,12 +235,12 @@ class CropService {
      */
     getCropTimelineAndRisk({ crop = "Paddy", sowingDate = "2026-07-01" }) {
         const timeline = [
-          { phase: "Day 0 - Sowing & Nursery", activity: "Seed treatment with Trichoderma viride @ 5g/kg seed. Prepare nursery beds." },
-          { phase: "Day 15 - Transplanting", activity: "Transplant 20-25 day old seedlings at 20x15 cm spacing. Apply base NPK dose." },
-          { phase: "Day 35 - Tillering & Vegetative", activity: "First weeding + Urea top-dressing @ 25kg/acre. Maintain 3cm water depth." },
-          { phase: "Day 65 - Panicle Initiation & Flowering", activity: "Foliar spray 13:0:45 @ 5g/L water. Monitor for neck blast and stem borer." },
-          { phase: "Day 95 - Grain Filling & Dough Stage", activity: "Maintain saturated soil condition. Avoid heavy flooding." },
-          { phase: "Day 115 - Drain & Prepare Harvest", activity: "Drain water 10 days prior to harvest. Harvest when 85% grains turn golden yellow." }
+            { phase: "Day 0 - Sowing & Nursery", activity: "Seed treatment with Trichoderma viride @ 5g/kg seed. Prepare nursery beds." },
+            { phase: "Day 15 - Transplanting", activity: "Transplant 20-25 day old seedlings at 20x15 cm spacing. Apply base NPK dose." },
+            { phase: "Day 35 - Tillering & Vegetative", activity: "First weeding + Urea top-dressing @ 25kg/acre. Maintain 3cm water depth." },
+            { phase: "Day 65 - Panicle Initiation & Flowering", activity: "Foliar spray 13:0:45 @ 5g/L water. Monitor for neck blast and stem borer." },
+            { phase: "Day 95 - Grain Filling & Dough Stage", activity: "Maintain saturated soil condition. Avoid heavy flooding." },
+            { phase: "Day 115 - Drain & Prepare Harvest", activity: "Drain water 10 days prior to harvest. Harvest when 85% grains turn golden yellow." }
         ];
 
         const riskMatrix = {
@@ -363,7 +385,7 @@ class CropService {
     }
 
     getProfitabilityAnalysis(lang = "EN") {
-        let tableRows = PROFITABILITY_RISK_MATRIX.map(item => 
+        let tableRows = PROFITABILITY_RISK_MATRIX.map(item =>
             `| **${item.crop}** | ${item.profit} | ${item.risk} | ${item.water} | ${item.duration} |`
         ).join("\n");
 

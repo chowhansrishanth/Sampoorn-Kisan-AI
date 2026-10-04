@@ -30,13 +30,13 @@ export default function MandiArbitrageWidget({ defaultCommodity = "Tomato", defa
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
             <div>
-              <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+              <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                 Commodity
               </label>
               <select
                 value={commodity}
                 onChange={(e) => setCommodity(e.target.value)}
-                style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
               >
                 <option value="Tomato">Tomato (Horticulture)</option>
                 <option value="Onion">Onion (Rabi / Kharif)</option>
@@ -50,13 +50,13 @@ export default function MandiArbitrageWidget({ defaultCommodity = "Tomato", defa
             </div>
 
             <div>
-              <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+              <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                 State APMC Zone
               </label>
               <select
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
               >
                 <option value="Telangana">Telangana (Warangal / Hyderabad)</option>
                 <option value="Punjab">Punjab (Khanna / Ludhiana)</option>
@@ -65,7 +65,7 @@ export default function MandiArbitrageWidget({ defaultCommodity = "Tomato", defa
             </div>
 
             <div>
-              <label style={{ fontSize: "11px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
+              <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "4px" }}>
                 Harvest Consignment (Quintals)
               </label>
               <input
@@ -74,7 +74,7 @@ export default function MandiArbitrageWidget({ defaultCommodity = "Tomato", defa
                 max="500"
                 value={quantity}
                 onChange={(e) => setQuantity(Number(e.target.value) || 10)}
-                style={{ width: "110px", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "13px" }}
+                style={{ width: "110px", padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontWeight: "700", fontSize: "14px" }}
               />
             </div>
           </div>
@@ -93,16 +93,16 @@ export default function MandiArbitrageWidget({ defaultCommodity = "Tomato", defa
               <Award size={24} />
             </div>
             <div>
-              <div style={{ fontSize: "11px", fontWeight: "800", textTransform: "uppercase", color: "#15803d", letterSpacing: "0.05em" }}>
+              <div style={{ fontSize: "12px", fontWeight: "800", textTransform: "uppercase", color: "#15803d", letterSpacing: "0.05em" }}>
                 Optimal APMC Market Recommendation
               </div>
-              <div style={{ fontSize: "16px", fontWeight: "800", color: "var(--fk-text, #0f172a)" }}>
+              <div style={{ fontSize: "17px", fontWeight: "800", color: "var(--fk-text, #0f172a)" }}>
                 {arbitrageData.recommendation}
               </div>
             </div>
           </div>
           {bestDay && (
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "var(--fk-card, #ffffff)", padding: "8px 14px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", fontSize: "12px", color: "var(--fk-text, #0f172a)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "var(--fk-card, #ffffff)", padding: "8px 14px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", fontSize: "13px", color: "var(--fk-text, #0f172a)" }}>
               <Calendar size={16} color="#2563eb" />
               <span>
                 Peak Selling Day: <strong>{bestDay.day} ({bestDay.date})</strong> at <strong>₹{bestDay.expectedPrice}/Qtl</strong>
@@ -117,7 +117,7 @@ export default function MandiArbitrageWidget({ defaultCommodity = "Tomato", defa
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <TrendingUp size={22} style={{ color: "#15803d" }} />
-            <h3 style={{ fontSize: "17px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
+            <h3 style={{ fontSize: "18px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
               7-Day APMC Price Forecast (₹/Quintal)
             </h3>
           </div>
@@ -148,17 +148,17 @@ export default function MandiArbitrageWidget({ defaultCommodity = "Tomato", defa
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Scale size={22} style={{ color: "#2563eb" }} />
-            <h3 style={{ fontSize: "17px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
+            <h3 style={{ fontSize: "18px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
               Multi-Market Arbitrage & Net Return Matrix ({quantity} Quintals)
             </h3>
           </div>
-          <span style={{ fontSize: "12px", color: "var(--fk-text-sub, #64748b)" }}>
+          <span style={{ fontSize: "13px", color: "var(--fk-text-sub, #64748b)" }}>
             Diesel Transit @ ₹18/km • APMC Cess Included
           </span>
         </div>
 
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "14px" }}>
             <thead>
               <tr style={{ borderBottom: "2px solid var(--fk-border, #e2e8f0)", color: "var(--fk-text-sub, #64748b)" }}>
                 <th style={{ padding: "12px 10px" }}>APMC Mandi</th>
@@ -180,7 +180,7 @@ export default function MandiArbitrageWidget({ defaultCommodity = "Tomato", defa
                       <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                         {isWinner && <Award size={16} color="#15803d" />}
                         {mandi.mandiName}
-                        {isWinner && <span style={{ fontSize: "10px", background: "#15803d", color: "#ffffff", padding: "1px 6px", borderRadius: "4px", fontWeight: "800" }}>BEST CHOICE</span>}
+                        {isWinner && <span style={{ fontSize: "11px", background: "#15803d", color: "#ffffff", padding: "1px 6px", borderRadius: "4px", fontWeight: "800" }}>BEST CHOICE</span>}
                       </div>
                     </td>
                     <td style={{ padding: "12px 10px", color: "var(--fk-text-sub, #64748b)" }}>
@@ -198,7 +198,7 @@ export default function MandiArbitrageWidget({ defaultCommodity = "Tomato", defa
                     <td style={{ padding: "12px 10px", color: "#d97706" }}>
                       -₹{(mandi.apmcCess + mandi.loadingCharges).toLocaleString()}
                     </td>
-                    <td style={{ padding: "12px 10px", fontWeight: "800", color: isWinner ? "#15803d" : "#0f172a", fontSize: "14px" }}>
+                    <td style={{ padding: "12px 10px", fontWeight: "800", color: isWinner ? "#15803d" : "#0f172a", fontSize: "15px" }}>
                       ₹{mandi.netProfit.toLocaleString()}
                     </td>
                     <td style={{ padding: "12px 10px", fontWeight: "700", color: isWinner ? "#15803d" : "var(--fk-text-sub, #64748b)" }}>

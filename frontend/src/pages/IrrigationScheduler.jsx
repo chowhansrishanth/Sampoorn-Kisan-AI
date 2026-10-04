@@ -16,11 +16,52 @@ export default function IrrigationScheduler({user}) {
   const [acres, setAcres] = useState(2.5);
   const [pumpHp, setPumpHp] = useState("5");
   const [irrigationType, setIrrigationType] = useState("drip");
-  const [context,setContext]=useState({lat:user?.farmProfile?.location?.lat??'',lon:user?.farmProfile?.location?.lon??'',initialDeficitMm:'',pumpFlowLph:''});
-  const [request,setRequest]=useState(null);
-  const [validation,setValidation]=useState('');
-  const {data,loading,error,reload}=useApiResource(request);
-  const fetchSchedule=()=>{if(Object.values(context).some(v=>v===''||!Number.isFinite(Number(v)))){setValidation('Enter coordinates, estimated initial deficit and measured pump flow.');return;}setValidation('');setRequest({method:'post',url:'/api/irrigation/calculate',data:{crop,stage,soil,landAcres:Number(acres),pumpHp,irrigationType,...Object.fromEntries(Object.entries(context).map(([k,v])=>[k,Number(v)]))}});};
+  const initialLat = user?.farmProfile?.location?.lat ?? 17.3850;
+  const initialLon = user?.farmProfile?.location?.lon ?? 78.4867;
+  const [context, setContext] = useState({
+    lat: initialLat,
+    lon: initialLon,
+    initialDeficitMm: 12,
+    pumpFlowLph: 15000
+  });
+  const [request, setRequest] = useState({
+    method: 'post',
+    url: '/api/irrigation/calculate',
+    data: {
+      crop: "Wheat",
+      stage: "vegetative",
+      soil: "black",
+      landAcres: 2.5,
+      pumpHp: "5",
+      irrigationType: "drip",
+      lat: Number(initialLat),
+      lon: Number(initialLon),
+      initialDeficitMm: 12,
+      pumpFlowLph: 15000
+    }
+  });
+  const [validation, setValidation] = useState('');
+  const { data, loading, error, reload } = useApiResource(request);
+  const fetchSchedule = () => {
+    if (Object.values(context).some(v => v === '' || !Number.isFinite(Number(v)))) {
+      setValidation('Enter coordinates, estimated initial deficit and measured pump flow.');
+      return;
+    }
+    setValidation('');
+    setRequest({
+      method: 'post',
+      url: '/api/irrigation/calculate',
+      data: {
+        crop,
+        stage,
+        soil,
+        landAcres: Number(acres),
+        pumpHp,
+        irrigationType,
+        ...Object.fromEntries(Object.entries(context).map(([k, v]) => [k, Number(v)]))
+      }
+    });
+  };
 
   const summary = data?.weeklySummary;
 
@@ -50,13 +91,13 @@ export default function IrrigationScheduler({user}) {
       <PremiumCard style={{ marginBottom: "24px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "16px" }}>
           <div>
-            <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
+            <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
               Target Crop
             </label>
             <select
               value={crop}
               onChange={(e) => setCrop(e.target.value)}
-              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "14px", fontWeight: "600" }}
+              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "15px", fontWeight: "600" }}
             >
               <option value="Wheat">Wheat (Rabi)</option>
               <option value="Rice">Paddy / Rice (Kharif)</option>
@@ -70,13 +111,13 @@ export default function IrrigationScheduler({user}) {
           </div>
 
           <div>
-            <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
+            <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
               Growth Stage
             </label>
             <select
               value={stage}
               onChange={(e) => setStage(e.target.value)}
-              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "14px", fontWeight: "600" }}
+              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "15px", fontWeight: "600" }}
             >
               <option value="initial">Initial (Germination / Seedling)</option>
               <option value="vegetative">Vegetative (Rapid Leaf Growth)</option>
@@ -86,13 +127,13 @@ export default function IrrigationScheduler({user}) {
           </div>
 
           <div>
-            <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
+            <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
               Soil Type
             </label>
             <select
               value={soil}
               onChange={(e) => setSoil(e.target.value)}
-              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "14px", fontWeight: "600" }}
+              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "15px", fontWeight: "600" }}
             >
               <option value="black">Deep Black Cotton Soil (High Retention)</option>
               <option value="alluvial">Alluvial Loam (Balanced Retention)</option>
@@ -102,13 +143,13 @@ export default function IrrigationScheduler({user}) {
           </div>
 
           <div>
-            <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
+            <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
               Irrigation Method
             </label>
             <select
               value={irrigationType}
               onChange={(e) => setIrrigationType(e.target.value)}
-              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "14px", fontWeight: "600" }}
+              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "15px", fontWeight: "600" }}
             >
               <option value="drip">Drip Irrigation (90% Efficiency)</option>
               <option value="sprinkler">Micro-Sprinkler (75% Efficiency)</option>
@@ -117,7 +158,7 @@ export default function IrrigationScheduler({user}) {
           </div>
 
           <div>
-            <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
+            <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
               Plot Area (Acres)
             </label>
             <input
@@ -127,18 +168,18 @@ export default function IrrigationScheduler({user}) {
               step="0.5"
               value={acres}
               onChange={(e) => setAcres(Number(e.target.value) || 1)}
-              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "14px", fontWeight: "600" }}
+              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "15px", fontWeight: "600" }}
             />
           </div>
 
           <div>
-            <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
+            <label style={{ fontSize: "13px", fontWeight: "700", color: "var(--fk-text-sub, #64748b)", display: "block", marginBottom: "6px" }}>
               Pump Motor Power
             </label>
             <select
               value={pumpHp}
               onChange={(e) => setPumpHp(e.target.value)}
-              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "14px", fontWeight: "600" }}
+              style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", border: "1px solid var(--fk-border, #e2e8f0)", background: "var(--fk-card, #ffffff)", color: "var(--fk-text, #0f172a)", fontSize: "15px", fontWeight: "600" }}
             >
               <option value="3">3 HP Submersible (~18,000 L/hr)</option>
               <option value="5">5 HP Submersible (~30,000 L/hr)</option>
@@ -191,7 +232,7 @@ export default function IrrigationScheduler({user}) {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Calendar size={22} style={{ color: "#2563eb" }} />
-            <h3 style={{ fontSize: "18px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
+            <h3 style={{ fontSize: "19.5px", fontWeight: "800", color: "var(--fk-text, #0f172a)", margin: 0, fontFamily: "Outfit, sans-serif" }}>
               7-Day Smart Irrigation Action Plan
             </h3>
           </div>
@@ -199,7 +240,7 @@ export default function IrrigationScheduler({user}) {
         </div>
 
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "14px" }}>
             <thead>
               <tr style={{ borderBottom: "2px solid var(--fk-border, #e2e8f0)", color: "var(--fk-text-sub, #64748b)" }}>
                 <th style={{ padding: "12px 10px" }}>Day & Date</th>
@@ -221,7 +262,7 @@ export default function IrrigationScheduler({user}) {
                   <tr key={idx} style={{ borderBottom: "1px solid var(--fk-border, #e2e8f0)", background: bg }}>
                     <td style={{ padding: "12px 10px", fontWeight: "700", color: "var(--fk-text, #0f172a)" }}>
                       <div>{item.day}</div>
-                      <div style={{ fontSize: "11px", color: "var(--fk-text-sub, #64748b)", fontWeight: "normal" }}>{item.date}</div>
+                      <div style={{ fontSize: "12px", color: "var(--fk-text-sub, #64748b)", fontWeight: "normal" }}>{item.date}</div>
                     </td>
                     <td style={{ padding: "12px 10px" }}>
                       {item.tempMax}°C / {item.tempMin}°C

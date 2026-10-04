@@ -48,9 +48,9 @@ export default function CropCalendar() {
       {/* Crop selector */}
       <PremiumCard style={{ marginBottom: 20 }}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center" }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: "var(--fk-text-sub)", marginRight: 4 }}>Select Crop:</span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: "var(--fk-text-sub)", marginRight: 4 }}>Select Crop:</span>
           {loading ? (
-            <span style={{ fontSize: 13, color: "#64748b" }}>Loading crops…</span>
+            <span style={{ fontSize: 14, color: "#64748b" }}>Loading crops…</span>
           ) : crops.map(c => (
             <button
               key={c.key}
@@ -62,7 +62,7 @@ export default function CropCalendar() {
                 background: selectedCrop === c.key ? "#22c55e" : "var(--fk-card)",
                 color: selectedCrop === c.key ? "#ffffff" : "var(--fk-text-sub)",
                 fontWeight: 700,
-                fontSize: 12,
+                fontSize: 13,
                 cursor: "pointer",
                 transition: "all 0.15s ease",
               }}
@@ -70,7 +70,7 @@ export default function CropCalendar() {
           ))}
         </div>
         {calendar && (
-          <div style={{ marginTop: 10, fontSize: 12, color: "#64748b" }}>
+          <div style={{ marginTop: 10, fontSize: 13, color: "#64748b" }}>
             📅 Season: <strong>{calendar.season}</strong>
           </div>
         )}
@@ -89,7 +89,7 @@ export default function CropCalendar() {
               background: filter === f ? "rgba(34,197,94,0.12)" : "var(--fk-card)",
               color: filter === f ? "#16a34a" : "#64748b",
               fontWeight: 600,
-              fontSize: 11,
+              fontSize: 12,
               cursor: "pointer",
             }}
           >
@@ -116,10 +116,10 @@ export default function CropCalendar() {
                 <div className="calendar-month-name">
                   {isCurrent ? "📍 " : ""}
                   {month}
-                  {isCurrent && <span style={{ marginLeft: "auto", fontSize: 10, background: "#22c55e", color: "#fff", padding: "1px 6px", borderRadius: 8 }}>Now</span>}
+                  {isCurrent && <span style={{ marginLeft: "auto", fontSize: 11, background: "#22c55e", color: "#fff", padding: "1px 6px", borderRadius: 8 }}>Now</span>}
                 </div>
                 {tasks.length === 0 ? (
-                  <div style={{ fontSize: 11, color: "#94a3b8", padding: "4px 0" }}>{filter !== "all" ? "No " + filter + " tasks" : "No tasks scheduled"}</div>
+                  <div style={{ fontSize: 12, color: "#94a3b8", padding: "4px 0" }}>{filter !== "all" ? "No " + filter + " tasks" : "No tasks scheduled"}</div>
                 ) : tasks.map((t, i) => (
                   <div key={i} className="calendar-task-item">
                     <span className="calendar-task-icon">{TASK_ICONS[t.type]?.icon || "📋"}</span>
@@ -127,7 +127,7 @@ export default function CropCalendar() {
                   </div>
                 ))}
                 {raw.length > 0 && filter !== "all" && tasks.length === 0 && (
-                  <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 4 }}>{raw.length} other task(s)</div>
+                  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>{raw.length} other task(s)</div>
                 )}
               </div>
             );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../api/client';
 
@@ -17,10 +17,9 @@ export default function YieldPredictor() {
 
     const set = (k, v) => setForm(f => ({...f, [k]: v }));
 
-    const predict = async() => {
+    const predict = async () => {
         setLoading(true);
         setError('');
-        setResult(null);
         try {
             const { data } = await axios.post(`${API}/api/yield/predict`, form);
             setResult(data);
@@ -28,6 +27,10 @@ export default function YieldPredictor() {
             setError(e.response?.data?.error || 'Prediction failed');
         } finally { setLoading(false); }
     };
+
+    useEffect(() => {
+        predict();
+    }, []);
 
     const fmt = (n) => n?.toLocaleString('en-IN') || '—';
 
@@ -44,10 +47,10 @@ export default function YieldPredictor() {
         } >
         <
         div style = {
-            { fontSize: '3rem', marginBottom: '0.5rem' }
+            { fontSize: '3.1rem', marginBottom: '0.5rem' }
         } > 🌾 < /div> <
         h1 style = {
-            { fontSize: '2rem', fontWeight: 800, background: 'linear-gradient(90deg,#22c55e,#86efac)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: 0 }
+            { fontSize: '2.1rem', fontWeight: 800, background: 'linear-gradient(90deg,#22c55e,#86efac)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: 0 }
         } >
         Crop Yield & Revenue Predictor <
         /h1> <
@@ -62,7 +65,7 @@ export default function YieldPredictor() {
         } >
         <
         h2 style = {
-            { margin: '0 0 1.5rem', color: '#22c55e', fontSize: '1.1rem', fontWeight: 700 }
+            { margin: '0 0 1.5rem', color: '#22c55e', fontSize: '1.2rem', fontWeight: 700 }
         } > 📋Crop & Farm Details < /h2> <
         div style = {
             { display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: '1.2rem' }
@@ -78,13 +81,13 @@ export default function YieldPredictor() {
                     div key = { key } >
                     <
                     label style = {
-                        { display: 'block', fontSize: '0.82rem', color: '#94a3b8', marginBottom: '0.4rem', fontWeight: 600 }
+                        { display: 'block', fontSize: '0.88rem', color: '#94a3b8', marginBottom: '0.4rem', fontWeight: 600 }
                     } > { label } < /label> {
                     type === 'select' ? ( <
                         select value = { form[key] }
                         onChange = { e => set(key, e.target.value) }
                         style = {
-                            { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '0.65rem', color: '#e2e8f0', fontSize: '0.9rem' }
+                            { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '0.65rem', color: '#e2e8f0', fontSize: '0.96rem' }
                         } > {
                             options.map(o => < option key = { o }
                                 value = { o } > { o } < /option>)} < /
@@ -96,7 +99,7 @@ export default function YieldPredictor() {
                                 min = { 0.1 }
                                 step = { 0.5 }
                                 style = {
-                                    { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '0.65rem', color: '#e2e8f0', fontSize: '0.9rem', boxSizing: 'border-box' }
+                                    { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '0.65rem', color: '#e2e8f0', fontSize: '0.96rem', boxSizing: 'border-box' }
                                 }
                                 />
                             )
@@ -108,7 +111,7 @@ export default function YieldPredictor() {
             button onClick = { predict }
             disabled = { loading }
             style = {
-                { marginTop: '1.5rem', width: '100%', padding: '0.9rem', background: loading ? '#334155' : 'linear-gradient(135deg,#22c55e,#16a34a)', border: 'none', borderRadius: 12, color: '#fff', fontSize: '1rem', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', transition: 'all 0.3s' }
+                { marginTop: '1.5rem', width: '100%', padding: '0.9rem', background: loading ? '#334155' : 'linear-gradient(135deg,#22c55e,#16a34a)', border: 'none', borderRadius: 12, color: '#fff', fontSize: '1.06rem', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', transition: 'all 0.3s' }
             } > { loading ? '⏳ Predicting...' : '🚀 Predict Yield & Revenue' } <
             /button> {
             error && < div style = {
@@ -125,15 +128,15 @@ export default function YieldPredictor() {
                     } >
                     <
                     span style = {
-                        { fontSize: '1.8rem' }
+                        { fontSize: '1.9rem' }
                     } > { result.riskLevel === 'low' ? '🟢' : result.riskLevel === 'medium' ? '🟡' : '🔴' } < /span> <
                     div >
                     <
                     div style = {
-                        { fontWeight: 800, color: riskColor[result.riskLevel], fontSize: '1rem' }
+                        { fontWeight: 800, color: riskColor[result.riskLevel], fontSize: '1.06rem' }
                     } > Climate Risk: { result.riskLevel.toUpperCase() } < /div> <
                     div style = {
-                        { color: '#94a3b8', fontSize: '0.85rem' }
+                        { color: '#94a3b8', fontSize: '0.91rem' }
                     } > { result.climateScenario } < /div> < /
                     div > <
                     div style = {
@@ -141,10 +144,10 @@ export default function YieldPredictor() {
                     } >
                     <
                     div style = {
-                        { fontSize: '2rem', fontWeight: 800, color: '#22c55e' }
+                        { fontSize: '2.1rem', fontWeight: 800, color: '#22c55e' }
                     } > { result.yieldPrediction.yieldEfficiencyPercent } % < /div> <
                     div style = {
-                        { color: '#94a3b8', fontSize: '0.8rem' }
+                        { color: '#94a3b8', fontSize: '0.86rem' }
                     } > Yield Efficiency < /div> < /
                     div > <
                     /div>
@@ -165,16 +168,16 @@ export default function YieldPredictor() {
                             } >
                             <
                             div style = {
-                                { fontSize: '1.8rem' }
+                                { fontSize: '1.9rem' }
                             } > { icon } < /div> <
                             div style = {
-                                { color: '#94a3b8', fontSize: '0.78rem', marginTop: '0.4rem', fontWeight: 600 }
+                                { color: '#94a3b8', fontSize: '0.84rem', marginTop: '0.4rem', fontWeight: 600 }
                             } > { label } < /div> <
                             div style = {
-                                { color: '#22c55e', fontSize: '1.1rem', fontWeight: 800, marginTop: '0.3rem' }
+                                { color: '#22c55e', fontSize: '1.2rem', fontWeight: 800, marginTop: '0.3rem' }
                             } > { value } < /div> <
                             div style = {
-                                { color: '#64748b', fontSize: '0.75rem' }
+                                { color: '#64748b', fontSize: '0.81rem' }
                             } > { sub } < /div> < /
                             div >
                         ))
@@ -196,7 +199,7 @@ export default function YieldPredictor() {
                         } >
                         <
                         span style = {
-                            { color: '#e2e8f0', fontWeight: i === 1 ? 700 : 400, fontSize: '0.9rem' }
+                            { color: '#e2e8f0', fontWeight: i === 1 ? 700 : 400, fontSize: '0.96rem' }
                         } > { s.label } < /span> <
                         div style = {
                             { textAlign: 'right' }
@@ -206,7 +209,7 @@ export default function YieldPredictor() {
                             { color: '#22c55e', fontWeight: 700 }
                         } > ₹{ fmt(s.revenue) } < /div> <
                         div style = {
-                            { color: '#64748b', fontSize: '0.8rem' }
+                            { color: '#64748b', fontSize: '0.86rem' }
                         } > { fmt(s.yieldQtl) }
                         Qtl < /div> < /
                         div > <
@@ -224,7 +227,7 @@ export default function YieldPredictor() {
                     { margin: '0 0 0.75rem', color: '#818cf8' }
                 } > 🛡️PMFBY Insurance Summary < /h3> <
                 div style = {
-                    { color: '#c7d2fe', fontSize: '0.9rem', lineHeight: 1.8 }
+                    { color: '#c7d2fe', fontSize: '0.96rem', lineHeight: 1.8 }
                 } >
                 <
                 div > Total Sum Insured: < strong > ₹{ fmt(result.pmfbyInsurance.totalSumInsuredRs) } < /strong></div >

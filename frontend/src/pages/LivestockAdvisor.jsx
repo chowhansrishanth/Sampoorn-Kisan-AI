@@ -101,17 +101,17 @@ export default function LivestockAdvisor() {
             color: "#fbbf24",
             padding: "4px 14px",
             borderRadius: "20px",
-            fontSize: "12px",
+            fontSize: "13px",
             fontWeight: 700,
             marginBottom: "0.8rem"
           }}
         >
           <Sparkles size={14} /> ICAR & IVRI VETERINARY DECISION SUPPORT
         </div>
-        <h1 style={{ fontSize: "2.2rem", fontWeight: 900, margin: "0 0 0.5rem 0", letterSpacing: "-0.02em" }}>
+        <h1 style={{ fontSize: "2.3rem", fontWeight: 900, margin: "0 0 0.5rem 0", letterSpacing: "-0.02em" }}>
           Livestock & Dairy Health Advisor
         </h1>
-        <p style={{ color: "var(--fk-text-sub, #94a3b8)", fontSize: "1rem", maxWidth: "720px", margin: "0 auto" }}>
+        <p style={{ color: "var(--fk-text-sub, #94a3b8)", fontSize: "1.06rem", maxWidth: "720px", margin: "0 auto" }}>
           Instant symptom triage, ICAR-standard balanced dairy feed ration calculator, and national vaccination schedules for cattle, buffaloes, sheep, and goats.
         </p>
       </div>
@@ -134,7 +134,7 @@ export default function LivestockAdvisor() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <ShieldAlert size={22} color="#f87171" />
-          <span style={{ fontSize: "13px", fontWeight: 700 }}>
+          <span style={{ fontSize: "14px", fontWeight: 700 }}>
             Toll-Free National Animal Health & Emergency Helpline:
           </span>
         </div>
@@ -148,7 +148,7 @@ export default function LivestockAdvisor() {
             color: "#ffffff",
             padding: "6px 16px",
             borderRadius: "20px",
-            fontSize: "14px",
+            fontSize: "15px",
             fontWeight: 800,
             textDecoration: "none"
           }}
@@ -175,7 +175,7 @@ export default function LivestockAdvisor() {
             color: activeTab === "triage" ? "#22c55e" : "var(--fk-text-sub, #94a3b8)",
             padding: "10px 18px",
             fontWeight: 800,
-            fontSize: "14px",
+            fontSize: "15px",
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
@@ -194,7 +194,7 @@ export default function LivestockAdvisor() {
             color: activeTab === "ration" ? "#38bdf8" : "var(--fk-text-sub, #94a3b8)",
             padding: "10px 18px",
             fontWeight: 800,
-            fontSize: "14px",
+            fontSize: "15px",
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
@@ -213,7 +213,7 @@ export default function LivestockAdvisor() {
             color: activeTab === "vaccination" ? "#a855f7" : "var(--fk-text-sub, #94a3b8)",
             padding: "10px 18px",
             fontWeight: 800,
-            fontSize: "14px",
+            fontSize: "15px",
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
@@ -236,7 +236,7 @@ export default function LivestockAdvisor() {
               marginBottom: "2rem"
             }}
           >
-            <h2 style={{ fontSize: "1.2rem", fontWeight: 800, margin: "0 0 1rem 0" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, margin: "0 0 1rem 0" }}>
               Select Animal Species & Observed Clinical Signs
             </h2>
 
@@ -253,7 +253,7 @@ export default function LivestockAdvisor() {
                     background: species === sp ? "rgba(34, 197, 94, 0.15)" : "var(--fk-card, #0f172a)",
                     color: species === sp ? "#4ade80" : "var(--fk-text, #ffffff)",
                     fontWeight: 700,
-                    fontSize: "13px",
+                    fontSize: "14px",
                     cursor: "pointer"
                   }}
                 >
@@ -264,7 +264,7 @@ export default function LivestockAdvisor() {
 
             {/* Common Symptom Chips */}
             <div style={{ marginBottom: "1.4rem" }}>
-              <label style={{ fontSize: "12px", fontWeight: 700, color: "var(--fk-text-sub, #94a3b8)", display: "block", marginBottom: "8px" }}>
+              <label style={{ fontSize: "13px", fontWeight: 700, color: "var(--fk-text-sub, #94a3b8)", display: "block", marginBottom: "8px" }}>
                 COMMON SYMPTOMS (CLICK TO SELECT)
               </label>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
@@ -281,7 +281,7 @@ export default function LivestockAdvisor() {
                         background: isSelected ? "#22c55e" : "var(--fk-card, #0f172a)",
                         color: isSelected ? "#052e16" : "var(--fk-text, #ffffff)",
                         fontWeight: isSelected ? 800 : 500,
-                        fontSize: "12px",
+                        fontSize: "13px",
                         cursor: "pointer",
                         transition: "all 0.15s ease"
                       }}
@@ -295,7 +295,7 @@ export default function LivestockAdvisor() {
 
             {/* Freeform Notes */}
             <div style={{ marginBottom: "1.4rem" }}>
-              <label style={{ fontSize: "12px", fontWeight: 700, color: "var(--fk-text-sub, #94a3b8)", display: "block", marginBottom: "6px" }}>
+              <label style={{ fontSize: "13px", fontWeight: 700, color: "var(--fk-text-sub, #94a3b8)", display: "block", marginBottom: "6px" }}>
                 ADDITIONAL FIELD OBSERVATIONS (OPTIONAL)
               </label>
               <textarea
@@ -310,7 +310,7 @@ export default function LivestockAdvisor() {
                   background: "var(--fk-card, #0f172a)",
                   border: "1px solid var(--fk-border, #334155)",
                   color: "var(--fk-text, #ffffff)",
-                  fontSize: "13px",
+                  fontSize: "14px",
                   outline: "none",
                   boxSizing: "border-box"
                 }}
@@ -318,7 +318,7 @@ export default function LivestockAdvisor() {
             </div>
 
             {triageError && (
-              <div style={{ color: "#f87171", fontSize: "13px", marginBottom: "1rem" }}>
+              <div style={{ color: "#f87171", fontSize: "14px", marginBottom: "1rem" }}>
                 {triageError}
               </div>
             )}
@@ -333,7 +333,7 @@ export default function LivestockAdvisor() {
                 padding: "10px 24px",
                 borderRadius: "10px",
                 fontWeight: 900,
-                fontSize: "14px",
+                fontSize: "15px",
                 cursor: "pointer"
               }}
             >
@@ -358,7 +358,7 @@ export default function LivestockAdvisor() {
                     style={{
                       background: triageResult.primaryDiagnosis.severity === "Emergency" ? "#dc2626" : "#f59e0b",
                       color: "#ffffff",
-                      fontSize: "11px",
+                      fontSize: "12px",
                       fontWeight: 800,
                       padding: "3px 10px",
                       borderRadius: "12px",
@@ -367,22 +367,22 @@ export default function LivestockAdvisor() {
                   >
                     {triageResult.primaryDiagnosis.severity} ALERT
                   </span>
-                  <h3 style={{ fontSize: "1.5rem", fontWeight: 900, margin: "0.5rem 0 0.2rem 0" }}>
+                  <h3 style={{ fontSize: "1.6rem", fontWeight: 900, margin: "0.5rem 0 0.2rem 0" }}>
                     {triageResult.primaryDiagnosis.name}
                   </h3>
-                  <div style={{ fontSize: "13px", color: "var(--fk-text-sub, #94a3b8)" }}>
+                  <div style={{ fontSize: "14px", color: "var(--fk-text-sub, #94a3b8)" }}>
                     Match Confidence: <strong>{triageResult.primaryDiagnosis.matchConfidence}%</strong>
                   </div>
                 </div>
 
                 <div style={{ textAlign: "right" }}>
-                  <span style={{ fontSize: "12px", color: "#94a3b8", display: "block" }}>Urgency Protocol</span>
+                  <span style={{ fontSize: "13px", color: "#94a3b8", display: "block" }}>Urgency Protocol</span>
                   <strong style={{ color: "#f87171" }}>{triageResult.primaryDiagnosis.urgency}</strong>
                 </div>
               </div>
 
               {/* Clinical Description */}
-              <p style={{ fontSize: "14px", lineHeight: 1.5, color: "var(--fk-text, #ffffff)", marginBottom: "1.4rem" }}>
+              <p style={{ fontSize: "15px", lineHeight: 1.5, color: "var(--fk-text, #ffffff)", marginBottom: "1.4rem" }}>
                 {triageResult.primaryDiagnosis.symptoms}
               </p>
 
@@ -396,10 +396,10 @@ export default function LivestockAdvisor() {
                   marginBottom: "1.4rem"
                 }}
               >
-                <h4 style={{ margin: "0 0 0.8rem 0", fontSize: "14px", fontWeight: 800, color: "#4ade80", display: "flex", alignItems: "center", gap: "8px" }}>
+                <h4 style={{ margin: "0 0 0.8rem 0", fontSize: "15px", fontWeight: 800, color: "#4ade80", display: "flex", alignItems: "center", gap: "8px" }}>
                   <CheckCircle size={16} /> Immediate Veterinary First-Aid Protocol
                 </h4>
-                <ul style={{ margin: 0, paddingLeft: "1.2rem", fontSize: "13px", lineHeight: 1.6 }}>
+                <ul style={{ margin: 0, paddingLeft: "1.2rem", fontSize: "14px", lineHeight: 1.6 }}>
                   {triageResult.primaryDiagnosis.firstAid.map((step, idx) => (
                     <li key={idx} style={{ marginBottom: "4px" }}>
                       {step}
@@ -409,7 +409,7 @@ export default function LivestockAdvisor() {
               </div>
 
               {/* Prevention Advice */}
-              <div style={{ fontSize: "13px", color: "var(--fk-text-sub, #94a3b8)" }}>
+              <div style={{ fontSize: "14px", color: "var(--fk-text-sub, #94a3b8)" }}>
                 <strong>Long-Term Prevention:</strong> {triageResult.primaryDiagnosis.prevention}
               </div>
             </div>
@@ -429,12 +429,12 @@ export default function LivestockAdvisor() {
               border: "1px solid var(--fk-border, #334155)"
             }}
           >
-            <h2 style={{ fontSize: "1.2rem", fontWeight: 800, margin: "0 0 1.2rem 0" }}>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, margin: "0 0 1.2rem 0" }}>
               Milch Animal Parameters
             </h2>
 
             <div style={{ marginBottom: "1.2rem" }}>
-              <label style={{ fontSize: "12px", fontWeight: 700, display: "block", marginBottom: "6px" }}>
+              <label style={{ fontSize: "13px", fontWeight: 700, display: "block", marginBottom: "6px" }}>
                 ANIMAL SPECIES
               </label>
               <select
@@ -455,7 +455,7 @@ export default function LivestockAdvisor() {
             </div>
 
             <div style={{ marginBottom: "1.2rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", fontWeight: 700, marginBottom: "4px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", fontWeight: 700, marginBottom: "4px" }}>
                 <span>BODY WEIGHT</span>
                 <span style={{ color: "#38bdf8" }}>{rationParams.bodyWeightKg} kg</span>
               </div>
@@ -471,7 +471,7 @@ export default function LivestockAdvisor() {
             </div>
 
             <div style={{ marginBottom: "1.2rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", fontWeight: 700, marginBottom: "4px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", fontWeight: 700, marginBottom: "4px" }}>
                 <span>DAILY MILK YIELD</span>
                 <span style={{ color: "#22c55e" }}>{rationParams.milkYieldLiters} Liters / day</span>
               </div>
@@ -487,7 +487,7 @@ export default function LivestockAdvisor() {
             </div>
 
             <div style={{ marginBottom: "1.2rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", fontWeight: 700, marginBottom: "4px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px", fontWeight: 700, marginBottom: "4px" }}>
                 <span>MILK FAT PERCENTAGE</span>
                 <span style={{ color: "#facc15" }}>{rationParams.fatPercentage}%</span>
               </div>
@@ -513,7 +513,7 @@ export default function LivestockAdvisor() {
                 padding: "10px",
                 borderRadius: "8px",
                 fontWeight: 900,
-                fontSize: "14px",
+                fontSize: "15px",
                 cursor: "pointer"
               }}
             >
@@ -531,48 +531,48 @@ export default function LivestockAdvisor() {
                 border: "1px solid var(--fk-border, #334155)"
               }}
             >
-              <h3 style={{ fontSize: "1.2rem", fontWeight: 800, margin: "0 0 1rem 0", color: "#38bdf8" }}>
+              <h3 style={{ fontSize: "1.3rem", fontWeight: 800, margin: "0 0 1rem 0", color: "#38bdf8" }}>
                 Recommended Daily Feed (Fresh Weight Basis)
               </h3>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "1.4rem" }}>
                 <div style={{ background: "rgba(34, 197, 94, 0.1)", border: "1px solid rgba(34, 197, 94, 0.25)", padding: "12px", borderRadius: "10px" }}>
-                  <div style={{ fontSize: "11px", color: "#86efac", fontWeight: 700 }}>GREEN FODDER</div>
-                  <div style={{ fontSize: "1.5rem", fontWeight: 900, color: "#22c55e" }}>
+                  <div style={{ fontSize: "12px", color: "#86efac", fontWeight: 700 }}>GREEN FODDER</div>
+                  <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#22c55e" }}>
                     {rationResult.dailyDietRecommendations.feedIngredientsFreshWeight.greenFodderKg} kg
                   </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8" }}>Hybrid Napier / Sorghum</div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8" }}>Hybrid Napier / Sorghum</div>
                 </div>
 
                 <div style={{ background: "rgba(245, 158, 11, 0.1)", border: "1px solid rgba(245, 158, 11, 0.25)", padding: "12px", borderRadius: "10px" }}>
-                  <div style={{ fontSize: "11px", color: "#fde047", fontWeight: 700 }}>DRY STRAW / BHUSA</div>
-                  <div style={{ fontSize: "1.5rem", fontWeight: 900, color: "#f59e0b" }}>
+                  <div style={{ fontSize: "12px", color: "#fde047", fontWeight: 700 }}>DRY STRAW / BHUSA</div>
+                  <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#f59e0b" }}>
                     {rationResult.dailyDietRecommendations.feedIngredientsFreshWeight.dryStrawKg} kg
                   </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8" }}>Paddy / Wheat straw</div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8" }}>Paddy / Wheat straw</div>
                 </div>
 
                 <div style={{ background: "rgba(56, 189, 248, 0.1)", border: "1px solid rgba(56, 189, 248, 0.25)", padding: "12px", borderRadius: "10px" }}>
-                  <div style={{ fontSize: "11px", color: "#7dd3fc", fontWeight: 700 }}>CONCENTRATE PELLET</div>
-                  <div style={{ fontSize: "1.5rem", fontWeight: 900, color: "#38bdf8" }}>
+                  <div style={{ fontSize: "12px", color: "#7dd3fc", fontWeight: 700 }}>CONCENTRATE PELLET</div>
+                  <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#38bdf8" }}>
                     {rationResult.dailyDietRecommendations.feedIngredientsFreshWeight.concentratePelletKg} kg
                   </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8" }}>Cattle feed (20% CP)</div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8" }}>Cattle feed (20% CP)</div>
                 </div>
 
                 <div style={{ background: "rgba(168, 85, 247, 0.1)", border: "1px solid rgba(168, 85, 247, 0.25)", padding: "12px", borderRadius: "10px" }}>
-                  <div style={{ fontSize: "11px", color: "#d8b4fe", fontWeight: 700 }}>MINERAL MIXTURE</div>
-                  <div style={{ fontSize: "1.5rem", fontWeight: 900, color: "#c084fc" }}>
+                  <div style={{ fontSize: "12px", color: "#d8b4fe", fontWeight: 700 }}>MINERAL MIXTURE</div>
+                  <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#c084fc" }}>
                     {rationResult.dailyDietRecommendations.feedIngredientsFreshWeight.mineralMixtureGrams} g
                   </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8" }}>+ 35g common salt</div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8" }}>+ 35g common salt</div>
                 </div>
               </div>
 
               {/* Water Requirement */}
               <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 14px", borderRadius: "10px", background: "rgba(255,255,255,0.04)" }}>
                 <Droplets size={20} color="#38bdf8" />
-                <span style={{ fontSize: "13px" }}>
+                <span style={{ fontSize: "14px" }}>
                   Estimated clean drinking water requirement: <strong>{rationResult.dailyDietRecommendations.feedIngredientsFreshWeight.cleanWaterLitersEstimate} Liters / day</strong>
                 </span>
               </div>
@@ -594,19 +594,19 @@ export default function LivestockAdvisor() {
               marginBottom: "2rem"
             }}
           >
-            <h3 style={{ fontSize: "1.2rem", fontWeight: 800, margin: "0 0 0.8rem 0", color: "#22c55e" }}>
+            <h3 style={{ fontSize: "1.3rem", fontWeight: 800, margin: "0 0 0.8rem 0", color: "#22c55e" }}>
               🪱 Strategic Deworming Protocol
             </h3>
-            <p style={{ fontSize: "13px", color: "var(--fk-text-sub, #94a3b8)", margin: "0 0 1rem 0" }}>
+            <p style={{ fontSize: "14px", color: "var(--fk-text-sub, #94a3b8)", margin: "0 0 1rem 0" }}>
               Internal parasites suppress milk yield and immune antibody synthesis. Always deworm 10–14 days prior to seasonal vaccination.
             </p>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "10px" }}>
               {vaccinationData?.dewormingSchedule?.map((d, i) => (
                 <div key={i} style={{ padding: "10px 14px", borderRadius: "10px", background: "rgba(255,255,255,0.03)", border: "1px solid var(--fk-border, #1e293b)" }}>
-                  <div style={{ fontSize: "12px", fontWeight: 800, color: "#fbbf24" }}>{d.timing}</div>
-                  <div style={{ fontSize: "13px", fontWeight: 700, margin: "4px 0" }}>{d.drug}</div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8" }}>Target: {d.target}</div>
+                  <div style={{ fontSize: "13px", fontWeight: 800, color: "#fbbf24" }}>{d.timing}</div>
+                  <div style={{ fontSize: "14px", fontWeight: 700, margin: "4px 0" }}>{d.drug}</div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8" }}>Target: {d.target}</div>
                 </div>
               ))}
             </div>
@@ -621,11 +621,11 @@ export default function LivestockAdvisor() {
               border: "1px solid var(--fk-border, #334155)"
             }}
           >
-            <h3 style={{ fontSize: "1.2rem", fontWeight: 800, margin: "0 0 1rem 0", color: "#a855f7" }}>
+            <h3 style={{ fontSize: "1.3rem", fontWeight: 800, margin: "0 0 1rem 0", color: "#a855f7" }}>
               💉 National Livestock Immunization Schedule
             </h3>
             <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "14px" }}>
                 <thead>
                   <tr style={{ background: "rgba(255,255,255,0.04)", borderBottom: "1px solid var(--fk-border, #334155)" }}>
                     <th style={{ padding: "10px 14px", textAlign: "left" }}>Disease</th>
@@ -642,7 +642,7 @@ export default function LivestockAdvisor() {
                       <td style={{ padding: "12px 14px", color: "#94a3b8" }}>{v.target}</td>
                       <td style={{ padding: "12px 14px", textAlign: "center", fontWeight: 700, color: "#38bdf8" }}>{v.firstDoseAge}</td>
                       <td style={{ padding: "12px 14px" }}>{v.boosterInterval}</td>
-                      <td style={{ padding: "12px 14px", color: "#4ade80", fontSize: "12px" }}>{v.scheme}</td>
+                      <td style={{ padding: "12px 14px", color: "#4ade80", fontSize: "13px" }}>{v.scheme}</td>
                     </tr>
                   ))}
                 </tbody>

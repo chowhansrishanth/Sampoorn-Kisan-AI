@@ -35,6 +35,12 @@ export const getFertilizerRecommendation = (payload) =>
   handleResponse(api.post('/api/crop/fertilizer', payload));
 
 /**
+ * Compare two or more crops side-by-side with dynamic land size
+ */
+export const compareCropsApi = (payload) =>
+  handleResponse(api.post('/api/crop/compare', payload));
+
+/**
  * Upload leaf image for disease diagnosis with Grad-CAM heatmap visualization.
  */
 export const uploadDiseaseImage = (imageFile, cropType = "Tomato", symptomsText = "") => {
