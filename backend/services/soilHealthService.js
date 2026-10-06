@@ -1,8 +1,53 @@
-'use strict';
 /**
- * Soil Health Card (SHC) Analysis & Tailored NPK + Micronutrient Prescription
- * Interprets SHC test values against ICAR/STCR benchmarks, diagnoses deficiencies,
- * and generates precise fertilizer dosage schedules by crop and growth stage.
+ * ============================================================================
+ * SOIL HEALTH CARD (SHC) ANALYSIS & TAILORED NPK + MICRONUTRIENT PRESCRIPTION
+ * ============================================================================
+ * Interprets laboratory Soil Health Card test values against ICAR/STCR
+ * (Soil Test Crop Response) empirical calibration equations, diagnoses macro
+ * and micro-nutrient deficiencies, and computes precise fertilizer dosage.
+ *
+ * ----------------------------------------------------------------------------
+ * MATHEMATICAL FORMULATION & AGRONOMIC EQUATIONS:
+ * ----------------------------------------------------------------------------
+ *
+ * 1. NUTRIENT STATUS CLASSIFICATION:
+ *    Let $V_i$ be the tested soil concentration of nutrient $i$, with low threshold
+ *    $\theta_{\text{low}}$ and medium threshold $\theta_{\text{med}}$:
+ *
+ *      Status(V_i) = 'deficient'   if V_i < theta_low
+ *                  = 'medium'      if theta_low <= V_i < theta_med
+ *                  = 'sufficient'  if V_i >= theta_med
+ *
+ * 2. STCR ADJUSTED NUTRIENT REQUIREMENTS (kg/ha):
+ *    Based on ICAR soil test calibration coefficients:
+ *
+ *      N_req = 0.70 * N_crop   if Status(N) = 'sufficient'  (-30% reduction)
+ *            = 0.85 * N_crop   if Status(N) = 'medium'      (-15% reduction)
+ *            = 1.00 * N_crop   if Status(N) = 'deficient'   (100% full dose)
+ *
+ *      P_req = 0.50 * P_crop   if Status(P) = 'sufficient'  (-50% reduction)
+ *            = 0.75 * P_crop   if Status(P) = 'medium'      (-25% reduction)
+ *            = 1.00 * P_crop   if Status(P) = 'deficient'   (100% full dose)
+ *
+ *      K_req = 0.50 * K_crop   if Status(K) = 'sufficient'  (-50% reduction)
+ *            = 0.75 * K_crop   if Status(K) = 'medium'      (-25% reduction)
+ *            = 1.00 * K_crop   if Status(K) = 'deficient'   (100% full dose)
+ *
+ * 3. FERTILIZER COMMERCIAL CARRIER STOICHIOMETRY:
+ *    Converts elemental/oxide nutrient demand into standard 50 kg commercial bags:
+ *
+ *      - Urea (46% elemental N):
+ *          Urea_kg_ha = (N_req / 0.46)
+ *      - DAP (Diammonium Phosphate: 18% N, 46% P2O5):
+ *          DAP_kg_ha = (P_req / 0.46)
+ *      - MOP (Muriate of Potash: 60% K2O):
+ *          MOP_kg_ha = (K_req / 0.60)
+ *
+ * 4. OVERALL SOIL HEALTH INDEX (SHI):
+ *    Normalized percentage of tested macro & micro nutrients in the 'sufficient' range:
+ *
+ *      SHI = ( sum_{i=1}^{M} I(Status(V_i) == 'sufficient') / M ) * 100%
+ * ============================================================================
  */
 
 // ICAR soil nutrient sufficiency ranges

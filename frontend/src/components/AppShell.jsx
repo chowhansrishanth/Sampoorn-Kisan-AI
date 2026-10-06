@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Bot, Sprout, ScanLine, CloudSun, TrendingUp, Landmark, BookOpen, Brain, Bell, Settings, Menu, X, PanelLeftClose, PanelLeftOpen, Search, LogOut, Sun, Moon, ChevronDown, MapPin, Calendar, Droplet, FlaskConical, Calculator, RotateCcw, Wallet, Satellite, Tractor, HeartPulse, QrCode, Thermometer, Leaf, Shield, Award, Radio } from 'lucide-react';
+import { LayoutDashboard, Bot, Sprout, ScanLine, CloudSun, TrendingUp, Landmark, BookOpen, Brain, Bell, Settings, Menu, X, PanelLeftClose, PanelLeftOpen, Search, LogOut, Sun, Moon, ChevronDown, MapPin, Calendar, Droplet, FlaskConical, Calculator, RotateCcw, Wallet, Satellite, Tractor, HeartPulse, QrCode, Thermometer, Leaf, Shield, Award } from 'lucide-react';
 import ProfileModal from './ProfileModal';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -39,7 +39,6 @@ const toolLinks = [
   ['/solar-pump', 'Solar Pump', Sun, 'tool_solar_pump'],
   ['/crop-insurance', 'Crop Insurance', Shield, 'tool_insurance'],
   ['/carbon-credits', 'Carbon Credits', Award, 'tool_carbon'],
-  ['/iot', 'IoT Telemetry', Radio, 'tool_iot'],
 ];
 
 export default function AppShell({ user, onLogout, onUpdateUser, children }) {

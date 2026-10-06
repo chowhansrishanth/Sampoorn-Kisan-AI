@@ -1,3 +1,21 @@
+/**
+ * ============================================================================
+ * FULL-STACK DEVELOPMENT ORCHESTRATION SUPERVISOR (`scripts/dev.js`)
+ * ============================================================================
+ * Coordinates the local development lifecycle across all three system layers:
+ *   1. ML Service (FastAPI / Uvicorn on port 8000 via scripts/devMl.js)
+ *   2. Backend API (Node.js / Express on port 5000)
+ *   3. Frontend Client (Vite / React on port 5173)
+ *
+ * KEY RESPONSIBILITIES FOR DEVELOPERS:
+ *   - Cross-Platform Virtual Environment Resolution: Locates Python `.venv`
+ *     on Windows (`Scripts/python.exe`) or POSIX (`bin/python`).
+ *   - Startup Dependency Gating: Polls `http://127.0.0.1:5000/health` with a
+ *     25-second timeout to ensure backend services are ready before starting Vite.
+ *   - Process Tree Supervision: Ensures graceful cleanup on Windows using
+ *     `taskkill /pid <PID> /t /f` and forwarding SIGINT/SIGTERM signals.
+ * ============================================================================
+ */
 const { spawn } = require("child_process");
 const path = require("path");
 const fs = require("fs");

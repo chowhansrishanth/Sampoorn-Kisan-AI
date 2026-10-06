@@ -58,7 +58,6 @@ export const TRANSLATIONS = {
     tool_solar_pump: "Solar Pump",
     tool_insurance: "Crop Insurance",
     tool_carbon: "Carbon Credits",
-    tool_iot: "IoT Telemetry",
 
     // Dashboard Header & Greetings
     greeting_morning: "Good Morning",
@@ -68,7 +67,8 @@ export const TRANSLATIONS = {
     dash_badge: "Farm Decision Command Center",
     dash_header_title: "Crop Lifecycle & Day-Wise Operations",
     dash_subtitle: "Complete crop agronomy, interactive day-wise field calendar, and targeted pesticide protection schedule.",
-    refresh_telemetry: "Refresh Telemetry",
+    refresh_data: "Refresh Data",
+    refresh_telemetry: "Refresh Data",
 
     // Crop Selector Bar
     active_crop_selector: "Active Crop Selector",
@@ -292,7 +292,6 @@ export const TRANSLATIONS = {
     tool_solar_pump: "सोलर पंप योजना",
     tool_insurance: "फसल बीमा (PMFBY)",
     tool_carbon: "कार्बन क्रेडिट",
-    tool_iot: "आईओटी टेलीमेट्री",
 
     // Dashboard Header & Greetings
     greeting_morning: "शुभ प्रभात",
@@ -302,6 +301,7 @@ export const TRANSLATIONS = {
     dash_badge: "कृषि निर्णय कमांड सेंटर",
     dash_header_title: "फसल जीवनचक्र और दैनिक कार्य संचालन",
     dash_subtitle: "संपूर्ण फसल कृषि विज्ञान, इंटरएक्टिव दैनिक कार्य कैलेंडर और लक्षित कीटनाशक छिड़काव समय सारणी।",
+    refresh_data: "डेटा रीफ्रेश करें",
     refresh_telemetry: "डेटा रीफ्रेश करें",
 
     // Crop Selector Bar
@@ -526,7 +526,6 @@ export const TRANSLATIONS = {
     tool_solar_pump: "సోలార్ పంప్ పథకం",
     tool_insurance: "పంట బీమా (PMFBY)",
     tool_carbon: "కార్బన్ క్రెడిట్స్",
-    tool_iot: "IoT టెలిమెట్రీ",
 
     // Dashboard Header & Greetings
     greeting_morning: "శుభోదయం",
@@ -536,6 +535,7 @@ export const TRANSLATIONS = {
     dash_badge: "వ్యవసాయ నిర్ణయ కమాండ్ సెంటర్",
     dash_header_title: "పంట జీవనచక్రం & రోజువారీ సాగు పనులు",
     dash_subtitle: "సమగ్ర పంట వ్యవసాయ శాస్త్రం, ఇంటరాక్టివ్ రోజువారీ క్యాలెండర్ మరియు పురుగుమందుల రక్షణ ప్రణాళిక.",
+    refresh_data: "సమాచారం రీఫ్రెష్ చేయండి",
     refresh_telemetry: "సమాచారం రీఫ్రెష్ చేయండి",
 
     // Crop Selector Bar

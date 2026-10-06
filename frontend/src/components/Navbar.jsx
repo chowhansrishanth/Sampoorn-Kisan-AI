@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { LayoutDashboard, MessageCircle, ShieldCheck, Brain, Wheat, User, Globe, LogIn, LogOut, BookOpen, Landmark, Settings, Search, MapPin, Sun, Moon, Menu, X, Sprout, Calendar, Bell, Wifi, Shield, Droplet, RotateCcw, FileText, Satellite, Truck, HeartPulse, Activity, TrendingUp, QrCode, Clock, FlaskConical, Leaf, SunMedium, Umbrella, Award } from "lucide-react";
+import { LayoutDashboard, MessageCircle, ShieldCheck, Brain, Wheat, User, Globe, LogIn, LogOut, BookOpen, Landmark, Settings, Search, MapPin, Sun, Moon, Menu, X, Sprout, Calendar, Bell, Shield, Droplet, RotateCcw, FileText, Satellite, Truck, HeartPulse, Activity, TrendingUp, QrCode, Clock, FlaskConical, Leaf, SunMedium, Umbrella, Award } from "lucide-react";
 import ProfileModal from "./ProfileModal";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
@@ -9,7 +9,13 @@ import { useNetworkStatus } from "../utils/offlineSync";
 const LANGUAGES = [
   { code: "EN", name: "English" },
   { code: "HI", name: "हिंदी (Hindi)" },
-  { code: "TE", name: "తెలుగు (Telugu)" }
+  { code: "TE", name: "తెలుగు (Telugu)" },
+  { code: "TA", name: "தமிழ் (Tamil)" },
+  { code: "KN", name: "ಕನ್ನಡ (Kannada)" },
+  { code: "MR", name: "मराठी (Marathi)" },
+  { code: "PA", name: "ਪੰਜਾਬੀ (Punjabi)" },
+  { code: "BN", name: "বাংলা (Bengali)" },
+  { code: "GU", name: "ગુજરાતી (Gujarati)" }
 ];
 
 export default function Navbar({ onOpenAuth, user, onLogout, onUpdateUser }) {
@@ -313,14 +319,6 @@ export default function Navbar({ onOpenAuth, user, onLogout, onUpdateUser }) {
           <span>Farmer Alerts</span>
         </Link>
 
-        <Link to="/iot" className={isActive("/iot")} onClick={() => setMobileMenuOpen(false)}>
-          <div className="fk-category-icon-box">
-            <Wifi size={20} />
-          </div>
-          <span>IoT Telemetry</span>
-          <span className="fk-cat-badge">LIVE</span>
-        </Link>
-
         <Link to="/profitability" onClick={() => setMobileMenuOpen(false)}>Profitability</Link>
         <Link to="/fertilizer" onClick={() => setMobileMenuOpen(false)}>Fertilizer Planner</Link>
         <Link to="/irrigation" className={isActive("/irrigation")} onClick={() => setMobileMenuOpen(false)}>
@@ -537,10 +535,6 @@ export default function Navbar({ onOpenAuth, user, onLogout, onUpdateUser }) {
               <Link to="/alerts" className={isDrawerActive("/alerts")} onClick={() => setMobileMenuOpen(false)}>
                 <Bell size={18} style={{ color: '#f59e0b' }} />
                 <span>Farmer Alerts &amp; Notifications</span>
-              </Link>
-              <Link to="/iot" className={isDrawerActive("/iot")} onClick={() => setMobileMenuOpen(false)}>
-                <Wifi size={18} style={{ color: '#0ea5e9' }} />
-                <span>IoT Live Telemetry</span>
               </Link>
               <div className="fk-drawer-section-label" style={{ marginTop: 12 }}>New Agricultural Intelligence Modules</div>
               <Link to="/profitability" onClick={() => setMobileMenuOpen(false)}>Profitability</Link>

@@ -26,7 +26,7 @@ function assertStorage() {
 async function saveMeasurement(userId, input) {
   assertStorage();
   const value = normalize(input);
-  const source = ['soil_test', 'field_sensor', 'laboratory_import'].includes(input.source) ? input.source : 'soil_test';
+  const source = ['soil_test', 'field_measurement', 'laboratory_import'].includes(input.source) ? input.source : 'soil_test';
   const measuredAt = input.measuredAt ? new Date(input.measuredAt) : new Date();
   if (Number.isNaN(measuredAt.getTime()) || measuredAt > new Date()) throw Object.assign(new Error('A valid past measurement date is required.'), { status: 400 });
   const record = { userId: String(userId), ...value, source, unit: typeof input.unit === 'string' && input.unit.trim() ? input.unit.trim().slice(0, 80) : 'reported soil-test units', measuredAt };

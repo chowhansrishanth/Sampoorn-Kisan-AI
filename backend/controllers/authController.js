@@ -168,7 +168,7 @@ const register = async (req, res) => {
     let reservedEmail = null;
     let reservedPhone = null;
     try {
-        const { name, email, phone, password, confirmPassword, location, cropType } = req.body || {};
+        const { name, email, phone, password, confirmPassword, location, locationObj, cropType, farmSizeHectares, farmProfile, preferredLanguage } = req.body || {};
 
         // Type safety guard against array/object payload abuse
         if (
@@ -232,24 +232,30 @@ const register = async (req, res) => {
             }
         }
 
+        // Requirement 2: Phone Number Validation
+        // The phone number must contain exactly 10 digits when provided.
+        // If it is fewer or more than 10 digits, or contains non-digit characters, registration is blocked.
         if (cleanPhone) {
-            const phoneDigits = cleanPhone.replace(/[^0-9]/g, "");
-            if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+            if (!/^\d{10}$/.test(cleanPhone)) {
                 return res.status(400).json({
                     success: false,
                     code: "INVALID_INPUT",
-                    message: "Please enter a valid 10-digit mobile number.",
-                    error: "Invalid phone number"
+                    message: "Phone number must contain exactly 10 digits.",
+                    error: "Phone number must contain exactly 10 digits."
                 });
             }
         }
 
-        if (!cleanPassword || cleanPassword.length < 8 || Buffer.byteLength(cleanPassword) > 72) {
+        // Requirement 1: Password Validation
+        // In the register section, password must contain at least 8 characters.
+        // If fewer than 8 characters, return the exact required message:
+        // "Password should contain at least 8 characters"
+        if (!cleanPassword || cleanPassword.length < 8) {
             return res.status(400).json({
                 success: false,
                 code: "INVALID_INPUT",
-                message: "Password must be at least 8 characters and at most 72 UTF-8 bytes.",
-                error: "Password length out of bounds"
+                message: "Password should contain at least 8 characters",
+                error: "Password should contain at least 8 characters"
             });
         }
 
@@ -282,7 +288,7 @@ const register = async (req, res) => {
             reservedPhone = cleanPhone;
         }
 
-        // â”€â”€ Check if already registered in MongoDB â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Check if already registered in MongoDB ─────────────────────────
         if (isDbOperational()) {
             try {
                 const existingUser = await User.findOne({
@@ -301,17 +307,28 @@ const register = async (req, res) => {
                 }
 
                 const hashedPassword = await bcrypt.hash(cleanPassword, 10);
+                const effectiveLang = preferredLanguage || "English";
+                const calculatedHectares = farmSizeHectares || (farmProfile?.land?.sizeAcres ? Number((farmProfile.land.sizeAcres * 0.404686).toFixed(2)) : 2.5);
+                const effectiveLocation = location || farmProfile?.location?.formattedAddress || "Punjab, India";
+                const effectiveCrop = cropType || farmProfile?.primaryCrop || "Wheat & Rice";
+
                 const newUser = new User({
                     name: cleanName,
                     email: effectiveEmail,
                     phone: cleanPhone,
                     password: hashedPassword,
-                    location: location || "Punjab, India",
-                    cropType: cropType || "Wheat & Rice",
-                    farmSizeHectares: 2.5
+                    location: effectiveLocation,
+                    locationObj: locationObj || farmProfile?.location || null,
+                    cropType: effectiveCrop,
+                    farmSizeHectares: calculatedHectares,
+                    farmProfile: farmProfile || null,
+                    preferredLanguage: effectiveLang
                 });
                 await newUser.save();
 
+                if (farmProfile) {
+                    conversationMemory.syncFarmProfileState(newUser.email || newUser._id.toString(), farmProfile);
+                }
 
                 memSave({
                     id: newUser._id.toString(),
@@ -320,9 +337,12 @@ const register = async (req, res) => {
                     phone: newUser.phone,
                     password: hashedPassword,
                     location: newUser.location,
-                    cropType: newUser.cropType
+                    locationObj: newUser.locationObj,
+                    cropType: newUser.cropType,
+                    farmSizeHectares: calculatedHectares,
+                    farmProfile: newUser.farmProfile,
+                    preferredLanguage: effectiveLang
                 });
-
 
                 return res.status(201).json({
                     success: true,
@@ -339,11 +359,11 @@ const register = async (req, res) => {
                         error: "User already exists"
                     });
                 }
-                console.warn("âš ï¸ MongoDB register failed, using in-memory:", dbErr.message);
+                console.warn("⚠️ MongoDB register failed, using in-memory:", dbErr.message);
             }
         }
 
-        // â”€â”€ In-Memory check & register â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── In-Memory check & register ──────────────────────────────────────
         if (process.env.NODE_ENV === 'production') return res.status(503).json({ success: false, error: 'Account storage is temporarily unavailable.' });
         if (memFindByEmail(effectiveEmail) || (cleanPhone && memFindByEmail(cleanPhone))) {
             return res.status(400).json({
@@ -356,19 +376,28 @@ const register = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(cleanPassword, 10);
         const memId = crypto.randomBytes(12).toString("hex");
+        const effectiveLang = preferredLanguage || "English";
+        const calculatedHectares = farmSizeHectares || (farmProfile?.land?.sizeAcres ? Number((farmProfile.land.sizeAcres * 0.404686).toFixed(2)) : 2.5);
+        const effectiveLocation = location || farmProfile?.location?.formattedAddress || "Punjab, India";
+        const effectiveCrop = cropType || farmProfile?.primaryCrop || "Wheat & Rice";
+
         const memUser = {
             id: memId,
             name: cleanName,
             email: effectiveEmail,
             phone: cleanPhone,
             password: hashedPassword,
-            location: location || "Punjab, India",
-            cropType: cropType || "Wheat & Rice",
-            farmSizeHectares: 2.5,
-            preferredLanguage: "English"
+            location: effectiveLocation,
+            locationObj: locationObj || farmProfile?.location || null,
+            cropType: effectiveCrop,
+            farmSizeHectares: calculatedHectares,
+            farmProfile: farmProfile || null,
+            preferredLanguage: effectiveLang
         };
+        if (farmProfile) {
+            conversationMemory.syncFarmProfileState(memUser.email || memId, farmProfile);
+        }
         memSave(memUser);
-
 
         return res.status(201).json({
             success: true,

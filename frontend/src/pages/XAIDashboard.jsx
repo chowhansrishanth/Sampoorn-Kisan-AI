@@ -378,7 +378,7 @@ export default function XAIDashboard() {
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
             <Compass size={17} color="#2563eb" />
             <strong style={{ fontSize: "14px", color: "var(--fk-text)" }}>
-              Agro-Ecological Field Presets (Instant Telemetry Scenarios)
+              Agro-Ecological Field Presets (Instant Simulation Scenarios)
             </strong>
           </div>
           <span style={{ fontSize: "12px", color: "var(--fk-text-sub)" }}>
@@ -416,7 +416,7 @@ export default function XAIDashboard() {
         </div>
       </div>
 
-      {/* LIVE SOIL & MICROCLIMATE TELEMETRY CONTROLS */}
+      {/* LIVE SOIL & MICROCLIMATE PARAMETER CONTROLS */}
       <div
         className="glass-card"
         style={{
@@ -440,7 +440,7 @@ export default function XAIDashboard() {
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <Sliders size={20} color="#16a34a" />
             <h3 style={{ margin: 0, fontSize: "17px", fontWeight: "800", color: "var(--fk-text)" }}>
-              Live Soil & Microclimate Telemetry Controls
+              Live Soil & Microclimate Parameter Controls
             </h3>
           </div>
 

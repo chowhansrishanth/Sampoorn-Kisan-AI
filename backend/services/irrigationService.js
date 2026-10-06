@@ -1,8 +1,46 @@
 'use strict';
 /**
- * Weather-based irrigation scenario calculator
- * Calculates crop water requirements (ETc = ETo * Kc), soil moisture balance,
- * pump runtimes, and optimal 7-day irrigation schedules.
+ * ============================================================================
+ * Sampoorn Kisan AI — Weather-Driven Irrigation & Soil Moisture Service
+ * ============================================================================
+ * 
+ * MATHEMATICAL FOUNDATIONS & HYDROLOGICAL FORMULAS (FAO Irrigation & Drainage 56):
+ * 
+ * 1. REFERENCE EVAPOTRANSPIRATION (ETo in mm/day):
+ *    Calculated using the FAO Hargreaves-Samani temperature-radiation model:
+ *        ETo = 0.0023 * (T_mean + 17.8) * sqrt(T_max - T_min) * (Ra * 0.408)
+ *    Where:
+ *        - T_mean, T_max, T_min: Daily mean, max, and min ambient temperatures (°C)
+ *        - (T_max - T_min): Diurnal temperature range proxy for solar radiation
+ *        - Ra: Extraterrestrial solar radiation (MJ/m^2/day) computed from latitude
+ *        - 0.408: Conversion factor from MJ/m^2/day to equivalent water depth (mm/day)
+ * 
+ * 2. CROP WATER REQUIREMENT (ETc in mm/day):
+ *    Relates reference evapotranspiration to actual crop transpiration via crop coefficient:
+ *        ETc = ETo * Kc(stage)
+ *    Where Kc varies by physiological growth stage (Initial -> Vegetative -> Mid-Season -> Maturity).
+ * 
+ * 3. TOTAL AVAILABLE WATER IN ROOT ZONE (TAW in mm):
+ *    Maximum amount of water the root zone can hold between field capacity and wilting point:
+ *        TAW = TAW_soil * Z_root
+ *    Where TAW_soil is soil water capacity (mm/m) and Z_root is effective root depth (m).
+ * 
+ * 4. READILY AVAILABLE WATER / IRRIGATION TRIGGER (RAW in mm):
+ *    Water that crops can extract without experiencing water stress:
+ *        RAW = p * TAW
+ *    Where p is the crop-specific critical soil water depletion fraction (0.20 to 0.65).
+ * 
+ * 5. DAILY SOIL WATER MASS BALANCE DEFICIT:
+ *    Updated each day t:
+ *        Deficit_t = max(0, Deficit_{t-1} + ETc - P_eff)
+ *    Where P_eff is effective rainfall (rain > 5mm with 70% infiltration efficiency).
+ * 
+ * 6. IRRIGATION WATER VOLUME & MOTOR PUMP RUNTIME:
+ *    When Deficit >= RAW, irrigation is triggered:
+ *        Gross_Depth = Deficit / eta_irrigation   (eta: Drip=0.90, Sprinkler=0.75, Flood=0.60)
+ *        Volume_Liters = Gross_Depth * 4046.86 * Acres  (1 mm water on 1 acre = 4,047 Liters)
+ *        Pump_Runtime_Minutes = (Volume_Liters / Q_pump) * 60  (Q_pump: discharge in L/hr)
+ * ============================================================================
  */
 
 // Crop coefficients (Kc) across growth stages: initial, vegetative, mid_season (flowering), late_season (maturity)
@@ -41,6 +79,7 @@ const PUMP_CAPACITIES_LPH = {
 /**
  * Estimate Reference Evapotranspiration (ETo in mm/day)
  * Using FAO Hargreaves-Samani temperature-radiation model
+ * Formula: ETo = 0.0023 * (T_mean + 17.8) * sqrt(T_max - T_min) * (Ra * 0.408)
  */
 function calculateETo(tempMax, tempMin, tempMean, latitude = 17.38) {
   const tRange = Math.max(tempMax - tempMin, 2.0);
@@ -167,7 +206,7 @@ function calculateIrrigationSchedule({
     schedule,
     assumptions: {initialDeficitMm,pumpFlowLph,efficiency,rainfallEffectiveFraction:0.7},
     limitations:['Scenario estimate: inspect soil moisture before acting.','Crop coefficients, root depth, soil capacity and method efficiency are reference assumptions, not field measurements.','Each suggested irrigation assumes it is completed; recalculate if skipped.','Effective rainfall uses a simplified 70% fraction above 5 mm. No water-saving guarantee.'],
-    provenance: { weather: 'WEATHER_PROVIDER', cropCoefficients: 'PROJECT_REFERENCE_ESTIMATES_REQUIRE_LOCAL_VALIDATION', soilCapacity: 'REFERENCE_SOIL_TABLE', soilMoisture: 'USER_PROVIDED_STARTING_DEFICIT; NO_CONNECTED_SENSOR' },
+    provenance: { weather: 'WEATHER_PROVIDER', cropCoefficients: 'PROJECT_REFERENCE_ESTIMATES_REQUIRE_LOCAL_VALIDATION', soilCapacity: 'REFERENCE_SOIL_TABLE', soilMoisture: 'USER_PROVIDED_STARTING_DEFICIT; MODELED_BALANCE' },
   };
 }
 

@@ -39,7 +39,6 @@ const organicRoutes = require("./routes/organicRoutes");
 const solarPumpRoutes = require("./routes/solarPumpRoutes");
 const insuranceRoutes = require("./routes/insuranceRoutes");
 const carbonRoutes = require("./routes/carbonRoutes");
-const telemetryWs = require("./services/telemetryWs");
 const httpClient = require("./services/httpClient");
 const aiProvider = require("./services/aiProvider");
 
@@ -322,13 +321,10 @@ const HOST = process.env.HOST || "0.0.0.0";
 if (process.env.NODE_ENV !== "test") {
   const server = app.listen(PORT, HOST, () => {
     console.log(`Sampoorn Kisan AI Backend running on http://localhost:${PORT}`);
-    // Attach WebSocket IoT Telemetry Server to the same HTTP server
-    telemetryWs.attach(server);
   });
 
   const handleGracefulShutdown = (signal) => {
     console.log(`\n🛑 Received ${signal}. Initiating graceful shutdown...`);
-    telemetryWs.close();
     server.close(async () => {
       try {
         const mongoose = require("mongoose");

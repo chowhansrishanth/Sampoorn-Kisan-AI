@@ -1,3 +1,76 @@
+"""
+========================================================================================
+Sampoorn Kisan AI — Computer Vision & Grad-CAM Explainable AI Engine (`vision_engine.py`)
+========================================================================================
+
+PURPOSE:
+Performs deep learning photographic leaf disease diagnosis using PyTorch MobileNetV2.
+Computes pixel-level Explainable AI (XAI) visual heatmaps via Gradient-Weighted Class
+Activation Mapping (Grad-CAM), and enforces botanical foliage and crop-consistency gating.
+
+========================================================================================
+MATHEMATICAL FOUNDATIONS & MACHINE LEARNING FORMULAS USED IN INFERENCE & XAI:
+========================================================================================
+
+1. HSV COLOR SPACE BOTANICAL SEGMENTATION FORMULA:
+   Given an RGB pixel with normalized channels R, G, B in [0, 1]:
+       M = max(R, G, B),   m = min(R, G, B),   Delta = M - m
+       Hue (H):
+           H = 0                         if Delta == 0
+           H = 60 * ((G - B) / Delta mod 6)  if M == R
+           H = 60 * ((B - R) / Delta + 2)    if M == G
+           H = 60 * ((R - G) / Delta + 4)    if M == B
+       Saturation (S):
+           S = 0 if M == 0 else Delta / M
+       Value (V):
+           V = M
+
+   Foliage Pixel Mask Condition (scaled to PIL uint8 [0, 255]):
+       Foliage Mask = [ (H in [20, 115]) and (S >= 30) and (V >= 30) ]   (Green/Yellow tissue)
+                   or [ (H in [8, 20])   and (S >= 40) and (V >= 30) ]   (Necrotic leaf lesions)
+
+   Botanical Foliage Ratio:
+       Foliage_Ratio = [ sum_{i=1}^H sum_{j=1}^W I(pixel_{i,j} in Foliage Mask) ] / (H * W)
+       Rejection Threshold: If Foliage_Ratio < 0.12, the image is classified as non-plant.
+
+2. IMAGE PREPROCESSING & Z-SCORE STANDARDIZATION:
+   Transforms 2D RGB image array into canonical network input tensor:
+       z_{c, i, j} = (x_{c, i, j} - mu_c) / sigma_c
+   Where ImageNet parameters are:
+       mu    = [0.485, 0.456, 0.406]
+       sigma = [0.229, 0.224, 0.225]
+
+3. SOFTMAX POSTERIOR PROBABILITY FORMULA:
+   Converts raw unbounded output logits z = [z_0, ..., z_{C-1}] to calibrated class probabilities:
+       P(Y = c | x) = exp(z_c) / [ sum_{k=0}^{C-1} exp(z_k) ]
+
+4. GRAD-CAM (Gradient-Weighted Class Activation Mapping, Selvaraju et al. 2017):
+   Produces a coarse 2D localization heatmap highlighting regions that influenced the decision:
+
+   a. Backward Neuron Importance Weights (alpha_k^c) via Global Average Pooling:
+          alpha_k^c = (1 / Z) * sum_{i=1}^U sum_{j=1}^V [ d y^c / d A_{i, j}^k ]
+          - y^c: Unnormalized class score for target class c before softmax
+          - A^k: k-th feature activation map of the target convolutional layer
+          - Z = U * V: Spatial dimensions (height x width) of the feature map
+
+   b. Rectified Linear Weighted Combination:
+          L_{Grad-CAM}^c = ReLU( sum_k alpha_k^c * A^k )
+          (The ReLU function filters out negative gradients, retaining only positive visual evidence)
+
+   c. Min-Max Normalization:
+          L_norm = [ L_{Grad-CAM}^c - min(L) ] / [ max(L) - min(L) ]
+
+   d. Alpha-Blending Visual Overlay:
+          I_overlay = alpha * I_original + (1 - alpha) * I_heatmap    (where alpha = 0.5)
+
+5. CROP CONSISTENCY FILTERING (Bayesian Gating):
+   Validates whether detected disease pathogen matches farmer's selected crop:
+       P(Disease | Selected_Crop) > tau_{threshold}
+   If a farmer selects 'Tomato' but the model detects 'Rice Brown Spot' with confidence >= 0.40,
+   a crop mismatch alert is returned to prevent incorrect pesticide applications.
+========================================================================================
+"""
+
 import os
 import threading
 import io
@@ -12,9 +85,9 @@ import numpy as np
 
 def validate_botanical_leaf(pil_img: Image.Image) -> tuple:
     """
-    Examines the color distribution in HSV to ensure the image
-    actually represents plant foliage (green leaf tissue or chlorotic/necrotic leaf spots)
-    rather than non-plant objects (e.g. cars, persons, furniture).
+    Examines the color distribution in HSV space to verify that the image
+    contains authentic plant foliage (healthy green tissue or chlorotic/necrotic lesions)
+    rather than non-agricultural objects (e.g., vehicles, people, furniture).
     """
     try:
         hsv = pil_img.convert("HSV")
@@ -23,8 +96,8 @@ def validate_botanical_leaf(pil_img: Image.Image) -> tuple:
         s = hsv_np[:, :, 1]
         v = hsv_np[:, :, 2]
 
-        # Plant foliage mask in 0-255 PIL HSV space:
-        # Greens, yellows, yellow-greens: Hue 20 to 115 with decent saturation
+        # Botanical foliage mask in 0-255 PIL HSV space:
+        # Greens, yellows, yellow-greens: Hue 20 to 115 with saturation >= 30 and value >= 30
         # Blight brown/necrotic lesions: Hue 8 to 22 with medium saturation & value
         foliage_mask = (
             ((h >= 20) & (h <= 115) & (s >= 30) & (v >= 30)) |
@@ -39,6 +112,7 @@ def validate_botanical_leaf(pil_img: Image.Image) -> tuple:
 
 
 def normalize_crop_name(name: str) -> str:
+    """Normalizes colloquial and regional crop names to canonical English keys."""
     if not name:
         return "All"
     n = name.lower()
@@ -75,9 +149,10 @@ class PyTorchGradCAMVisionEngine:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(f"[VisionEngine] Initializing PyTorch Vision Engine on device: {self.device}")
         
-        # Load MobileNetV2 architecture
+        # 1. Instantiate MobileNetV2 Architecture
         self.model = models.mobilenet_v2(weights=None)
-        # 10 plant disease classes
+        
+        # 2. 10 Plant Disease & Health Target Classes
         self.classes = [
             "Tomato Early Blight",
             "Tomato Late Blight",
@@ -91,6 +166,7 @@ class PyTorchGradCAMVisionEngine:
             "Healthy Plant Leaf"
         ]
 
+        # Crop association lookup
         self.class_to_crop = {
             "Tomato Early Blight": "Tomato",
             "Tomato Late Blight": "Tomato",
@@ -104,11 +180,14 @@ class PyTorchGradCAMVisionEngine:
             "Healthy Plant Leaf": "All"
         }
 
+        # 3. Replace Classifier Head for 10 Classes
         num_ftrs = self.model.classifier[1].in_features
         self.model.classifier[1] = nn.Linear(num_ftrs, len(self.classes))
         self.ready = False
         self.status = "NOT_CONFIGURED"
         self.inference_lock = threading.Lock()
+        
+        # 4. Load Model Checkpoint Weights
         weights_path = os.environ.get("VISION_MODEL_PATH") or os.path.join(os.path.dirname(__file__), "plant_disease_model.pth")
         if weights_path and os.path.isfile(weights_path):
             self.status = "INVALID" if not os.path.isfile(weights_path) else "LOAD_FAILED"
@@ -122,23 +201,24 @@ class PyTorchGradCAMVisionEngine:
         self.model.to(self.device)
         self.model.eval()
 
-        # Target layer for Grad-CAM
+        # 5. Target Convolutional Layer for Grad-CAM
+        # MobileNetV2's final feature map before global average pooling is features[-1]
         self.target_layer = self.model.features[-1]
         self.gradients = None
         self.activations = None
 
-        # Register forward and backward hooks for Grad-CAM
+        # 6. Register Forward and Backward Hooks for Gradient Capture
         self.target_layer.register_forward_hook(self._forward_hook)
         self.target_layer.register_full_backward_hook(self._backward_hook)
 
-        # Image Preprocessing Transform
+        # 7. Image Preprocessing & Normalization Transform Pipeline
         self.transform = transforms.Compose([
             transforms.Resize((224, 224)),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
 
-        # Knowledge Base for Remedies across all supported classes
+        # 8. CIBRC & ICAR Agronomic Remediation Knowledge Base
         self.remedies = {
             "Tomato Early Blight": {
                 "severity": "Moderate (Stage 2)",
@@ -209,45 +289,64 @@ class PyTorchGradCAMVisionEngine:
         }
 
     def _forward_hook(self, module, input, output):
+        """Captures forward activation maps A^k of the target layer."""
         self.activations = output
 
     def _backward_hook(self, module, grad_in, grad_out):
+        """Captures backward gradient tensors d y^c / d A^k during backpropagation."""
         self.gradients = grad_out[0]
 
     def compute_gradcam_overlay(self, input_tensor, pil_img, target_class_idx):
-        """Computes real Grad-CAM heatmap tensor gradients and overlays onto PIL image."""
+        """
+        Computes real Grad-CAM heatmap tensor gradients and overlays onto PIL image.
+        Formula:
+            alpha_k^c = (1 / Z) * sum_i sum_j (d y^c / d A_{i,j}^k)
+            L_{Grad-CAM}^c = ReLU( sum_k alpha_k^c * A^k )
+        """
         try:
             self.model.zero_grad()
             output = self.model(input_tensor)
             score = output[0, target_class_idx]
+            
+            # Backpropagate target class score to trigger backward hook
             score.backward()
 
-            # Compute weights from gradients
+            # 1. Extract gradients and forward activations
             gradients = self.gradients.data.cpu().numpy()[0]
             activations = self.activations.data.cpu().numpy()[0]
+            
+            # 2. Global Average Pooling over spatial dimensions (width, height)
             weights = np.mean(gradients, axis=(1, 2))
 
+            # 3. Weighted linear combination of activation maps
             cam = np.zeros(activations.shape[1:], dtype=np.float32)
             for i, w in enumerate(weights):
                 cam += w * activations[i, :, :]
 
+            # 4. Apply ReLU: discard negative values
             cam = np.maximum(cam, 0)
+            
+            # 5. Min-Max normalization to [0, 1]
             if np.max(cam) > 0:
                 cam = cam / np.max(cam)
 
-            # Resize CAM to image size (224, 224)
-            cam_img = Image.fromarray((cam * 255).astype(np.uint8)).resize(pil_img.size, Image.Resampling.BILINEAR if hasattr(Image, 'Resampling') else Image.BILINEAR)
+            # 6. Bilinear upsampling to original image dimensions (224, 224)
+            cam_img = Image.fromarray((cam * 255).astype(np.uint8)).resize(
+                pil_img.size,
+                Image.Resampling.BILINEAR if hasattr(Image, 'Resampling') else Image.BILINEAR
+            )
             cam_arr = np.array(cam_img) / 255.0
 
-            # Create Heatmap RGB Overlay (Red-Yellow)
+            # 7. Create Heatmap RGB Overlay (Red-Yellow spectral gradient)
             orig_np = np.array(pil_img.convert("RGB"))
             heatmap = np.zeros_like(orig_np, dtype=np.float32)
             heatmap[:, :, 0] = cam_arr * 255.0  # Red channel
             heatmap[:, :, 1] = cam_arr * 160.0  # Green channel
 
+            # 8. Alpha Blending: I_overlay = 0.5 * I_orig + 0.5 * I_heatmap
             overlay = np.clip(orig_np * 0.5 + heatmap * 0.5, 0, 255).astype(np.uint8)
 
-            # Convert back to PIL & Base64 Data URI
+            # 9. Encode to Base64 JPEG Data URI
             buffered = io.BytesIO()
             Image.fromarray(overlay).save(buffered, format="JPEG", quality=90)
             img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
@@ -258,6 +357,14 @@ class PyTorchGradCAMVisionEngine:
             self.activations = None
 
     def diagnose_image(self, image_bytes: bytes = None, filename: str = "leaf.jpg", crop_type: str = "Tomato"):
+        """
+        Primary inference entrypoint:
+        1. Validates botanical foliage via HSV segmentation.
+        2. Executes MobileNetV2 forward pass and computes Softmax probabilities.
+        3. Enforces crop-consistency verification to detect cross-crop uploads.
+        4. Calculates Grad-CAM heatmap visualization.
+        5. Returns diagnostic report with CIBRC-compliant remedies and dosages.
+        """
         from fastapi import HTTPException
         if not self.ready:
             raise HTTPException(status_code=503, detail="A validated disease model checkpoint must be configured.")
@@ -272,7 +379,7 @@ class PyTorchGradCAMVisionEngine:
         except Exception:
             raise HTTPException(status_code=400, detail="The uploaded image cannot be decoded.")
 
-        # 1. Botanical Leaf Verification: check if the image has plant foliage
+        # Step 1: Botanical Leaf Verification (HSV Color Distribution)
         is_leaf, leaf_error = validate_botanical_leaf(pil_img)
         if not is_leaf:
             return {
@@ -284,28 +391,29 @@ class PyTorchGradCAMVisionEngine:
 
         with self.inference_lock:
             try:
+                # Step 2: PyTorch Forward Inference
                 input_tensor = self.transform(pil_img).unsqueeze(0).to(self.device)
                 with torch.no_grad():
                     logits = self.model(input_tensor)
+                    # Softmax: P(Y = c | x) = exp(z_c) / sum exp(z_k)
                     probabilities = torch.softmax(logits, dim=1)[0]
 
-                # Overall top predicted class across all 10 classes
+                # Step 3: Top Predicted Class and Confidence
                 top_idx = int(torch.argmax(probabilities).item())
                 top_disease = self.classes[top_idx]
                 top_crop = self.class_to_crop.get(top_disease, "Unknown")
                 top_conf = float(probabilities[top_idx].item())
 
-                # 2. Crop Mismatch Verification
+                # Step 4: Crop Mismatch Gating (Bayesian Verification)
                 norm_target = normalize_crop_name(crop_type)
                 is_generic_crop = norm_target in ["Vegetables", "Pulses (General)", "All", "Crop Leaf", ""]
 
-                # Candidate classes for the user-selected crop
                 target_candidates = [
                     (idx, cls_name) for idx, cls_name in enumerate(self.classes)
                     if self.class_to_crop.get(cls_name) == norm_target or cls_name == "Healthy Plant Leaf"
                 ]
 
-                # If user selected a specific crop (e.g. Tomato), but the model detects a DIFFERENT specific crop with high confidence:
+                # If selected crop doesn't match detected crop and confidence >= 40%:
                 if not is_generic_crop and top_crop not in ["All", "Unknown"] and top_crop != norm_target:
                     if top_conf >= 0.40:
                         return {
@@ -318,7 +426,7 @@ class PyTorchGradCAMVisionEngine:
                             "error": f"Crop Mismatch Detected: You selected '{crop_type}', but the uploaded leaf appears to be {top_crop} (symptoms match {top_disease} with {int(top_conf * 100)}% confidence). Please upload a genuine leaf from your {crop_type} crop, or switch the crop selector to {top_crop}."
                         }
 
-                # 3. Focus inference on the selected crop's diseases
+                # Step 5: Focus on Selected Crop's Candidate Pathogens
                 if target_candidates and not is_generic_crop:
                     candidate_probs = [probabilities[idx].item() for idx, _ in target_candidates]
                     best_cand_sub = int(np.argmax(candidate_probs))
@@ -331,6 +439,7 @@ class PyTorchGradCAMVisionEngine:
 
                 remedy_data = self.remedies.get(disease_name, self.remedies.get("Default", {}))
 
+                # Step 6: Compute Grad-CAM Heatmap
                 try:
                     heatmap = self.compute_gradcam_overlay(input_tensor, pil_img, target_idx)
                 except Exception as cam_err:
@@ -376,5 +485,5 @@ class PyTorchGradCAMVisionEngine:
                 print(f"[VisionEngine] Inference error: {e}")
                 raise HTTPException(status_code=503, detail="Vision inference failed. No diagnosis was generated.")
 
-vision_engine = PyTorchGradCAMVisionEngine()
 
+vision_engine = PyTorchGradCAMVisionEngine()

@@ -100,7 +100,7 @@ const FARMER_KNOWLEDGE_ARTICLES = [
     badge: "High Alert Advisory",
     readTime: "5 min read",
     keyPoints: [
-      "Pheromone Trap Setup: Install 5 pheromone traps (Phero-Sensor with Gossyplure lure) per acre at 45 days after sowing.",
+      "Pheromone Trap Setup: Install 5 pheromone traps (with Gossyplure lure) per acre at 45 days after sowing.",
       "Economic Threshold Level (ETL): 8 moths/trap/night for 3 consecutive days OR 10% rosette flowers indicates active infestation.",
       "Organic / Biological Spray: Release Trichogramma bactrae egg parasitoids @ 60,000/acre at weekly intervals from 45 DAS.",
       "Botanical Control: Spray 5% Neem Seed Kernel Extract (NSKE) or Azadirachtin 1500 ppm @ 5 ml/liter at first sign of rosette flowers.",

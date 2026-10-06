@@ -578,6 +578,14 @@ class DiseaseService {
     };
   }
 
+  /**
+   * Validates binary image buffer integrity using file signature Magic Bytes:
+   * - PNG:  [0x89, 0x50, 0x4E, 0x47] (\x89PNG)
+   * - JPEG: [0xFF, 0xD8] (SOI marker)
+   * - WebP: 'RIFF' + 4-byte size + 'WEBP'
+   * - BMP:  [0x42, 0x4D] ('BM')
+   * Prevents malicious file uploads disguised with altered file extensions.
+   */
   validateImageQuality(filename, fileBuffer) {
     const b = fileBuffer;
     if (!Buffer.isBuffer(b) || b.length < 8) {
@@ -591,7 +599,7 @@ class DiseaseService {
       (b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP') || // WEBP
       (b[0] === 0x42 && b[1] === 0x4D) // BMP
     );
-    const valid = hasValidMagic || hasValidExt;
+    const valid = hasValidMagic && (hasValidExt || !ext);
     return {
       isQualityValid: Boolean(valid),
       errorReason: valid ? null : 'Upload a valid JPEG, PNG, WebP or BMP image.'
@@ -672,15 +680,18 @@ class DiseaseService {
       }
     } catch (error) {
       console.warn('[DiseaseService] Python vision microservice note:', error.message);
+      return {
+        success: false,
+        statusCode: 503,
+        error: 'Disease vision model is offline or unreachable. No diagnosis was generated.'
+      };
     }
 
-    // High quality resilient agronomic diagnosis fallback
-    const fallbackData = {
-      is_real_pytorch_inference: false,
-      disease_name: (cropType.includes('Tomato') ? 'Tomato Early Blight' : cropType.includes('Potato') ? 'Potato Late Blight' : cropType.includes('Maize') || cropType.includes('Corn') ? 'Corn Northern Leaf Blight' : 'Foliar Leaf Spot & Blight Complex'),
-      confidence_score: 0.93,
+    return {
+      success: false,
+      statusCode: 503,
+      error: 'Disease vision model is offline or unreachable. No diagnosis was generated.'
     };
-    return this._enrichResult(fallbackData, cropType);
   }
 }
 

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Sliders,
   TrendingUp,
@@ -17,8 +18,38 @@ import {
   Layers,
   Award,
   Zap,
-  Info
+  Info,
+  Volume2,
+  VolumeX,
+  MapPin,
+  Calendar,
+  ShieldCheck,
+  Sprout,
+  Plus
 } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
+import useVoiceAssistant from "../hooks/useVoiceAssistant";
+
+// ==========================================
+// 0. MAJOR INDIAN AGRICULTURAL STATES
+// ==========================================
+const INDIAN_STATES = [
+  { id: "punjab", name: "Punjab", region: "North", mainCrops: ["wheat", "paddy", "cotton", "mustard", "maize"] },
+  { id: "haryana", name: "Haryana", region: "North", mainCrops: ["wheat", "paddy", "mustard", "cotton", "bajra"] },
+  { id: "uttar_pradesh", name: "Uttar Pradesh", region: "North-Central", mainCrops: ["wheat", "paddy", "sugarcane", "potato", "mustard", "maize"] },
+  { id: "madhya_pradesh", name: "Madhya Pradesh", region: "Central", mainCrops: ["soybean", "wheat", "chickpea", "mustard", "cotton", "red_gram"] },
+  { id: "maharashtra", name: "Maharashtra", region: "West", mainCrops: ["cotton", "soybean", "red_gram", "sugarcane", "onion", "chickpea"] },
+  { id: "gujarat", name: "Gujarat", region: "West", mainCrops: ["cotton", "groundnut", "bajra", "mustard", "wheat", "onion"] },
+  { id: "rajasthan", name: "Rajasthan", region: "West", mainCrops: ["bajra", "mustard", "chickpea", "wheat", "groundnut", "green_gram"] },
+  { id: "telangana", name: "Telangana", region: "South", mainCrops: ["cotton", "paddy", "red_gram", "chilli", "maize", "soybean"] },
+  { id: "andhra_pradesh", name: "Andhra Pradesh", region: "South", mainCrops: ["paddy", "chilli", "groundnut", "cotton", "red_gram", "tomato"] },
+  { id: "karnataka", name: "Karnataka", region: "South", mainCrops: ["maize", "red_gram", "groundnut", "cotton", "sugarcane", "tomato"] },
+  { id: "tamil_nadu", name: "Tamil Nadu", region: "South", mainCrops: ["paddy", "groundnut", "sugarcane", "cotton", "maize", "tomato"] },
+  { id: "bihar", name: "Bihar", region: "East", mainCrops: ["paddy", "wheat", "maize", "potato", "green_gram"] },
+  { id: "west_bengal", name: "West Bengal", region: "East", mainCrops: ["paddy", "potato", "mustard", "vegetables", "maize"] },
+  { id: "odisha", name: "Odisha", region: "East", mainCrops: ["paddy", "green_gram", "groundnut", "mustard"] },
+  { id: "other", name: "All India (Other State / Territory)", region: "National", mainCrops: ["wheat", "paddy", "maize", "red_gram", "mustard", "cotton"] }
+];
 
 // ==========================================
 // 1. SOIL TYPES DEFINITION
@@ -633,6 +664,365 @@ const CROPS_DB = [
 ];
 
 // ==========================================
+// 4B. COMPREHENSIVE BENEFITS, NEEDS & ZERO-DAMAGE ADVISORIES
+// ==========================================
+const CROP_AGRONOMY_EXTRAS = {
+  red_gram: {
+    keyBenefits: [
+      "Enriches soil with 40 kg natural atmospheric nitrogen per acre",
+      "Exceptional drought resilience via deep taproots",
+      "High MSP market support (₹7,550/qtl)",
+      "Very low input and pesticide cost"
+    ],
+    needs: [
+      "Soil pH 6.2 - 7.6 with good subsoil drainage",
+      "Seed rate: 4.5-5 kg/acre",
+      "NPK: 10:25:0 kg/acre (requires minimal synthetic nitrogen)",
+      "1-2 protective waterings at flowering and pod filling"
+    ],
+    zeroDamage: "Seed treatment with Trichoderma viride (4g/kg seed) completely prevents wilt and root rot. Install 5 pheromone traps/acre at day 60 to prevent pod borer (Helicoverpa) without costly chemical damage."
+  },
+  cotton: {
+    keyBenefits: [
+      "Highest commercial gross revenue in deep black soil",
+      "Massive market liquidity at government and private mandis",
+      "Drip irrigation yields +15% bonus lint weight",
+      "Excellent rotational partner with pulses and legumes"
+    ],
+    needs: [
+      "Deep black or alluvial soil with pH 6.5 - 8.2",
+      "Seed rate: 1.5-2 pkts/acre (Bt-hybrid)",
+      "NPK: 60:30:30 kg/acre in 3 split doses",
+      "Regular water during flowering and boll opening; zero waterlogging"
+    ],
+    zeroDamage: "Install yellow sticky traps (10/acre) for sucking pests early. Sowing border rows of Castor and Marigold intercepts 90% of spodoptera armyworms and bollworms with 0% chemical burn."
+  },
+  maize: {
+    keyBenefits: [
+      "Rapid 95-105 day maturity allows double-cropping",
+      "High grain volume (24-28 qtl/acre)",
+      "Dual income: cash grain + green cattle fodder",
+      "Resilient to moderate water fluctuations"
+    ],
+    needs: [
+      "Well-drained loam or alluvial soil with pH 6.0 - 7.5",
+      "Seed rate: 7-8 kg/acre",
+      "NPK: 50:25:20 kg/acre with zinc sulfate (10 kg/acre)",
+      "Critical watering at silking and grain filling"
+    ],
+    zeroDamage: "Prevent Fall Armyworm (FAW) damage at whorl stage by applying bio-agent Metarhizium anisopliae or neem formulation (5ml/L) in early mornings. Avoid moisture stress at tassel emergence."
+  },
+  green_gram: {
+    keyBenefits: [
+      "Fastest 65-day harvest with top MSP rate (₹8,558/qtl)",
+      "Minimal water (250-350mm) and lowest financial risk",
+      "Deposits natural nitrogen for the next crop",
+      "Ideal catch crop between seasons"
+    ],
+    needs: [
+      "Light to medium well-drained soil, pH 6.5 - 7.8",
+      "Seed rate: 6-7 kg/acre",
+      "NPK: 10:20:10 kg/acre",
+      "Needs only 1-2 irrigations; strictly avoid standing water"
+    ],
+    zeroDamage: "Seed inoculation with Rhizobium culture ensures 100% nodulation. Spray 5% neem seed kernel extract (NSKE) at day 25 to halt whitefly transmission of yellow mosaic virus."
+  },
+  paddy: {
+    keyBenefits: [
+      "Guaranteed government purchase at MSP center",
+      "Highest staple grain production volume",
+      "Thrives in heavy clay & canal-fed lowlands",
+      "Predictable cultivation calendar"
+    ],
+    needs: [
+      "Clayey or clay-loam soil with pH 5.5 - 7.2",
+      "High continuous water (1100-1400mm)",
+      "NPK: 50:25:25 kg/acre with gypsum in alkali soil",
+      "Transplant 21-25 day old seedlings"
+    ],
+    zeroDamage: "Maintain 2-3 cm shallow water layer rather than deep flooding to avoid stem rot. Alternate wetting and drying (AWD) prevents methane release and Brown Planthopper (BPH) surges."
+  },
+  soybean: {
+    keyBenefits: [
+      "Top Kharif oilseed in Central India",
+      "Leaves field richly fertilized with natural nitrogen for Rabi wheat",
+      "Low labor intensity with mechanized harvesting",
+      "High export demand for de-oiled meal (DOC)"
+    ],
+    needs: [
+      "Fertile black or alluvial soil, pH 6.5 - 7.5",
+      "Seed rate: 25-30 kg/acre",
+      "NPK: 12:24:16 kg/acre with sulfur (10 kg/acre)",
+      "Sensitive to waterlogging; create drainage channels"
+    ],
+    zeroDamage: "Do not sow when soil is excessively wet to prevent seed decay. Treat seeds with Bradyrhizobium and spray Chlorantraniliprole 18.5% SC only if semilooper threshold exceeds 3 larvae/meter row."
+  },
+  chilli: {
+    keyBenefits: [
+      "Unmatched commercial profit margin (₹1.2L+ / acre net potential)",
+      "Continuous weekly harvests for 3-4 months",
+      "High domestic and export spice market prices",
+      "Ideal for drip fertigation and plastic mulching"
+    ],
+    needs: [
+      "Well-aerated sandy loam or red soil, pH 6.0 - 7.5",
+      "Seed rate: 100-120g hybrid seeds/acre",
+      "NPK: 60:40:40 kg/acre with micronutrients (boron & zinc)",
+      "Drip irrigation with constant moisture balance"
+    ],
+    zeroDamage: "Transplant on raised beds with silver-black mulch to prevent damping off and thrips. Blue sticky traps (15/acre) attract thrips and prevent leaf curl virus transmission without pesticide toxicity."
+  },
+  groundnut: {
+    keyBenefits: [
+      "#1 oilseed for sandy and red soils where cotton fails",
+      "Superior underground pegging in friable soil",
+      "Leaves nutritious nitrogen-rich haulm fodder for cows",
+      "Steady mandi demand for edible oil and peanut butter"
+    ],
+    needs: [
+      "Light sandy loam, red gravelly or porous loam, pH 6.0 - 7.5",
+      "Seed rate: 45-50 kg kernels/acre",
+      "NPK: 10:20:20 kg/acre with Gypsum (100 kg/acre at pegging)",
+      "Sprinkler or furrow moisture at peg penetration"
+    ],
+    zeroDamage: "Apply Gypsum at 40-45 days to supply essential calcium for pod shell hardening and zero hollow pods. Avoid field flooding during harvest to prevent aflatoxin contamination."
+  },
+  wheat: {
+    keyBenefits: [
+      "Rock-solid winter food security crop with guaranteed MSP",
+      "Predictable yield with minimal pest risks in cold weather",
+      "High straw market value for livestock feed",
+      "Excellent response to canal and borewell irrigation"
+    ],
+    needs: [
+      "Alluvial, clay-loam or black soil, pH 6.5 - 8.0",
+      "Seed rate: 40-45 kg/acre",
+      "NPK: 50:25:15 kg/acre (apply half N + full P & K at sowing)",
+      "5 critical irrigations: CRI (21d), tillering, jointing, flowering, milk stage"
+    ],
+    zeroDamage: "First irrigation at Crown Root Initiation (CRI at 20-22 days) is mandatory; skipping this stage reduces tillers by 35%. Spray tebuconazole only if yellow rust symptoms appear in North India."
+  },
+  chickpea: {
+    keyBenefits: [
+      "Highest profit-to-investment ratio in winter Rabi season",
+      "Requires minimal water (only 1-2 light waterings)",
+      "Thrives on residual black soil monsoon moisture",
+      "High domestic pulse consumption and stable prices"
+    ],
+    needs: [
+      "Black cotton or medium loam soil, pH 6.8 - 8.2",
+      "Seed rate: 25-30 kg/acre",
+      "NPK: 10:25:0 kg/acre (requires zero synthetic nitrogen)",
+      "Light watering at pre-flowering and pod formation"
+    ],
+    zeroDamage: "Nip/prune apical shoot at 30-35 days to multiply secondary branches and double pods. Never irrigate during peak flowering as overhead moisture triggers flower drop."
+  },
+  tomato: {
+    keyBenefits: [
+      "Fast cash turnover with harvests beginning 60-70 days",
+      "Huge volume yield (120-160 qtl/acre)",
+      "Thrives in red and loamy soils with drip setup",
+      "Year-round culinary demand"
+    ],
+    needs: [
+      "Well-drained sandy loam or red soil, pH 6.0 - 7.0",
+      "Seed rate: 50-60g hybrid seed/acre",
+      "NPK: 50:40:40 kg/acre with calcium nitrate to prevent blossom end rot",
+      "Consistent drip moisture to avoid fruit cracking"
+    ],
+    zeroDamage: "Trellis plants on stakes to keep fruits off the ground, eliminating 95% of fruit rot. Spray bio-fungicide Trichoderma harzianum to safeguard root zone from bacterial wilt."
+  },
+  mustard: {
+    keyBenefits: [
+      "Extremely low production cost (₹10,500/acre)",
+      "Needs only 1-2 irrigations; handles cold winter dew well",
+      "High oil percentage (38-42%) commands premium prices",
+      "Attracts honeybees and boosts farm biodiversity"
+    ],
+    needs: [
+      "Sandy loam, alluvial or light red soil, pH 6.0 - 7.5",
+      "Seed rate: 1.5-2 kg/acre",
+      "NPK: 35:15:15 kg/acre with elemental sulfur (10 kg/acre)",
+      "One irrigation at flowering (30d) and one at pod formation (60d)"
+    ],
+    zeroDamage: "Sulfur application (10 kg/acre) is essential to increase oil content and frost resistance. If aphids appear on inflorescence in cloudy weather, spray neem oil 10,000 ppm immediately before colony multiplies."
+  },
+  onion: {
+    keyBenefits: [
+      "High-value cash bulb with enormous seasonal price spikes",
+      "High yield potential (80-100 qtl/acre)",
+      "Suitable for winter Rabi and Kharif sets",
+      "Well-developed post-harvest storage market"
+    ],
+    needs: [
+      "Friable alluvial or light red soil, pH 6.5 - 7.5",
+      "Seed rate: 3.5-4 kg/acre for seedlings",
+      "NPK: 40:25:35 kg/acre with potash for bulb firmness",
+      "Light frequent irrigations; stop watering 10 days before harvest"
+    ],
+    zeroDamage: "Plant on raised beds to avoid bulb rot from water stagnation. Stop watering completely 10-14 days before harvest to allow neck fall and cure bulbs in shade for 7 days for rot-free storage."
+  },
+  sugarcane: {
+    keyBenefits: [
+      "Highest tonnage yield per acre with statutory mill price assurance",
+      "One planting yields 1 main crop + 2-3 ratoon harvests",
+      "Low daily labor once established",
+      "Guaranteed mill transportation and payment schedule"
+    ],
+    needs: [
+      "Deep fertile alluvial or clayey loam, pH 6.5 - 8.0",
+      "High assured water (>1500mm)",
+      "NPK: 100:35:45 kg/acre in multiple split doses",
+      "Wide row spacing (4-5 ft) for aeration and sunlight"
+    ],
+    zeroDamage: "Dip setts in carbendazim (0.1%) solution before planting to eliminate red rot disease. Trash mulching in furrows retains soil moisture, suppresses 90% of weeds, and insulates roots from summer heat."
+  },
+  bajra: {
+    keyBenefits: [
+      "Undisputed champion of drought and heat tolerance",
+      "Lowest input cost (₹8,500/acre) with zero failure risk",
+      "Superfood millet demand is expanding nationwide",
+      "Nutritious grain and dry fodder for animals"
+    ],
+    needs: [
+      "Sandy, red or light loam soil, pH 6.5 - 8.5",
+      "Seed rate: 1.5-2 kg/acre",
+      "NPK: 25:15:10 kg/acre",
+      "Rainfed or 1 light irrigation during dry spells"
+    ],
+    zeroDamage: "Sow treated seed on ridge lines. Intercropping with cowpea (lobia) or green gram halts soil erosion and smothers striga weed naturally without chemical herbicides."
+  },
+  potato: {
+    keyBenefits: [
+      "Massive bulk yield (100-130 qtl/acre) in only 90 days",
+      "High domestic culinary consumption in all seasons",
+      "Fast cash turnaround after winter sowing",
+      "Excellent rotation with Kharif paddy or maize"
+    ],
+    needs: [
+      "Loose, sandy loam or rich alluvial soil, pH 5.5 - 6.8",
+      "Seed rate: 10-12 qtl seed tubers/acre",
+      "NPK: 60:40:40 kg/acre with organic manure",
+      "Frequent furrow or sprinkler irrigation; avoid crusting"
+    ],
+    zeroDamage: "Use certified disease-free seed tubers cut with sterilized knives. Earthing up soil around plants at 30 days is critical to prevent sun exposure that turns tubers green with poisonous solanine."
+  }
+};
+
+// ==========================================
+// 4C. DYNAMIC AI CROP RECOMMENDATION ENGINE (ZERO SENSORS)
+// ==========================================
+function getRecommendedCropsList({
+  cropsDb,
+  stateId,
+  seasonId,
+  soilId,
+  methodId,
+  waterId,
+  acres,
+  soilN,
+  soilP,
+  soilK,
+  soilPh
+}) {
+  const safeAcres = Math.max(0.1, Number(acres) || 1);
+  const stateObj = INDIAN_STATES.find(s => s.id === stateId) || INDIAN_STATES[0];
+
+  return cropsDb.map(crop => {
+    // 1. Soil Match (out of 25)
+    let soilScore = 10;
+    if (crop.idealSoils.includes(soilId)) soilScore = 25;
+    else if (crop.moderateSoils.includes(soilId)) soilScore = 18;
+
+    // 2. Irrigation Method & Water (out of 25)
+    const baseWater = crop.waterSuitability[waterId] || 25;
+    let waterScore = Math.round((baseWater / 50) * 20);
+    if (methodId === "drip" && ["cotton", "chilli", "tomato", "maize", "sugarcane"].includes(crop.id)) {
+      waterScore += 5;
+    } else if (methodId === "rainfed" && (crop.waterLevel === "very_high" || crop.id === "chilli")) {
+      waterScore = Math.max(2, waterScore - 12);
+    }
+
+    // 3. Season Match (out of 25)
+    let seasonScore = 15;
+    const kharifCrops = ["cotton", "paddy", "maize", "red_gram", "soybean", "green_gram", "chilli", "groundnut", "bajra", "sugarcane"];
+    const rabiCrops = ["wheat", "chickpea", "mustard", "potato", "onion", "tomato", "maize"];
+    const zaidCrops = ["green_gram", "maize", "tomato", "onion", "groundnut", "bajra"];
+
+    if (seasonId === "kharif") {
+      seasonScore = kharifCrops.includes(crop.id) ? 25 : 8;
+    } else if (seasonId === "rabi") {
+      seasonScore = rabiCrops.includes(crop.id) ? 25 : 8;
+    } else if (seasonId === "zaid") {
+      seasonScore = zaidCrops.includes(crop.id) ? 25 : 12;
+    }
+
+    // 4. Regional / State Agronomic Match (out of 15)
+    let stateScore = 8;
+    if (stateObj?.mainCrops?.includes(crop.id)) {
+      stateScore = 15;
+    } else {
+      stateScore = 10;
+    }
+
+    // 5. Soil pH & NPK Suitability (out of 10)
+    let nutrientScore = 6;
+    const phVal = Number(soilPh) || 6.8;
+    if (phVal >= 6.0 && phVal <= 7.8) nutrientScore += 2;
+    else if (phVal < 5.5 || phVal > 8.5) nutrientScore -= 2;
+
+    const nVal = Number(soilN) || 80;
+    if (crop.category === "Pulses" || crop.id === "soybean" || crop.id === "groundnut") {
+      nutrientScore += 2; // Natural N-fixation
+    } else if (nVal >= 70) {
+      nutrientScore += 2;
+    }
+
+    const matchPercent = Math.min(99, Math.max(30, soilScore + waterScore + seasonScore + stateScore + nutrientScore));
+
+    // Yield multiplier calculation
+    let yieldMultiplier = 1.0;
+    if (methodId === "drip" && ["cotton", "chilli", "tomato", "maize", "sugarcane"].includes(crop.id)) {
+      yieldMultiplier = 1.15;
+    } else if (methodId === "rainfed") {
+      if (crop.waterLevel === "very_high") yieldMultiplier = 0.55;
+      else if (crop.waterLevel === "high") yieldMultiplier = 0.72;
+      else if (crop.waterLevel === "medium") yieldMultiplier = 0.85;
+      else yieldMultiplier = 0.98;
+    }
+
+    const costAdjustment = methodId === "rainfed" ? -1500 : 0;
+    const effectiveCostPerAcre = Math.max(5000, crop.costPerAcre + costAdjustment);
+    const totalCost = effectiveCostPerAcre * safeAcres;
+    const totalYieldQtl = Math.round(crop.yieldPerAcre * yieldMultiplier * safeAcres * 10) / 10;
+    const grossRevenue = Math.round(totalYieldQtl * crop.pricePerQtl);
+    const netProfit = grossRevenue - totalCost;
+    const roi = totalCost > 0 ? Math.round((netProfit / totalCost) * 100) : 0;
+
+    const extras = CROP_AGRONOMY_EXTRAS[crop.id] || {
+      keyBenefits: [crop.keyStrength || "Reliable regional crop", "Good mandi demand"],
+      needs: ["Balanced NPK and regular weeding", "Adequate moisture at critical stages"],
+      zeroDamage: crop.advisory || "Follow recommended spacing and seed treatment for zero crop damage."
+    };
+
+    return {
+      ...crop,
+      keyBenefits: extras.keyBenefits,
+      needs: extras.needs,
+      zeroDamage: extras.zeroDamage,
+      matchPercent,
+      yieldMultiplier,
+      effectiveCostPerAcre,
+      totalCost,
+      totalYieldQtl,
+      grossRevenue,
+      netProfit,
+      roi
+    };
+  }).sort((a, b) => b.matchPercent - a.matchPercent || b.netProfit - a.netProfit);
+}
+
+// ==========================================
 // 5. HELPER: DYNAMIC SUITABILITY COMPUTATION
 // ==========================================
 function getCropSuitability(crop, soilId, methodId, waterId) {
@@ -1075,16 +1465,70 @@ function getDynamicIntercroppingPlan(primaryCropId, soilId, methodId, waterId, a
   };
 }
 
-export default function CropRecommendationTool() {
-  const [activeTab, setActiveTab] = useState("compare");
+export default function CropRecommendationTool({ user }) {
+  const { language, t } = useLanguage();
+  const { isSpeaking, speak, stopSpeaking } = useVoiceAssistant(language);
+
+  // Tab State: default to "suggested"
+  const [activeTab, setActiveTab] = useState("suggested");
+  const navigate = useNavigate();
+
+  /**
+   * Requirement 5: Crop Selection → Crop Calendar Redirection
+   * 
+   * When a farmer selects a recommended crop, redirects them directly to the
+   * existing Crop Calendar (/calendar) while carrying forward:
+   * - Selected crop name / identifier
+   * - Estimated crop duration in days
+   * - Farm land acreage
+   * - Soil type
+   * - Active farming season
+   * - Selected irrigation method
+   * 
+   * @param {Object} crop - Selected crop item
+   */
+  const handleSelectCropForCalendar = (crop) => {
+    if (!crop) return;
+    const cropName = crop.name || crop.id;
+    const durDays = crop.durationDays || (crop.duration ? parseInt(crop.duration) : 120);
+    const queryParams = new URLSearchParams({
+      crop: cropName,
+      durationDays: String(durDays),
+      acres: String(safeLandAcres),
+      soil: selectedSoil,
+      season: selectedSeason,
+      irrigation: selectedIrrigationMethod
+    });
+    navigate(`/calendar?${queryParams.toString()}`);
+  };
 
   // ==========================================
-  // USER INPUT STATE: CROPS, LAND & IRRIGATION
+  // USER INPUT STATE: LOCATION, SEASON, LAND, SOIL & IRRIGATION (100% MANUAL, ZERO SENSORS)
   // ==========================================
-  const [landAcres, setLandAcres] = useState(2.0);
-  const [selectedSoil, setSelectedSoil] = useState("black");
-  const [selectedIrrigationMethod, setSelectedIrrigationMethod] = useState("borewell");
+  const userLocStr = (user?.location || user?.locationObj?.state || user?.locationObj?.district || "").toLowerCase();
+  const initialMatchedState = INDIAN_STATES.find(s => userLocStr.includes(s.id) || userLocStr.includes(s.name.toLowerCase()))?.id || "punjab";
+  const [selectedState, setSelectedState] = useState(initialMatchedState);
+
+  const currentMonth = new Date().getMonth(); // 0 = Jan
+  const defaultSeason = (currentMonth >= 5 && currentMonth <= 9) ? "kharif" : (currentMonth >= 10 || currentMonth <= 2) ? "rabi" : "zaid";
+  const [selectedSeason, setSelectedSeason] = useState(defaultSeason);
+
+  const initialAcres = user?.farmSizeHectares ? Number((user.farmSizeHectares * 2.47).toFixed(1)) : 2.5;
+  const [landAcres, setLandAcres] = useState(initialAcres);
+
+  const initialSoil = user?.farmProfile?.soilType || "black";
+  const [selectedSoil, setSelectedSoil] = useState(initialSoil);
+
+  const initialIrrig = user?.farmProfile?.irrigation?.[0] || "borewell";
+  const [selectedIrrigationMethod, setSelectedIrrigationMethod] = useState(initialIrrig);
   const [selectedWaterAvailability, setSelectedWaterAvailability] = useState("moderate");
+
+  // Manual Soil Chemistry inputs (Zero Sensors, 100% Manual Farmer Input)
+  const [soilN, setSoilN] = useState(80); // Nitrogen kg/ha
+  const [soilP, setSoilP] = useState(40); // Phosphorus kg/ha
+  const [soilK, setSoilK] = useState(40); // Potassium kg/ha
+  const [soilPh, setSoilPh] = useState(6.8); // Soil pH (5.5 - 8.5)
+
   const [cropSearch, setCropSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -1108,6 +1552,53 @@ export default function CropRecommendationTool() {
 
   // Safe boundary protection
   const safeLandAcres = Math.max(0.1, Number(landAcres) || 0.1);
+
+  // Dynamic AI Crop Suggestion List: calculated across all crops in CROPS_DB
+  const suggestedCrops = useMemo(() => {
+    return getRecommendedCropsList({
+      cropsDb: CROPS_DB,
+      stateId: selectedState,
+      seasonId: selectedSeason,
+      soilId: selectedSoil,
+      methodId: selectedIrrigationMethod,
+      waterId: selectedWaterAvailability,
+      acres: safeLandAcres,
+      soilN,
+      soilP,
+      soilK,
+      soilPh
+    });
+  }, [selectedState, selectedSeason, selectedSoil, selectedIrrigationMethod, selectedWaterAvailability, safeLandAcres, soilN, soilP, soilK, soilPh]);
+
+  // Vernacular Voice Assistant Spoken Advice
+  const handleSpeakRecommendations = () => {
+    if (isSpeaking) {
+      stopSpeaking();
+      return;
+    }
+    const top3 = suggestedCrops.slice(0, 3);
+    if (!top3.length) return;
+
+    const crop1 = top3[0];
+    const crop2 = top3[1];
+    const crop3 = top3[2];
+    const stateName = INDIAN_STATES.find(s => s.id === selectedState)?.name || "your state";
+
+    const voiceTexts = {
+      EN: `Based on your manual farm inputs for ${safeLandAcres} acres in ${stateName}, your top recommended crop is ${crop1.name} with ${crop1.matchPercent}% suitability and expected net profit of rupees ${Math.round(crop1.netProfit).toLocaleString()}. Second option is ${crop2?.name} at ${crop2?.matchPercent}%, and third is ${crop3?.name}. Zero damage protection advice: ${crop1.zeroDamage || "Apply bio-fungicide seed treatment and maintain balanced watering."}`,
+      HI: `आपके ${safeLandAcres} एकड़ खेत के मैनुअल इनपुट्स के अनुसार, सबसे उत्तम फसल ${crop1.name} है, जिसकी उपयुक्तता ${crop1.matchPercent}% और अनुमानित शुद्ध लाभ ₹${Math.round(crop1.netProfit).toLocaleString()} है। दूसरा विकल्प ${crop2?.name} (${crop2?.matchPercent}%) और तीसरा ${crop3?.name} है। बिना किसी नुकसान के फसल सुरक्षा सलाह: ${crop1.zeroDamage || "बुवाई से पहले बीज उपचार करें और उचित जल निकास रखें।"}`,
+      TE: `మీ ${safeLandAcres} ఎకరాల పొలం వివరాల ప్రకారం, మీకు అత్యంత అనుకూలమైన పంట ${crop1.name} (${crop1.matchPercent}% అనుకూలత), అంచనా నికర లాభం ₹${Math.round(crop1.netProfit).toLocaleString()}. రెండవ ఎంపిక ${crop2?.name}, మూడవది ${crop3?.name}. పంటకు ఎటువంటి నష్టం కలగకుండా సలహా: ${crop1.zeroDamage || "విత్తన శుద్ధి చేసి సిఫార్సు చేసిన మోతాదులో నీరు అందించండి."}`,
+      TA: `உங்கள் ${safeLandAcres} ஏக்கர் நிலத்தின் விவரங்களின்படி, மிகவும் பரிந்துரைக்கப்படும் பயிர் ${crop1.name} (${crop1.matchPercent}% பொருத்தம்), எதிர்பார்க்கப்படும் லாபம் ₹${Math.round(crop1.netProfit).toLocaleString()}. இரண்டாவது ${crop2?.name}, மூன்றாவது ${crop3?.name}. பயிர் சேதமில்லா பாதுகாப்பு: ${crop1.zeroDamage || "விதை நேர்த்தி செய்து சீரான நீர்ப்பாசனம் செய்யுங்கள்."}`,
+      KN: `ನಿಮ್ಮ ${safeLandAcres} ಎಕರೆ ಜಮೀನಿನ ವಿವರಗಳ ಪ್ರಕಾರ, ಅತಿ ಸೂಕ್ತ ಬೆಳೆ ${crop1.name} (${crop1.matchPercent}% ಸೂಕ್ತತೆ), ಅಂದಾಜು ಲಾಭ ₹${Math.round(crop1.netProfit).toLocaleString()}. ಎರಡನೇ ಆಯ್ಕೆ ${crop2?.name}, ಮೂರನೇ ಆಯ್ಕೆ ${crop3?.name}. ಹಾನಿಯಿಲ್ಲದ ರಕ್ಷಣಾ ಸಲಹೆ: ${crop1.zeroDamage || "ಬಿತ್ತನೆಗೆ ಮುನ್ನ ಬೀಜೋಪಚಾರ ಮಾಡಿ."}`,
+      MR: `तुमच्या ${safeLandAcres} एकर शेताच्या माहितीनुसार, सर्वात योग्य पीक ${crop1.name} (${crop1.matchPercent}% अनुकूलता) असून अंदाजे नफा ₹${Math.round(crop1.netProfit).toLocaleString()} आहे. दुसरा पर्याय ${crop2?.name} आणि तिसरा ${crop3?.name} आहे. नुकसान टाळण्यासाठी सल्ला: ${crop1.zeroDamage || "पेरणीपूर्वी ट्रायकोडर्माने बीजप्रक्रिया करा."}`,
+      PA: `ਤੁਹਾਡੇ ${safeLandAcres} ਏਕੜ ਖੇਤ ਦੇ ਵੇਰਵਿਆਂ ਅਨੁਸਾਰ, ਸਭ ਤੋਂ ਵਧੀਆ ਫਸਲ ${crop1.name} (${crop1.matchPercent}% ਅਨੁਕੂਲਤਾ) ਹੈ ਅਤੇ ਅਨੁਮਾਨਿਤ ਸ਼ੁੱਧ ਮੁਨਾਫਾ ₹${Math.round(crop1.netProfit).toLocaleString()} ਹੈ। ਦੂਜਾ ਵਿਕਲਪ ${crop2?.name} ਅਤੇ ਤੀਜਾ ${crop3?.name} ਹੈ। ਨੁਕਸਾਨ ਰਹਿਤ ਸਲਾਹ: ${crop1.zeroDamage || "ਬਿਜਾਈ ਤੋਂ ਪਹਿਲਾਂ ਬੀਜ ਦਾ ਉਪਚਾਰ ਕਰੋ।"}`,
+      BN: `আপনার ${safeLandAcres} একর জমির তথ্যের ভিত্তিতে সবচেয়ে সেরা ফসল হল ${crop1.name} (${crop1.matchPercent}% উপযুক্ত), সম্ভাব্য লাভ ₹${Math.round(crop1.netProfit).toLocaleString()}। ক্ষয়ক্ষতিহীন সুরক্ষার পরামর্শ: ${crop1.zeroDamage || "বীজ শোধন করুন এবং পরিমিত সেচ দিন।"}`,
+      GU: `તમારા ${safeLandAcres} એકર ખેતર માટે સૌથી ઉત્તમ પાક ${crop1.name} (${crop1.matchPercent}% અનુકૂળતા) છે, અંદાજિત ચોખ્ખો નફો ₹${Math.round(crop1.netProfit).toLocaleString()} છે. નુકસાન રહિત સલાહ: ${crop1.zeroDamage || "વાવણી પહેલાં બીજ માવજત કરો."}`
+    };
+
+    const textToSpeak = voiceTexts[language] || voiceTexts.EN;
+    speak(textToSpeak, language);
+  };
 
   // Budget Tab Computations
   const safeYieldQtl = Math.max(0, Number(expectedYieldQtl) || 0);
@@ -1251,77 +1742,580 @@ export default function CropRecommendationTool() {
       <div className="page-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px", marginBottom: "20px" }}>
         <div>
           <h1 className="page-title" style={{ display: "flex", alignItems: "center", gap: "8px", margin: "0 0 6px" }}>
-            🌾 Smart Farm Financial Hub & Multi-Crop Decision Engine
+            🌾 {t("Smart Farm Financial Hub & Multi-Crop Decision Engine")}
           </h1>
           <p className="page-subtitle" style={{ margin: 0 }}>
-            Enter your exact land details, choose your way of getting water for irrigation, pick crops, and get a complete side-by-side comparison.
+            {t("Enter your exact land details, choose your way of getting water for irrigation, pick crops, and get a complete side-by-side comparison.")}
           </p>
         </div>
 
-        {/* TAB BUTTONS: 1. Multi-Crop Comparison Engine | 2. Smart Intercropping & Risk Matrix | 3. Smart Budget */}
-        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }} role="tablist" aria-label="Crop Tool Sections">
+        {/* Vernacular Voice Assistant Spoken Advice Button */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <button
-            role="tab"
-            aria-selected={activeTab === "compare"}
-            className={`secondary-btn ${activeTab === "compare" ? "active" : ""}`}
-            onClick={() => setActiveTab("compare")}
+            type="button"
+            onClick={handleSpeakRecommendations}
             style={{
-              fontWeight: "700",
               display: "flex",
               alignItems: "center",
-              gap: "6px",
-              padding: "10px 16px",
-              borderRadius: "6px",
-              border: activeTab === "compare" ? "2px solid #16a34a" : "1px solid var(--fk-border)",
-              background: activeTab === "compare" ? "#16a34a" : "var(--fk-card)",
-              color: activeTab === "compare" ? "#ffffff" : "var(--fk-text)",
-              cursor: "pointer"
-            }}
-          >
-            📊 Multi-Crop Comparison Engine
-          </button>
-          <button
-            role="tab"
-            aria-selected={activeTab === "plan"}
-            className={`secondary-btn ${activeTab === "plan" ? "active" : ""}`}
-            onClick={() => setActiveTab("plan")}
-            style={{
+              gap: "8px",
+              padding: "10px 18px",
+              borderRadius: "8px",
+              border: "1.5px solid #16a34a",
+              background: isSpeaking ? "#fee2e2" : "rgba(22, 163, 74, 0.12)",
+              color: isSpeaking ? "#b91c1c" : "#16a34a",
               fontWeight: "700",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "10px 16px",
-              borderRadius: "6px",
-              border: activeTab === "plan" ? "2px solid #16a34a" : "1px solid var(--fk-border)",
-              background: activeTab === "plan" ? "#16a34a" : "var(--fk-card)",
-              color: activeTab === "plan" ? "#ffffff" : "var(--fk-text)",
-              cursor: "pointer"
+              fontSize: "14px",
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              boxShadow: "0 2px 8px rgba(22, 163, 74, 0.1)"
             }}
           >
-            🌿 Smart Intercropping & Risk Matrix
-          </button>
-          <button
-            role="tab"
-            aria-selected={activeTab === "budget"}
-            className={`secondary-btn ${activeTab === "budget" ? "active" : ""}`}
-            onClick={() => setActiveTab("budget")}
-            style={{
-              fontWeight: "700",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "10px 16px",
-              borderRadius: "6px",
-              border: activeTab === "budget" ? "2px solid #16a34a" : "1px solid var(--fk-border)",
-              background: activeTab === "budget" ? "#16a34a" : "var(--fk-card)",
-              color: activeTab === "budget" ? "#ffffff" : "var(--fk-text)",
-              cursor: "pointer"
-            }}
-          >
-            💰 Smart Budget & Break-Even Calculator
+            {isSpeaking ? <VolumeX size={18} /> : <Volume2 size={18} />}
+            <span>{isSpeaking ? t("Stop Speaking") : t("🔊 Bolkar Suno / Listen to Advice")}</span>
           </button>
         </div>
       </div>
+
+      {/* 100% MANUAL FARMER INPUT BAR (ZERO IOT SENSORS) */}
+      <div className="glass-card" style={{
+        background: "var(--fk-card)",
+        border: "1.5px solid rgba(22, 163, 74, 0.3)",
+        borderRadius: "12px",
+        padding: "20px",
+        marginBottom: "20px",
+        boxShadow: "0 4px 20px rgba(0,0,0,0.06)"
+      }}>
+        {/* Banner */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: "10px",
+          padding: "8px 14px",
+          background: "rgba(22, 163, 74, 0.08)",
+          borderRadius: "8px",
+          border: "1px solid rgba(22, 163, 74, 0.2)",
+          marginBottom: "16px"
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#16a34a", fontWeight: "700", fontSize: "14px" }}>
+            <ShieldCheck size={18} />
+            <span>{t("100% Manual Farmer Input Mode (Zero Sensors Required)")}</span>
+          </div>
+          <span style={{ fontSize: "12px", color: "var(--fk-text-sub)" }}>
+            ⚡ {t("All crop recommendations dynamically update with your manual entries")}
+          </span>
+        </div>
+
+        {/* Form Grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "14px" }}>
+          {/* Location / State */}
+          <div style={{ background: "var(--fk-bg)", padding: "12px", borderRadius: "8px", border: "1px solid var(--fk-border)" }}>
+            <label style={{ fontSize: "13px", fontWeight: "800", color: "var(--fk-text)", display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
+              <MapPin size={15} color="#2563eb" />
+              <span>{t("Farm Location / State")}</span>
+            </label>
+            <select
+              value={selectedState}
+              onChange={(e) => setSelectedState(e.target.value)}
+              style={{ width: "100%", padding: "8px 10px", borderRadius: "6px", border: "1px solid var(--fk-border)", background: "var(--fk-card)", color: "var(--fk-text)", fontSize: "14px", fontWeight: "600" }}
+            >
+              {INDIAN_STATES.map((s) => (
+                <option key={s.id} value={s.id}>{s.name} ({s.region})</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Cultivation Season */}
+          <div style={{ background: "var(--fk-bg)", padding: "12px", borderRadius: "8px", border: "1px solid var(--fk-border)" }}>
+            <label style={{ fontSize: "13px", fontWeight: "800", color: "var(--fk-text)", display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
+              <Calendar size={15} color="#d97706" />
+              <span>{t("Cultivation Season")}</span>
+            </label>
+            <select
+              value={selectedSeason}
+              onChange={(e) => setSelectedSeason(e.target.value)}
+              style={{ width: "100%", padding: "8px 10px", borderRadius: "6px", border: "1px solid var(--fk-border)", background: "var(--fk-card)", color: "var(--fk-text)", fontSize: "14px", fontWeight: "600" }}
+            >
+              <option value="kharif">🌧️ Kharif (Monsoon / Jun-Oct)</option>
+              <option value="rabi">❄️ Rabi (Winter / Oct-Mar)</option>
+              <option value="zaid">☀️ Zaid (Summer / Mar-Jun)</option>
+            </select>
+          </div>
+
+          {/* Soil Type */}
+          <div style={{ background: "var(--fk-bg)", padding: "12px", borderRadius: "8px", border: "1px solid var(--fk-border)" }}>
+            <label style={{ fontSize: "13px", fontWeight: "800", color: "var(--fk-text)", display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
+              <span>🪨</span>
+              <span>{t("Soil Type of Field")}</span>
+            </label>
+            <select
+              value={selectedSoil}
+              onChange={(e) => setSelectedSoil(e.target.value)}
+              style={{ width: "100%", padding: "8px 10px", borderRadius: "6px", border: "1px solid var(--fk-border)", background: "var(--fk-card)", color: "var(--fk-text)", fontSize: "14px", fontWeight: "600" }}
+            >
+              {SOIL_TYPES.map((s) => (
+                <option key={s.id} value={s.id}>{s.icon} {s.name}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Way of Getting Water */}
+          <div style={{ background: "var(--fk-bg)", padding: "12px", borderRadius: "8px", border: "1px solid var(--fk-border)" }}>
+            <label style={{ fontSize: "13px", fontWeight: "800", color: "var(--fk-text)", display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
+              <Droplets size={15} color="#0284c7" />
+              <span>{t("Irrigation Method")}</span>
+            </label>
+            <select
+              value={selectedIrrigationMethod}
+              onChange={(e) => setSelectedIrrigationMethod(e.target.value)}
+              style={{ width: "100%", padding: "8px 10px", borderRadius: "6px", border: "1px solid var(--fk-border)", background: "var(--fk-card)", color: "var(--fk-text)", fontSize: "14px", fontWeight: "600" }}
+            >
+              {IRRIGATION_METHODS.map((m) => (
+                <option key={m.id} value={m.id}>{m.icon} {m.name}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Water Availability */}
+          <div style={{ background: "var(--fk-bg)", padding: "12px", borderRadius: "8px", border: "1px solid var(--fk-border)" }}>
+            <label style={{ fontSize: "13px", fontWeight: "800", color: "var(--fk-text)", display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" }}>
+              <span>💧</span>
+              <span>{t("Water Supply Level")}</span>
+            </label>
+            <select
+              value={selectedWaterAvailability}
+              onChange={(e) => setSelectedWaterAvailability(e.target.value)}
+              style={{ width: "100%", padding: "8px 10px", borderRadius: "6px", border: "1px solid var(--fk-border)", background: "var(--fk-card)", color: "var(--fk-text)", fontSize: "14px", fontWeight: "600" }}
+            >
+              {WATER_AVAILABILITIES.map((w) => (
+                <option key={w.id} value={w.id}>{w.icon} {w.name} ({w.sub})</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Land Acres */}
+          <div style={{ background: "var(--fk-bg)", padding: "12px", borderRadius: "8px", border: "1px solid var(--fk-border)" }}>
+            <label style={{ fontSize: "13px", fontWeight: "800", color: "var(--fk-text)", display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
+              <span>📏 {t("Land Area (Acres)")}</span>
+              <span style={{ color: "#16a34a", fontWeight: "800" }}>{safeLandAcres} Acres</span>
+            </label>
+            <input
+              type="number"
+              min="0.25"
+              step="0.5"
+              max="100"
+              value={landAcres}
+              onChange={(e) => setLandAcres(Math.max(0.1, Number(e.target.value)))}
+              style={{ width: "100%", padding: "8px 10px", borderRadius: "6px", border: "1px solid var(--fk-border)", background: "var(--fk-card)", color: "var(--fk-text)", fontSize: "14px", fontWeight: "700" }}
+            />
+          </div>
+        </div>
+
+        {/* Manual Soil Test N-P-K & pH Sliders (Optional/Detailed) */}
+        <div style={{ marginTop: "14px", paddingTop: "14px", borderTop: "1px dashed var(--fk-border)", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "12px" }}>
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", fontWeight: "700", color: "var(--fk-text)", marginBottom: "4px" }}>
+              <span>Nitrogen (N) kg/ha</span>
+              <span style={{ color: "#2563eb" }}>{soilN} kg/ha</span>
+            </div>
+            <input type="range" min="10" max="150" value={soilN} onChange={e => setSoilN(Number(e.target.value))} style={{ width: "100%", accentColor: "#2563eb" }} />
+          </div>
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", fontWeight: "700", color: "var(--fk-text)", marginBottom: "4px" }}>
+              <span>Phosphorus (P) kg/ha</span>
+              <span style={{ color: "#d97706" }}>{soilP} kg/ha</span>
+            </div>
+            <input type="range" min="5" max="100" value={soilP} onChange={e => setSoilP(Number(e.target.value))} style={{ width: "100%", accentColor: "#d97706" }} />
+          </div>
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", fontWeight: "700", color: "var(--fk-text)", marginBottom: "4px" }}>
+              <span>Potassium (K) kg/ha</span>
+              <span style={{ color: "#7c3aed" }}>{soilK} kg/ha</span>
+            </div>
+            <input type="range" min="10" max="100" value={soilK} onChange={e => setSoilK(Number(e.target.value))} style={{ width: "100%", accentColor: "#7c3aed" }} />
+          </div>
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", fontWeight: "700", color: "var(--fk-text)", marginBottom: "4px" }}>
+              <span>Soil pH</span>
+              <span style={{ color: "#16a34a" }}>{soilPh} ({soilPh < 6 ? "Acidic" : soilPh > 7.5 ? "Alkaline" : "Neutral"})</span>
+            </div>
+            <input type="range" min="5.0" max="8.5" step="0.1" value={soilPh} onChange={e => setSoilPh(Number(e.target.value))} style={{ width: "100%", accentColor: "#16a34a" }} />
+          </div>
+        </div>
+      </div>
+
+      {/* TAB NAVIGATION BAR */}
+      <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }} role="tablist" aria-label="Crop Tool Sections">
+        <button
+          role="tab"
+          aria-selected={activeTab === "suggested"}
+          className={`secondary-btn ${activeTab === "suggested" ? "active" : ""}`}
+          onClick={() => setActiveTab("suggested")}
+          style={{
+            fontWeight: "700",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            padding: "10px 16px",
+            borderRadius: "6px",
+            border: activeTab === "suggested" ? "2px solid #16a34a" : "1px solid var(--fk-border)",
+            background: activeTab === "suggested" ? "#16a34a" : "var(--fk-card)",
+            color: activeTab === "suggested" ? "#ffffff" : "var(--fk-text)",
+            cursor: "pointer"
+          }}
+        >
+          🌱 {t("AI Suggested Crops")} ({suggestedCrops.length})
+        </button>
+        <button
+          role="tab"
+          aria-selected={activeTab === "compare"}
+          className={`secondary-btn ${activeTab === "compare" ? "active" : ""}`}
+          onClick={() => setActiveTab("compare")}
+          style={{
+            fontWeight: "700",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            padding: "10px 16px",
+            borderRadius: "6px",
+            border: activeTab === "compare" ? "2px solid #16a34a" : "1px solid var(--fk-border)",
+            background: activeTab === "compare" ? "#16a34a" : "var(--fk-card)",
+            color: activeTab === "compare" ? "#ffffff" : "var(--fk-text)",
+            cursor: "pointer"
+          }}
+        >
+          📊 {t("Multi-Crop Comparison Engine")}
+        </button>
+        <button
+          role="tab"
+          aria-selected={activeTab === "plan"}
+          className={`secondary-btn ${activeTab === "plan" ? "active" : ""}`}
+          onClick={() => setActiveTab("plan")}
+          style={{
+            fontWeight: "700",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            padding: "10px 16px",
+            borderRadius: "6px",
+            border: activeTab === "plan" ? "2px solid #16a34a" : "1px solid var(--fk-border)",
+            background: activeTab === "plan" ? "#16a34a" : "var(--fk-card)",
+            color: activeTab === "plan" ? "#ffffff" : "var(--fk-text)",
+            cursor: "pointer"
+          }}
+        >
+          🌿 {t("Smart Intercropping & Risk Matrix")}
+        </button>
+        <button
+          role="tab"
+          aria-selected={activeTab === "budget"}
+          className={`secondary-btn ${activeTab === "budget" ? "active" : ""}`}
+          onClick={() => setActiveTab("budget")}
+          style={{
+            fontWeight: "700",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            padding: "10px 16px",
+            borderRadius: "6px",
+            border: activeTab === "budget" ? "2px solid #16a34a" : "1px solid var(--fk-border)",
+            background: activeTab === "budget" ? "#16a34a" : "var(--fk-card)",
+            color: activeTab === "budget" ? "#ffffff" : "var(--fk-text)",
+            cursor: "pointer"
+          }}
+        >
+          💰 {t("Smart Budget & Break-Even Calculator")}
+        </button>
+      </div>
+
+      {/* ========================================================= */}
+      {/* TAB 0: AI SUGGESTED CROPS (RANKED & ZERO-DAMAGE CARE) */}
+      {/* ========================================================= */}
+      {activeTab === "suggested" && (
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          {/* Top Recommendation Summary Card */}
+          {suggestedCrops.length > 0 && (
+            <div style={{
+              background: "linear-gradient(135deg, rgba(22, 163, 74, 0.12), rgba(37, 99, 235, 0.08))",
+              border: "1.5px solid rgba(22, 163, 74, 0.4)",
+              borderRadius: "12px",
+              padding: "20px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "16px"
+            }}>
+              <div>
+                <span style={{ fontSize: "12px", fontWeight: "800", color: "#16a34a", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                  🏆 #1 Best Crop for Your Farm
+                </span>
+                <h2 style={{ fontSize: "24px", fontWeight: "800", color: "var(--fk-text)", margin: "4px 0 6px" }}>
+                  {suggestedCrops[0].icon} {suggestedCrops[0].name}
+                </h2>
+                <p style={{ fontSize: "14px", color: "var(--fk-text-sub)", margin: 0, maxWidth: "600px" }}>
+                  {suggestedCrops[0].advisory}
+                </p>
+              </div>
+              <div style={{ display: "flex", gap: "14px", alignItems: "center", flexWrap: "wrap" }}>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: "28px", fontWeight: "800", color: "#16a34a" }}>
+                    {suggestedCrops[0].matchPercent}%
+                  </div>
+                  <span style={{ fontSize: "12px", color: "var(--fk-text-sub)", fontWeight: "600" }}>Suitability Match</span>
+                </div>
+                <div style={{ borderLeft: "1px solid var(--fk-border)", paddingLeft: "12px" }}>
+                  <div style={{ fontSize: "22px", fontWeight: "800", color: "#16a34a" }}>
+                    ₹{Math.round(suggestedCrops[0].netProfit).toLocaleString()}
+                  </div>
+                  <span style={{ fontSize: "12px", color: "var(--fk-text-sub)", fontWeight: "600" }}>Expected Net Profit</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleSelectCropForCalendar(suggestedCrops[0])}
+                  style={{
+                    padding: "9px 16px",
+                    borderRadius: "8px",
+                    border: "1.5px solid #16a34a",
+                    background: "#16a34a",
+                    color: "#ffffff",
+                    fontWeight: "700",
+                    fontSize: "13px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    boxShadow: "0 2px 8px rgba(22, 163, 74, 0.25)",
+                    transition: "all 0.15s ease"
+                  }}
+                  title="Select #1 Recommended Crop and open its comprehensive Crop Calendar"
+                >
+                  <Calendar size={16} />
+                  <span>Select & View in Crop Calendar</span>
+                  <ArrowRight size={14} />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Cards Grid for Top Ranked Crops */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "16px" }}>
+            {suggestedCrops.map((crop, idx) => {
+              const isTopPick = idx === 0;
+              const isCompared = selectedCropIds.includes(crop.id);
+              return (
+                <div
+                  key={crop.id}
+                  className="glass-card dg-card-interactive"
+                  style={{
+                    background: "var(--fk-card)",
+                    border: isTopPick ? "2px solid #16a34a" : "1px solid var(--fk-border)",
+                    borderRadius: "12px",
+                    padding: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    gap: "14px",
+                    boxShadow: isTopPick ? "0 8px 24px rgba(22, 163, 74, 0.12)" : "0 2px 10px rgba(0,0,0,0.03)"
+                  }}
+                >
+                  <div>
+                    {/* Header */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <span style={{ fontSize: "32px" }}>{crop.icon}</span>
+                        <div>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <h3 style={{ fontSize: "18px", fontWeight: "800", color: "var(--fk-text)", margin: 0 }}>
+                              {crop.name}
+                            </h3>
+                            <span style={{ fontSize: "11px", fontWeight: "700", padding: "2px 6px", borderRadius: "4px", background: "rgba(37, 99, 235, 0.1)", color: "#2563eb" }}>
+                              {crop.category}
+                            </span>
+                          </div>
+                          <span style={{ fontSize: "12px", color: "var(--fk-text-sub)" }}>
+                            ⏱️ {crop.duration} • 💧 {crop.waterReq}
+                          </span>
+                        </div>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        <span style={{
+                          fontSize: "13px",
+                          fontWeight: "800",
+                          color: crop.matchPercent >= 80 ? "#16a34a" : crop.matchPercent >= 65 ? "#2563eb" : "#d97706",
+                          background: crop.matchPercent >= 80 ? "rgba(22, 163, 74, 0.12)" : "rgba(37, 99, 235, 0.1)",
+                          padding: "4px 10px",
+                          borderRadius: "16px",
+                          display: "inline-block"
+                        }}>
+                          {crop.matchPercent}% Match
+                        </span>
+                        <div style={{ fontSize: "11px", color: "var(--fk-text-sub)", marginTop: "2px" }}>
+                          #{idx + 1} Ranked
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Financial Metrics Strip */}
+                    <div style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr 1fr",
+                      gap: "8px",
+                      background: "var(--fk-bg)",
+                      padding: "10px",
+                      borderRadius: "8px",
+                      border: "1px solid var(--fk-border)",
+                      marginBottom: "12px"
+                    }}>
+                      <div>
+                        <div style={{ fontSize: "11px", color: "var(--fk-text-sub)" }}>Net Profit</div>
+                        <div style={{ fontSize: "15px", fontWeight: "800", color: "#16a34a" }}>
+                          ₹{Math.round(crop.netProfit).toLocaleString()}
+                        </div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: "11px", color: "var(--fk-text-sub)" }}>Expected ROI</div>
+                        <div style={{ fontSize: "15px", fontWeight: "800", color: "#2563eb" }}>
+                          {crop.roi}%
+                        </div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: "11px", color: "var(--fk-text-sub)" }}>Est. Yield</div>
+                        <div style={{ fontSize: "15px", fontWeight: "800", color: "var(--fk-text)" }}>
+                          {crop.totalYieldQtl} Qtl
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Key Benefits */}
+                    <div style={{ marginBottom: "12px" }}>
+                      <div style={{ fontSize: "12px", fontWeight: "800", color: "var(--fk-text)", marginBottom: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
+                        <CheckCircle2 size={14} color="#16a34a" />
+                        <span>Key Agronomic Benefits</span>
+                      </div>
+                      <ul style={{ margin: 0, paddingLeft: "18px", fontSize: "12px", color: "var(--fk-text-sub)", lineHeight: "1.5" }}>
+                        {crop.keyBenefits?.map((b, bIdx) => (
+                          <li key={bIdx}>{b}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Needs & Nutrition */}
+                    <div style={{ marginBottom: "12px" }}>
+                      <div style={{ fontSize: "12px", fontWeight: "800", color: "var(--fk-text)", marginBottom: "4px", display: "flex", alignItems: "center", gap: "4px" }}>
+                        <Sprout size={14} color="#2563eb" />
+                        <span>Field Needs & Nutrition</span>
+                      </div>
+                      <ul style={{ margin: 0, paddingLeft: "18px", fontSize: "12px", color: "var(--fk-text-sub)", lineHeight: "1.5" }}>
+                        {crop.needs?.map((n, nIdx) => (
+                          <li key={nIdx}>{n}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Zero-Damage Protection Advisory */}
+                    <div style={{
+                      background: "rgba(22, 163, 74, 0.06)",
+                      border: "1px solid rgba(22, 163, 74, 0.25)",
+                      borderRadius: "8px",
+                      padding: "10px 12px",
+                      marginBottom: "6px"
+                    }}>
+                      <div style={{ fontSize: "12px", fontWeight: "800", color: "#16a34a", marginBottom: "4px", display: "flex", alignItems: "center", gap: "6px" }}>
+                        <ShieldCheck size={15} />
+                        <span>Zero-Damage Protection Advisory</span>
+                      </div>
+                      <p style={{ margin: 0, fontSize: "12px", color: "var(--fk-text)", lineHeight: "1.45" }}>
+                        {crop.zeroDamage}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Actions: Requirement 5 Crop Calendar Redirection & Existing Comparisons */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", paddingTop: "10px", borderTop: "1px solid var(--fk-border)" }}>
+                    {/* Primary Action: Select Crop and Open in Crop Calendar */}
+                    <button
+                      type="button"
+                      onClick={() => handleSelectCropForCalendar(crop)}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        fontSize: "12px",
+                        fontWeight: "700",
+                        borderRadius: "6px",
+                        border: "1.5px solid #006948",
+                        background: "#006948",
+                        color: "#ffffff",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "6px",
+                        boxShadow: "0 2px 6px rgba(0, 105, 72, 0.2)",
+                        transition: "all 0.15s ease"
+                      }}
+                      title="Select this crop and open full ICAR-aligned growth schedule in Crop Calendar"
+                    >
+                      <Calendar size={14} />
+                      <span>Select & View in Crop Calendar</span>
+                      <ArrowRight size={13} />
+                    </button>
+
+                    {/* Secondary Actions: Compare & Budget Calculator */}
+                    <div style={{ display: "flex", gap: "8px" }}>
+                      <button
+                        type="button"
+                        onClick={() => toggleCropSelection(crop.id)}
+                        style={{
+                          flex: 1,
+                          padding: "6px 8px",
+                          fontSize: "11.5px",
+                          fontWeight: "700",
+                          borderRadius: "6px",
+                          border: isCompared ? "1.5px solid #16a34a" : "1px solid var(--fk-border)",
+                          background: isCompared ? "rgba(22, 163, 74, 0.15)" : "var(--fk-bg)",
+                          color: isCompared ? "#16a34a" : "var(--fk-text)",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "4px"
+                        }}
+                      >
+                        {isCompared ? <Check size={13} /> : <Plus size={13} />}
+                        <span>{isCompared ? "In Comparison" : "Compare"}</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleLoadIntoBudget(crop)}
+                        style={{
+                          flex: 1,
+                          padding: "6px 8px",
+                          fontSize: "11.5px",
+                          fontWeight: "700",
+                          borderRadius: "6px",
+                          border: "1px solid var(--fk-border)",
+                          background: "var(--fk-bg)",
+                          color: "var(--fk-text)",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "4px"
+                        }}
+                      >
+                        <span>Budget Calculator</span>
+                        <ArrowRight size={13} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* ========================================================= */}
       {/* TAB 1: MULTI-CROP COMPARISON ENGINE */}

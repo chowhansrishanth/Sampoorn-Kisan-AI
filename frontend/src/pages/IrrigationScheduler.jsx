@@ -86,7 +86,7 @@ export default function IrrigationScheduler({user}) {
         }
       />
 
-      <PremiumCard><p>Review the crop and soil assumptions below. This is a modeled schedule; no soil-moisture sensor is connected. Pump power alone cannot determine actual flow.</p><div className="decision-grid">{Object.entries({lat:'Latitude',lon:'Longitude',initialDeficitMm:'Estimated initial water deficit (mm)',pumpFlowLph:'Measured pump flow (L/hour)'}).map(([key,label])=><label key={key}>{label}<input type="number" step="any" value={context[key]} onChange={e=>setContext({...context,[key]:e.target.value})}/></label>)}</div>{validation&&<p role="alert">{validation}</p>}</PremiumCard>
+      <PremiumCard><p>Review the crop and soil assumptions below. This is a modeled water balance schedule based on local agro-climatic parameters. Pump power alone cannot determine actual flow.</p><div className="decision-grid">{Object.entries({lat:'Latitude',lon:'Longitude',initialDeficitMm:'Estimated initial water deficit (mm)',pumpFlowLph:'Measured pump flow (L/hour)'}).map(([key,label])=><label key={key}>{label}<input type="number" step="any" value={context[key]} onChange={e=>setContext({...context,[key]:e.target.value})}/></label>)}</div>{validation&&<p role="alert">{validation}</p>}</PremiumCard>
       {/* PARAMETERS SELECTION BAR */}
       <PremiumCard style={{ marginBottom: "24px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "16px" }}>

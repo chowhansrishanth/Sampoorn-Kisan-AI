@@ -247,7 +247,7 @@ export default function FertilizerPlanner({ user }) {
 
           {form.soilMode && (
             <fieldset style={{ marginTop: "16px", padding: "16px", borderRadius: "10px", border: "1px dashed var(--fk-border)" }}>
-              <legend style={{ padding: "0 8px", fontWeight: "700", color: "#16a34a" }}>Farmer Soil Test Telemetry</legend>
+              <legend style={{ padding: "0 8px", fontWeight: "700", color: "#16a34a" }}>Farmer Soil Test Data</legend>
               <div className="decision-grid">
                 <label>Measured Soil N (kg/ha)<input required type="number" min="0" step="any" value={form.soilN} onChange={e => update('soilN', e.target.value)} /></label>
                 <label>Measured Soil P (kg/ha)<input required type="number" min="0" step="any" value={form.soilP} onChange={e => update('soilP', e.target.value)} /></label>

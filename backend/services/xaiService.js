@@ -1,9 +1,49 @@
 /**
- * Explainable AI (XAI) Engine for Agricultural Crop Predictions
- * Implements:
- * 1. Kernel SHAP (Shapley Additive exPlanations) feature attribution
- * 2. LIME (Local Interpretable Model-agnostic Explanations) local linear surrogate rules
- * 3. Model Transparency & Trust Metrics (Explainability Faithfulness, Differential Privacy ε, Latency, Generalization F1)
+ * ============================================================================
+ * EXPLAINABLE AI (XAI) ENGINE FOR AGRICULTURAL CROP PREDICTIONS
+ * ============================================================================
+ * Implements transparent, auditable, and interpretable Machine Learning explanations
+ * for crop suitability decisions. Farmers and agronomists can understand exactly
+ * why a specific crop was recommended over others based on soil and weather inputs.
+ *
+ * ----------------------------------------------------------------------------
+ * MATHEMATICAL FORMULATION & THEORETICAL FOUNDATIONS:
+ * ----------------------------------------------------------------------------
+ *
+ * 1. KERNEL SHAP (SHAPLEY ADDITIVE EXPLANATIONS):
+ *    Based on Lloyd Shapley's (1953) cooperative game theory formulation.
+ *    For a prediction model $f(x)$ with feature set $F = \{1, \dots, M\}$, the
+ *    Shapley attribution $\phi_i$ of feature $i$ is its weighted marginal
+ *    contribution averaged over all possible feature subsets $S \subseteq F \setminus \{i\}$:
+ *
+ *      phi_i(f, x) = sum_{S subseteq F \ {i}} [ |S|! (|F| - |S| - 1)! / |F|! ] * [ f_x(S union {i}) - f_x(S) ]
+ *
+ *    Kernel SHAP satisfies four fundamental game-theoretic axioms:
+ *      a) Efficiency: sum_{i=1}^{M} phi_i = f(x) - E[f(X)]
+ *         (The sum of attributions equals the difference between the prediction and baseline base_value)
+ *      b) Symmetry: If f(S union {i}) = f(S union {j}) for all S, then phi_i = phi_j.
+ *      c) Dummy (Null player): If f(S union {i}) = f(S) for all S, then phi_i = 0.
+ *      d) Additivity: For ensemble models f = f_1 + f_2, phi_i(f) = phi_i(f_1) + phi_i(f_2).
+ *
+ * 2. LIME (LOCAL INTERPRETABLE MODEL-AGNOSTIC EXPLANATIONS):
+ *    Approximates the complex global model $f$ locally around instance $x$
+ *    using an interpretable surrogate model $g \in G$ (e.g., linear regression or rule list):
+ *
+ *      xi(x) = argmin_{g in G} [ L(f, g, pi_x) + Omega(g) ]
+ *
+ *    Where:
+ *      - L(f, g, pi_x): Weighted loss measuring how unfaithful $g$ is in approximating $f$.
+ *      - pi_x(z) = exp( -D(x, z)^2 / sigma^2 ): Locality kernel giving higher weight
+ *        to samples $z$ near instance $x$.
+ *      - Omega(g): Complexity penalty (regularization encouraging sparse, readable rules).
+ *
+ * 3. MODEL TRANSPARENCY & TRUST METRICS:
+ *      - Faithfulness: Degree to which feature attributions predict output change when masked.
+ *      - Differential Privacy: (epsilon, delta)-DP privacy budget ensuring individual
+ *        farmer sensor records cannot be re-identified through model outputs.
+ *      - Macro F1 Generalization: Harmonic mean of precision and recall across all classes:
+ *          F1 = 2 * (Precision * Recall) / (Precision + Recall)
+ * ============================================================================
  */
 
 const BASELINE_MEANS = {

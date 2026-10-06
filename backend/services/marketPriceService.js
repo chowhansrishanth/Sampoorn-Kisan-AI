@@ -39,7 +39,21 @@ class MarketPriceService {
 
     /**
      * Requirement 4: Net Expected Return Transport Calculator
-     * Formula: Net Expected Return = Sale Value - Estimated Transport Cost - Known Applicable Costs
+     * 
+     * ECONOMIC FORMULAS:
+     * 1. Gross Sale Value:
+     *        Gross_Value = Q * P
+     *    Where Q is quantity sold (quintals) and P is Mandi modal price (₹/quintal).
+     * 
+     * 2. Total Operational Logistics Deductions:
+     *        Transport_Cost = Distance_km * Rate_per_km
+     *        APMC_Cess = Gross_Value * (Cess_Percentage / 100)
+     *        Total_Deductions = Transport_Cost + Loading_Charges + APMC_Cess
+     * 
+     * 3. Net Expected Realized Return & Profit Margin:
+     *        Net_Expected_Return = Gross_Value - Total_Deductions
+     *        Net_Price_Per_Quintal = Net_Expected_Return / Q
+     *        Profitability_Margin = (Net_Expected_Return / Gross_Value) * 100 %
      */
     calculateNetReturn({ quantityQuintals = 20, pricePerQuintal = 2400, distanceKm = 25, transportCostPerKm = 18, loadingCharges = 500, apmcCessPercentage = 1.0 }) {
         const grossSaleValue = quantityQuintals * pricePerQuintal;
@@ -80,7 +94,7 @@ class MarketPriceService {
             if (!matchedCommodity) {
                 matchedCommodity = { id: cropRes.canonical.replace(/\s+/g, "_"), displayName: cropRes.displayName, unit: "quintal" };
             }
-        } else if (!askedName && structuredState.lastCommodity) {
+        } else if (!askedName && structuredState.lastCommodity && /(its price|its rate|how much is it|mandi rate|bhav|market price)/i.test(lower)) {
             matchedCommodity = COMMODITY_MAP.find(c => c.displayName.toLowerCase().includes(structuredState.lastCommodity.toLowerCase()) || c.id === structuredState.lastCommodity);
         }
 
@@ -144,17 +158,15 @@ class MarketPriceService {
                 }
             }
 
-            if (/(mandi|market|price|msp|rate)/i.test(query)) {
-                return {
-                    success: true,
-                    needs_clarification: true,
-                    response: "Which crop or commodity market price would you like to check? For example: **Tomato**, **Cotton**, **Moong**, or **Paddy**.",
-                    agent: "Mandi Market & MSP Agent"
-                };
-            }
+            return {
+                success: true,
+                needs_clarification: true,
+                response: "Which crop or commodity market price would you like to check? For example: **Tomato**, **Cotton**, **Moong**, or **Paddy**.",
+                agent: "Mandi Market & MSP Agent"
+            };
         }
 
-        const commodityObj = entities.commodity || { id: "tomato", displayName: "Tomato", unit: "quintal" };
+        const commodityObj = entities.commodity;
         const locationStr = entities.district || entities.state || structuredState.location;
 
         if (!locationStr && !entities.isComparison) {
@@ -205,7 +217,8 @@ class MarketPriceService {
 
         const priceDate = item.updated || rawApiData.updated || null;
         const displayLocation = item.location || item.market || 'Provider aggregate (not a local mandi quote)';
-        const resultPayload = {success:true,agent:'Market Agent',intent:'market',commodity:commodityObj.displayName,location:displayLocation,modal_price:item.price,min_price:Number.isFinite(item.min)?item.min:null,max_price:Number.isFinite(item.max)?item.max:null,unit:item.unit||'quintal',price_date:priceDate,sources:['Farmer.in Open Prices API'],confidence:null,metadata:{source:'Farmer.in',retrieved_at:new Date().toISOString(),price_date:priceDate},response:commodityObj.displayName+' — '+displayLocation+'\nLatest available price: ₹'+item.price+'/'+(item.unit||'quintal')+'\nObservation date: '+(priceDate||'not provided; freshness unverified')+'\nSource: Farmer.in. Confirm a local quote before selling.'};
+        const formattedResp = `${commodityObj.displayName} — ${displayLocation}\nModal price (latest available): ₹${item.price}/${item.unit || 'quintal'}\nPrice date (observation): ${priceDate || 'not provided; freshness unverified'}\nSource: Farmer.in. Confirm a local quote before selling.`;
+        const resultPayload = {success:true,agent:'Market Agent',intent:'market',commodity:commodityObj.displayName,location:displayLocation,modal_price:item.price,min_price:Number.isFinite(item.min)?item.min:null,max_price:Number.isFinite(item.max)?item.max:null,unit:item.unit||'quintal',price_date:priceDate,sources:['Farmer.in Open Prices API'],confidence:null,metadata:{source:'Farmer.in',retrieved_at:new Date().toISOString(),price_date:priceDate},response:formattedResp};
         const observation=require('./marketHistory').normalizeObservation({crop:commodityObj.displayName,market:item.market||'Provider aggregate',location:item.location||'Unspecified',date:priceDate,modalPrice:item.price,minPrice:item.min,maxPrice:item.max,unit:'INR/'+(item.unit||'quintal')},'Farmer.in');
         if(observation && require('../config/db').isDbOperational()) {
           try {const {crop,market,location,date,unit,source}=observation;await require('../models/MarketObservation').updateOne({crop,market,location,date,unit,source},{$set:observation},{upsert:true,maxTimeMS:2000});} catch {resultPayload.metadata.historyPersistence='UNAVAILABLE';}

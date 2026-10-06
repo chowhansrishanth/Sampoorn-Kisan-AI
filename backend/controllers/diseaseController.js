@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * DISEASE DIAGNOSIS CONTROLLER — COMPUTER VISION INFERENCE PIPELINE
+ * ============================================================================
+ * Manages agricultural crop pathology requests by:
+ *   1. Receiving multipart/form-data leaf image uploads via multer or
+ *      resolving pre-bundled reference sample images for testing.
+ *   2. Forwarding raw binary image buffers to diseaseService.
+ *   3. Forwarding image payloads to the Python FastAPI MobileNetV2 Vision
+ *      Service (/diagnose/disease) to generate Softmax class probabilities
+ *      and Grad-CAM visual attention heatmaps.
+ *   4. Returning comprehensive treatment protocols, organic remedies, and
+ *      chemical fungicides with strict dosage safety guidelines.
+ * ============================================================================
+ */
 const path = require('path');
 const fs = require('fs');
 const diseaseService = require('../services/diseaseService');
@@ -10,15 +25,18 @@ const SAMPLE_MAP = {
   grape_black_rot: 'grape_black_rot.png',
 };
 
+/**
+ * HTTP POST /api/disease/diagnose
+ * Diagnoses crop foliage diseases from binary image uploads or test samples.
+ */
 exports.diagnoseDisease = async (req, res) => {
   try {
     const { cropType = 'Tomato', symptomsText = '', filename = '', sampleId = '' } = req.body || {};
     let file = req.file;
 
-    // Support sample selection without a fresh binary upload
-    if (!file) {
-      const sampleKey = sampleId || filename.replace(/\.(png|jpe?g|webp)$/i, '');
-      const sampleFilename = SAMPLE_MAP[sampleKey] || SAMPLE_MAP[filename] || (filename && fs.existsSync(path.join(SAMPLE_IMAGE_DIR, filename)) ? filename : null);
+    // Support sample selection without a fresh binary upload only when sampleId is explicitly provided
+    if (!file && sampleId) {
+      const sampleFilename = SAMPLE_MAP[sampleId];
       if (sampleFilename) {
         const samplePath = path.join(SAMPLE_IMAGE_DIR, sampleFilename);
         if (fs.existsSync(samplePath)) {

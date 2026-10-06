@@ -1,9 +1,49 @@
-'use strict';
 /**
- * Growing Degree Days (GDD) Micro-Climate Pest Outbreak Radar
- * Models thermal accumulation to predict pest biofix dates and infestation
- * windows for Pink Bollworm (cotton), Fall Armyworm (maize), Brown Planthopper
- * (rice), and Helicoverpa (chili/tomato) using degree-day phenology models.
+ * ============================================================================
+ * GROWING DEGREE DAYS (GDD) MICRO-CLIMATE PEST OUTBREAK RADAR
+ * ============================================================================
+ * Models thermal accumulation (physiological heat units) to forecast biofix dates,
+ * larval emergence, and generational outbreaks for major crop insect pests:
+ *   - Pink Bollworm (Pectinophora gossypiella) in Cotton
+ *   - Fall Armyworm (Spodoptera frugiperda) in Maize
+ *   - Brown Plant Hopper (Nilaparvata lugens) in Paddy / Rice
+ *   - Helicoverpa armigera (American Bollworm) in Chili / Tomato
+ *
+ * ----------------------------------------------------------------------------
+ * MATHEMATICAL FORMULATION & THERMAL UNIT EQUATIONS:
+ * ----------------------------------------------------------------------------
+ *
+ * 1. DAILY HEAT UNIT ACCUMULATION (Baskerville-Emin / Single Sine Modified):
+ *    Pest development rate is governed by ambient thermal accumulation above
+ *    the lower developmental threshold ($T_{\text{base}}$) and below the upper
+ *    cutoff threshold ($T_{\text{upper}}$):
+ *
+ *      T_eff_max = min(T_max, T_upper)
+ *      T_eff_min = max(T_min, T_base)
+ *
+ *      If T_eff_min >= T_eff_max:
+ *          GDD_daily = 0
+ *      Else:
+ *          T_avg = (T_eff_max + T_eff_min) / 2
+ *          GDD_daily = max(T_avg - T_base, 0)
+ *
+ * 2. CUMULATIVE DEGREE DAYS (BIOFIX INTEGRAL):
+ *    Accumulated physiological thermal time since biofix (sowing/first moth trap catch):
+ *
+ *      GDD_cum(t) = sum_{k=t_0}^{t} GDD_daily(k)
+ *
+ * 3. GENERATIONAL ECLOSION PREDICTION:
+ *    Generations 1, 2, and 3 occur when cumulative thermal units breach
+ *    empirically calibrated species thresholds:
+ *
+ *      t_gen1 = argmin_{t} [ GDD_cum(t) >= GDD_threshold_1 ]
+ *      Progress_pct = min(100, round( (GDD_cum / GDD_threshold_1) * 100 ))
+ *
+ * 4. IPM EARLY-WARNING ALERT HEURISTIC:
+ *      AlertLevel = "MODEL THRESHOLD — Field Scouting Required"  if Progress >= 85%
+ *                 = "WARNING — Scout Immediately"                 if Progress >= 60%
+ *                 = "MONITOR"                                     otherwise
+ * ============================================================================
  */
 
 // Pest GDD accumulation thresholds (degree days from biofix)

@@ -1,6 +1,45 @@
 /**
- * Crop Service — Smart Budget, Multi-Crop Comparison, Smart Planner, Today's Actions & Risk Engine
- * Fulfills Requirement 5 of Personal AI Farm Decision Assistant Spec.
+ * ============================================================================
+ * CROP SERVICE — SMART BUDGET, MULTI-CROP COMPARISON & AGRONOMIC DECISION ENGINE
+ * ============================================================================
+ * Implements micro-economic farm financial planning, multi-crop comparative
+ * trade-off optimization, land zoning intercropping ratios, and 4-vector risk
+ * assessments.
+ *
+ * ----------------------------------------------------------------------------
+ * MATHEMATICAL FORMULATION & FARM FINANCIAL EQUATIONS:
+ * ----------------------------------------------------------------------------
+ *
+ * 1. TOTAL CULTIVATION COST (Input Expenditure Summation):
+ *    Let $C_i$ represent the input costs per acre (seeds, fertilizers, pesticides,
+ *    labor, irrigation, machinery, transport, and misc overheads) for landholding $A$ (acres):
+ *
+ *      Cost_total = ( sum_{i in Inputs} C_i ) * A
+ *      Cost_per_acre = Cost_total / A
+ *
+ * 2. EXPECTED PRODUCTION YIELD & GROSS REVENUE:
+ *    Let $Y_{\text{acre}}$ be the anticipated productivity in quintals/acre and
+ *    $P_{\text{qtl}}$ be the modal market/MSP price per quintal (INR):
+ *
+ *      Yield_total = Y_acre * A
+ *      Revenue_gross = Yield_total * P_qtl
+ *
+ * 3. NET OPERATING PROFIT & RETURN ON INVESTMENT (ROI):
+ *      Profit_net = Revenue_gross - Cost_total
+ *      ROI_pct = ( Profit_net / Cost_total ) * 100%
+ *
+ * 4. BREAK-EVEN SELLING PRICE & UNIT MARGINAL COST:
+ *    The minimum selling price at which profit is zero:
+ *
+ *      P_breakeven = Cost_total / Yield_total  (INR per quintal)
+ *      Cost_per_qtl = Cost_total / Yield_total
+ *
+ * 5. INTERCROPPING SPATIAL ALLOCATION:
+ *    Land parceling optimization for pest-trap buffers and biodiversity:
+ *      - Primary Cash Crop: 70% of landholding
+ *      - Secondary Nitrogen-Fixing Legume: 20% of landholding
+ *      - Border Trap Crop / Water Recharge Zone: 10% of landholding
+ * ============================================================================
  */
 
 const {
@@ -14,6 +53,7 @@ class CropService {
 
     /**
      * Requirement 5: Smart Farm Budget & Financial Decision Engine
+     * Calculates input costs, gross revenue, net profit, ROI%, and break-even selling prices.
      */
     calculateSmartBudget({
         landSizeAcres = 2.0,

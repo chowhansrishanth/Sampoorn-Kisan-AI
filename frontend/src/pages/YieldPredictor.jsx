@@ -1,254 +1,562 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { API_BASE_URL } from '../api/client';
+import axios from '../api/client';
+import PageHeader from '../components/ui/PageHeader';
+import PremiumCard from '../components/ui/PremiumCard';
+import { StatCard } from '../components/ui/StatCard';
+import {
+  TrendingUp,
+  Sparkles,
+  ShieldCheck,
+  DollarSign,
+  Droplets,
+  Scale,
+  RefreshCw,
+  AlertTriangle,
+  CheckCircle2,
+  Zap,
+  Info,
+  Calendar,
+  Layers,
+  Award
+} from 'lucide-react';
 
-const API = API_BASE_URL || '';
+const CROPS = [
+  'Paddy / Rice',
+  'Wheat',
+  'Cotton',
+  'Maize',
+  'Soybean',
+  'Chili / Red Pepper',
+  'Tomato',
+  'Groundnut',
+  'Mustard',
+  'Onion'
+];
 
-const CROPS = ['Paddy / Rice', 'Wheat', 'Cotton', 'Maize', 'Soybean', 'Chili / Red Pepper', 'Tomato', 'Groundnut', 'Mustard', 'Onion'];
-const SCENARIOS = ['No Anomaly (Normal Season)', 'Mild Drought (20-30% Rainfall Deficit)', 'Severe Drought (>40% Rainfall Deficit)', 'Excess Rainfall / Flood Risk', 'Heat Wave (>40°C for 5+ Days)', 'Unseasonal Frost / Cold Spell', 'High Humidity / Disease Pressure'];
+const SCENARIOS = [
+  'No Anomaly (Normal Season)',
+  'Mild Drought (20-30% Rainfall Deficit)',
+  'Severe Drought (>40% Rainfall Deficit)',
+  'Excess Rainfall / Flood Risk',
+  'Heat Wave (>40°C for 5+ Days)',
+  'Unseasonal Frost / Cold Spell',
+  'High Humidity / Disease Pressure'
+];
 
-const riskColor = { low: '#22c55e', medium: '#f59e0b', high: '#ef4444' };
+const RISK_CONFIG = {
+  low: { label: 'LOW CLIMATE RISK', color: '#10b981', bg: '#dcfce7', border: '#bbf7d0' },
+  medium: { label: 'MODERATE RISK', color: '#f59e0b', bg: '#fef3c7', border: '#fde68a' },
+  high: { label: 'SEVERE CLIMATE RISK', color: '#ef4444', bg: '#fee2e2', border: '#fecaca' }
+};
 
-export default function YieldPredictor() {
-    const [form, setForm] = useState({ crop: 'Paddy / Rice', landHectares: 2, irrigationType: 'drip', soilQuality: 'good', climateScenario: 'No Anomaly (Normal Season)', cultivarType: 'hybrid' });
-    const [result, setResult] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+export default function YieldPredictor({ user }) {
+  const [form, setForm] = useState({
+    crop: user?.farmProfile?.primaryCrop || 'Paddy / Rice',
+    landArea: user?.farmProfile?.land?.sizeAcres || 2,
+    areaUnit: 'acre', // 'acre' | 'hectare'
+    irrigationType: 'drip',
+    soilQuality: 'good',
+    climateScenario: 'No Anomaly (Normal Season)',
+    cultivarType: 'hybrid'
+  });
 
-    const set = (k, v) => setForm(f => ({...f, [k]: v }));
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-    const predict = async () => {
-        setLoading(true);
-        setError('');
-        try {
-            const { data } = await axios.post(`${API}/api/yield/predict`, form);
-            setResult(data);
-        } catch (e) {
-            setError(e.response?.data?.error || 'Prediction failed');
-        } finally { setLoading(false); }
-    };
+  const predict = async () => {
+    setLoading(true);
+    setError('');
 
-    useEffect(() => {
-        predict();
-    }, []);
+    const effectiveHectares =
+      form.areaUnit === 'acre' ? Number(form.landArea) * 0.404686 : Number(form.landArea);
 
-    const fmt = (n) => n?.toLocaleString('en-IN') || '—';
+    try {
+      const res = await axios.post('/api/yield/predict', {
+        crop: form.crop,
+        landHectares: effectiveHectares || 1,
+        irrigationType: form.irrigationType,
+        soilQuality: form.soilQuality,
+        climateScenario: form.climateScenario,
+        cultivarType: form.cultivarType
+      });
+      setResult(res.data);
+    } catch (e) {
+      setError(e.response?.data?.error || 'Yield prediction simulation failed.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return ( <
-        div style = {
-            { minHeight: '100vh', background: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)', padding: '2rem', fontFamily: "'Inter', sans-serif", color: '#e2e8f0' }
-        } >
-        <
-        div style = {
-            { maxWidth: 960, margin: '0 auto' }
-        } > { /* Header */ } <
-        div style = {
-            { textAlign: 'center', marginBottom: '2.5rem' }
-        } >
-        <
-        div style = {
-            { fontSize: '3.1rem', marginBottom: '0.5rem' }
-        } > 🌾 < /div> <
-        h1 style = {
-            { fontSize: '2.1rem', fontWeight: 800, background: 'linear-gradient(90deg,#22c55e,#86efac)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: 0 }
-        } >
-        Crop Yield & Revenue Predictor <
-        /h1> <
-        p style = {
-            { color: '#94a3b8', marginTop: '0.5rem' }
-        } > FAO Crop Response Model· PMFBY Insurance Simulator· 3 - Scenario Forecast < /p> < /
-        div >
+  useEffect(() => {
+    predict();
+  }, [form.crop, form.irrigationType, form.climateScenario]);
 
-        { /* Input Card */ } <
-        div style = {
-            { background: 'rgba(255,255,255,0.05)', borderRadius: 20, border: '1px solid rgba(255,255,255,0.1)', padding: '2rem', backdropFilter: 'blur(20px)', marginBottom: '2rem' }
-        } >
-        <
-        h2 style = {
-            { margin: '0 0 1.5rem', color: '#22c55e', fontSize: '1.2rem', fontWeight: 700 }
-        } > 📋Crop & Farm Details < /h2> <
-        div style = {
-            { display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: '1.2rem' }
-        } > {
-            [
-                { label: '🌱 Crop', key: 'crop', type: 'select', options: CROPS },
-                { label: '📐 Land Area (Hectares)', key: 'landHectares', type: 'number' },
-                { label: '💧 Irrigation Type', key: 'irrigationType', type: 'select', options: ['drip', 'sprinkler', 'canal', 'rainfed'] },
-                { label: '🪨 Soil Quality', key: 'soilQuality', type: 'select', options: ['excellent', 'good', 'fair', 'poor'] },
-                { label: '🌦️ Climate Scenario', key: 'climateScenario', type: 'select', options: SCENARIOS },
-                { label: '🧬 Cultivar Type', key: 'cultivarType', type: 'select', options: ['hybrid', 'improved', 'local'] },
-            ].map(({ label, key, type, options }) => ( <
-                    div key = { key } >
-                    <
-                    label style = {
-                        { display: 'block', fontSize: '0.88rem', color: '#94a3b8', marginBottom: '0.4rem', fontWeight: 600 }
-                    } > { label } < /label> {
-                    type === 'select' ? ( <
-                        select value = { form[key] }
-                        onChange = { e => set(key, e.target.value) }
-                        style = {
-                            { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '0.65rem', color: '#e2e8f0', fontSize: '0.96rem' }
-                        } > {
-                            options.map(o => < option key = { o }
-                                value = { o } > { o } < /option>)} < /
-                                select >
-                            ): ( <
-                                input type = "number"
-                                value = { form[key] }
-                                onChange = { e => set(key, e.target.value) }
-                                min = { 0.1 }
-                                step = { 0.5 }
-                                style = {
-                                    { width: '100%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '0.65rem', color: '#e2e8f0', fontSize: '0.96rem', boxSizing: 'border-box' }
-                                }
-                                />
-                            )
-                        } <
-                        /div>
-                    ))
-            } <
-            /div> <
-            button onClick = { predict }
-            disabled = { loading }
-            style = {
-                { marginTop: '1.5rem', width: '100%', padding: '0.9rem', background: loading ? '#334155' : 'linear-gradient(135deg,#22c55e,#16a34a)', border: 'none', borderRadius: 12, color: '#fff', fontSize: '1.06rem', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', transition: 'all 0.3s' }
-            } > { loading ? '⏳ Predicting...' : '🚀 Predict Yield & Revenue' } <
-            /button> {
-            error && < div style = {
-                { marginTop: '1rem', padding: '0.75rem', background: 'rgba(239,68,68,0.15)', borderRadius: 10, border: '1px solid rgba(239,68,68,0.4)', color: '#fca5a5', textAlign: 'center' }
-            } > { error } < /div>} < /
-            div >
+  const fmt = (n) => (n !== undefined && n !== null ? n.toLocaleString('en-IN') : '—');
 
-            {
-                result && ( <
+  const riskStyle = RISK_CONFIG[result?.riskLevel] || RISK_CONFIG['low'];
+
+  return (
+    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '1.5rem 1rem', color: 'var(--fk-text, #0f172a)' }}>
+      {/* Universal Page Header */}
+      <PageHeader
+        badge="FAO CROP RESPONSE MODEL & PMFBY SIMULATOR"
+        icon={TrendingUp}
+        title="Crop Yield & Harvest Revenue Predictor"
+        subtitle="Forecast farm-gate tonnage and MSP revenue across climate risk scenarios, simulate PMFBY insurance claims, and optimize harvest efficiency."
+        action={
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={predict}
+              disabled={loading}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '9px 16px',
+                fontWeight: '700',
+                fontSize: '13px',
+                cursor: loading ? 'not-allowed' : 'pointer'
+              }}
+            >
+              <RefreshCw size={15} className={loading ? 'spin' : ''} />
+              {loading ? 'Simulating...' : 'Run Simulation'}
+            </button>
+          </div>
+        }
+      />
+
+      {/* Top Stat KPI Row */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px', marginBottom: '24px' }}>
+        <StatCard
+          icon={TrendingUp}
+          title="Predicted Harvest"
+          value={result ? `${fmt(result.yieldPrediction.totalYieldQuintals)}` : '—'}
+          unit="Quintals"
+          subtitle={result ? `${result.yieldPrediction.adjustedYieldPerHa} Qtl/Ha (${(result.yieldPrediction.adjustedYieldPerHa * 0.404686).toFixed(1)} Qtl/Acre)` : 'Based on farm parameters'}
+          color="#059669"
+        />
+        <StatCard
+          icon={Zap}
+          title="Yield Efficiency"
+          value={result ? `${result.yieldPrediction.yieldEfficiencyPercent}%` : '—'}
+          unit="Of Potential"
+          subtitle="Relative to agro-climatic optimum"
+          trend={result?.yieldPrediction?.yieldEfficiencyPercent >= 85 ? 'High Efficiency' : 'Stressed'}
+          trendType={result?.yieldPrediction?.yieldEfficiencyPercent >= 85 ? 'up' : 'down'}
+          color="#0284c7"
+        />
+        <StatCard
+          icon={DollarSign}
+          title="Gross MSP Revenue"
+          value={result ? `₹${fmt(result.financials.grossRevenueRs)}` : '—'}
+          unit="At MSP Rate"
+          subtitle={result ? `@ ₹${fmt(result.financials.mspRatePerQtl)} / Qtl` : 'Government MSP benchmark'}
+          color="#f59e0b"
+        />
+        <StatCard
+          icon={ShieldCheck}
+          title="Post-PMFBY Net"
+          value={result ? `₹${fmt(result.financials.netRevenueAfterInsuranceRs)}` : '—'}
+          unit="Protected"
+          subtitle={result?.financials?.pmfbyPayoutRs > 0 ? `Includes ₹${fmt(result.financials.pmfbyPayoutRs)} Claim Payout` : 'Zero shortfall claim needed'}
+          color="#8b5cf6"
+        />
+      </div>
+
+      {/* Main Grid: Parameters Form (Left) + Simulation Analysis (Right) */}
+      <div style={{ display: 'grid', gridTemplateColumns: '380px 1fr', gap: '24px', alignItems: 'start' }}>
+        
+        {/* Left Column: Farm Parameters Simulation Inputs */}
+        <PremiumCard accentBorder style={{ padding: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+            <Scale size={18} color="#059669" />
+            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800' }}>Farm & Climate Parameters</h3>
+          </div>
+
+          {/* Crop Selector */}
+          <div style={{ marginBottom: '14px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>
+              TARGET CROP
+            </label>
+            <select
+              value={form.crop}
+              onChange={(e) => setForm({ ...form, crop: e.target.value })}
+              style={{
+                width: '100%',
+                padding: '9px 12px',
+                borderRadius: '8px',
+                border: '1px solid var(--fk-border, #cbd5e1)',
+                background: 'var(--fk-bg, #f8fafc)',
+                color: 'var(--fk-text, #0f172a)',
+                fontSize: '13px',
+                fontWeight: '700'
+              }}
+            >
+              {CROPS.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Land Area & Unit */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '14px' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>
+                LAND AREA
+              </label>
+              <input
+                type="number"
+                min="0.5"
+                step="0.5"
+                value={form.landArea}
+                onChange={(e) => setForm({ ...form, landArea: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '8px 10px',
+                  borderRadius: '8px',
+                  border: '1px solid var(--fk-border, #cbd5e1)',
+                  background: 'var(--fk-bg, #f8fafc)',
+                  color: 'var(--fk-text, #0f172a)',
+                  fontSize: '13px',
+                  fontWeight: '700',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>
+                UNIT
+              </label>
+              <select
+                value={form.areaUnit}
+                onChange={(e) => setForm({ ...form, areaUnit: e.target.value })}
+                style={{
+                  width: '100%',
+                  padding: '8px 10px',
+                  borderRadius: '8px',
+                  border: '1px solid var(--fk-border, #cbd5e1)',
+                  background: 'var(--fk-bg, #f8fafc)',
+                  color: 'var(--fk-text, #0f172a)',
+                  fontSize: '13px',
+                  fontWeight: '600'
+                }}
+              >
+                <option value="acre">Acres</option>
+                <option value="hectare">Hectares</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Irrigation Method */}
+          <div style={{ marginBottom: '14px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>
+              IRRIGATION INFRASTRUCTURE
+            </label>
+            <select
+              value={form.irrigationType}
+              onChange={(e) => setForm({ ...form, irrigationType: e.target.value })}
+              style={{
+                width: '100%',
+                padding: '9px 12px',
+                borderRadius: '8px',
+                border: '1px solid var(--fk-border, #cbd5e1)',
+                background: 'var(--fk-bg, #f8fafc)',
+                color: 'var(--fk-text, #0f172a)',
+                fontSize: '13px',
+                fontWeight: '600'
+              }}
+            >
+              <option value="drip">Drip Irrigation (+15% Yield Bonus)</option>
+              <option value="sprinkler">Sprinkler Irrigation (+8% Bonus)</option>
+              <option value="canal">Canal / Flood (+5% Baseline)</option>
+              <option value="rainfed">Rainfed / Unirrigated (-18% Risk)</option>
+            </select>
+          </div>
+
+          {/* Soil Quality */}
+          <div style={{ marginBottom: '14px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>
+              SOIL HEALTH PROFILE
+            </label>
+            <select
+              value={form.soilQuality}
+              onChange={(e) => setForm({ ...form, soilQuality: e.target.value })}
+              style={{
+                width: '100%',
+                padding: '9px 12px',
+                borderRadius: '8px',
+                border: '1px solid var(--fk-border, #cbd5e1)',
+                background: 'var(--fk-bg, #f8fafc)',
+                color: 'var(--fk-text, #0f172a)',
+                fontSize: '13px',
+                fontWeight: '600'
+              }}
+            >
+              <option value="excellent">Excellent Deep Alluvial / Black (+12%)</option>
+              <option value="good">Good Fertile Soil (Standard)</option>
+              <option value="fair">Fair Medium Soil (-15%)</option>
+              <option value="poor">Poor Shallow / Degraded Soil (-32%)</option>
+            </select>
+          </div>
+
+          {/* Cultivar Type */}
+          <div style={{ marginBottom: '14px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>
+              SEED VARIETY / CULTIVAR
+            </label>
+            <select
+              value={form.cultivarType}
+              onChange={(e) => setForm({ ...form, cultivarType: e.target.value })}
+              style={{
+                width: '100%',
+                padding: '9px 12px',
+                borderRadius: '8px',
+                border: '1px solid var(--fk-border, #cbd5e1)',
+                background: 'var(--fk-bg, #f8fafc)',
+                color: 'var(--fk-text, #0f172a)',
+                fontSize: '13px',
+                fontWeight: '600'
+              }}
+            >
+              <option value="hybrid">High-Yielding Hybrid (+18%)</option>
+              <option value="improved">Certified Improved Variety (+8%)</option>
+              <option value="local">Traditional Local Seed (Baseline)</option>
+            </select>
+          </div>
+
+          {/* Climate Anomaly Scenario */}
+          <div style={{ marginBottom: '18px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>
+              WEATHER & CLIMATE SCENARIO
+            </label>
+            <select
+              value={form.climateScenario}
+              onChange={(e) => setForm({ ...form, climateScenario: e.target.value })}
+              style={{
+                width: '100%',
+                padding: '9px 12px',
+                borderRadius: '8px',
+                border: '1px solid var(--fk-border, #cbd5e1)',
+                background: 'var(--fk-bg, #f8fafc)',
+                color: 'var(--fk-text, #0f172a)',
+                fontSize: '13px',
+                fontWeight: '600'
+              }}
+            >
+              {SCENARIOS.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            onClick={predict}
+            disabled={loading}
+            style={{
+              width: '100%',
+              padding: '11px',
+              borderRadius: '8px',
+              border: 'none',
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              color: '#fff',
+              fontWeight: '700',
+              fontSize: '13.5px',
+              cursor: loading ? 'not-allowed' : 'pointer'
+            }}
+          >
+            {loading ? 'Simulating...' : 'Recalculate Yield & Payout'}
+          </button>
+
+          {error && (
+            <div style={{ marginTop: '10px', padding: '8px', background: '#fee2e2', color: '#991b1b', borderRadius: '6px', fontSize: '12px' }}>
+              {error}
+            </div>
+          )}
+        </PremiumCard>
+
+        {/* Right Column: Detailed Simulation Output & PMFBY Breakdown */}
+        {result ? (
+          <div>
+            {/* Climate Risk Banner */}
+            <div
+              style={{
+                padding: '14px 18px',
+                borderRadius: '12px',
+                background: riskStyle.bg,
+                border: `1px solid ${riskStyle.border}`,
+                color: riskStyle.color,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '10px',
+                marginBottom: '18px'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <AlertTriangle size={20} />
+                <div>
+                  <div style={{ fontWeight: '800', fontSize: '14px' }}>{riskStyle.label}</div>
+                  <div style={{ fontSize: '12.5px', opacity: 0.9 }}>{result.climateScenario}</div>
+                </div>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <span style={{ fontSize: '11px', display: 'block', opacity: 0.85 }}>Harvest Efficiency</span>
+                <strong style={{ fontSize: '20px', fontWeight: '900', fontFamily: 'Outfit, sans-serif' }}>
+                  {result.yieldPrediction.yieldEfficiencyPercent}%
+                </strong>
+              </div>
+            </div>
+
+            {/* 3-Scenario Comparison Cards */}
+            <div style={{ marginBottom: '20px' }}>
+              <div style={{ fontSize: '12px', fontWeight: '800', color: 'var(--fk-text-sub, #64748b)', marginBottom: '10px', textTransform: 'uppercase' }}>
+                📊 3-Scenario Harvest Comparison
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
+                {result.scenarios.map((scen, idx) => {
+                  const isExpected = idx === 1;
+
+                  return (
+                    <PremiumCard
+                      key={idx}
+                      style={{
+                        padding: '16px',
+                        border: isExpected ? '2px solid #059669' : '1px solid var(--fk-border, #e2e8f0)',
+                        background: isExpected ? 'var(--primary-surface, rgba(16, 185, 129, 0.08))' : 'var(--fk-card, #ffffff)'
+                      }}
                     >
-                    { /* Risk Banner */ } <
-                    div style = {
-                        { background: `${riskColor[result.riskLevel]}22`, border: `2px solid ${riskColor[result.riskLevel]}`, borderRadius: 14, padding: '1rem 1.5rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }
-                    } >
-                    <
-                    span style = {
-                        { fontSize: '1.9rem' }
-                    } > { result.riskLevel === 'low' ? '🟢' : result.riskLevel === 'medium' ? '🟡' : '🔴' } < /span> <
-                    div >
-                    <
-                    div style = {
-                        { fontWeight: 800, color: riskColor[result.riskLevel], fontSize: '1.06rem' }
-                    } > Climate Risk: { result.riskLevel.toUpperCase() } < /div> <
-                    div style = {
-                        { color: '#94a3b8', fontSize: '0.91rem' }
-                    } > { result.climateScenario } < /div> < /
-                    div > <
-                    div style = {
-                        { marginLeft: 'auto', textAlign: 'right' }
-                    } >
-                    <
-                    div style = {
-                        { fontSize: '2.1rem', fontWeight: 800, color: '#22c55e' }
-                    } > { result.yieldPrediction.yieldEfficiencyPercent } % < /div> <
-                    div style = {
-                        { color: '#94a3b8', fontSize: '0.86rem' }
-                    } > Yield Efficiency < /div> < /
-                    div > <
-                    /div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                        <span style={{ fontSize: '12px', fontWeight: '800', color: isExpected ? '#059669' : 'var(--fk-text-sub, #64748b)' }}>
+                          {scen.label.split('(')[0].trim()}
+                        </span>
+                        {isExpected && (
+                          <span style={{ fontSize: '10px', fontWeight: '800', padding: '2px 6px', borderRadius: '4px', background: '#059669', color: '#fff' }}>
+                            Current Forecast
+                          </span>
+                        )}
+                      </div>
 
-                    { /* Stats Grid */ } <
-                    div style = {
-                        { display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: '1rem', marginBottom: '1.5rem' }
-                    } > {
-                        [
-                            { icon: '🌾', label: 'Total Yield', value: `${fmt(result.yieldPrediction.totalYieldQuintals)} Qtl`, sub: `${result.yieldPrediction.adjustedYieldPerHa} Qtl/Ha` },
-                            { icon: '💰', label: 'Gross Revenue (MSP)', value: `₹${fmt(result.financials.grossRevenueRs)}`, sub: `@₹${fmt(result.financials.mspRatePerQtl)}/Qtl` },
-                            { icon: '🛡️', label: 'Net Revenue (Post-PMFBY)', value: `₹${fmt(result.financials.netRevenueAfterInsuranceRs)}`, sub: `After insurance` },
-                            { icon: '📄', label: 'PMFBY Premium', value: `₹${fmt(result.pmfbyInsurance.farmerPremiumRs)}`, sub: `${result.pmfbyInsurance.farmerPremiumPercent}% farmer share` },
-                        ].map(({ icon, label, value, sub }) => ( <
-                            div key = { label }
-                            style = {
-                                { background: 'rgba(255,255,255,0.05)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.1)', padding: '1.2rem', textAlign: 'center' }
-                            } >
-                            <
-                            div style = {
-                                { fontSize: '1.9rem' }
-                            } > { icon } < /div> <
-                            div style = {
-                                { color: '#94a3b8', fontSize: '0.84rem', marginTop: '0.4rem', fontWeight: 600 }
-                            } > { label } < /div> <
-                            div style = {
-                                { color: '#22c55e', fontSize: '1.2rem', fontWeight: 800, marginTop: '0.3rem' }
-                            } > { value } < /div> <
-                            div style = {
-                                { color: '#64748b', fontSize: '0.81rem' }
-                            } > { sub } < /div> < /
-                            div >
-                        ))
-                    } <
-                    /div>
+                      <div style={{ fontSize: '22px', fontWeight: '900', color: 'var(--fk-text, #0f172a)', fontFamily: 'Outfit, sans-serif' }}>
+                        {fmt(scen.yieldQtl)} <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--fk-text-sub, #64748b)' }}>Qtl</span>
+                      </div>
 
-                    { /* 3-Scenario Table */ } <
-                    div style = {
-                        { background: 'rgba(255,255,255,0.05)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.1)', padding: '1.5rem', marginBottom: '1.5rem' }
-                    } >
-                    <
-                    h3 style = {
-                        { margin: '0 0 1rem', color: '#22c55e', fontWeight: 700 }
-                    } > 📊3 - Scenario Harvest Forecast < /h3> {
-                    result.scenarios.map((s, i) => ( <
-                        div key = { i }
-                        style = {
-                            { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem', background: i === 1 ? 'rgba(34,197,94,0.1)' : 'rgba(0,0,0,0.2)', borderRadius: 10, marginBottom: '0.5rem', border: i === 1 ? '1px solid rgba(34,197,94,0.3)' : '1px solid transparent' }
-                        } >
-                        <
-                        span style = {
-                            { color: '#e2e8f0', fontWeight: i === 1 ? 700 : 400, fontSize: '0.96rem' }
-                        } > { s.label } < /span> <
-                        div style = {
-                            { textAlign: 'right' }
-                        } >
-                        <
-                        div style = {
-                            { color: '#22c55e', fontWeight: 700 }
-                        } > ₹{ fmt(s.revenue) } < /div> <
-                        div style = {
-                            { color: '#64748b', fontSize: '0.86rem' }
-                        } > { fmt(s.yieldQtl) }
-                        Qtl < /div> < /
-                        div > <
-                        /div>
-                    ))
-                } <
-                /div>
+                      <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px dashed var(--fk-border, #cbd5e1)', display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                        <span style={{ color: 'var(--fk-text-sub, #64748b)' }}>Revenue:</span>
+                        <strong style={{ color: '#059669' }}>₹{fmt(scen.revenue)}</strong>
+                      </div>
+                    </PremiumCard>
+                  );
+                })}
+              </div>
+            </div>
 
-                { /* PMFBY Box */ } <
-                div style = {
-                    { background: 'rgba(99,102,241,0.1)', borderRadius: 16, border: '1px solid rgba(99,102,241,0.3)', padding: '1.5rem' }
-                } >
-                <
-                h3 style = {
-                    { margin: '0 0 0.75rem', color: '#818cf8' }
-                } > 🛡️PMFBY Insurance Summary < /h3> <
-                div style = {
-                    { color: '#c7d2fe', fontSize: '0.96rem', lineHeight: 1.8 }
-                } >
-                <
-                div > Total Sum Insured: < strong > ₹{ fmt(result.pmfbyInsurance.totalSumInsuredRs) } < /strong></div >
-                    <
-                    div > Farmer Premium(paid): < strong > ₹{ fmt(result.pmfbyInsurance.farmerPremiumRs) } < /strong></div >
-                    <
-                    div > Govt.Subsidy(estimated): < strong > ₹{ fmt(result.pmfbyInsurance.centralSubsidyEstimateRs) } < /strong></div >
-                    <
-                    div > Expected Payout: < strong style = {
-                        { color: result.pmfbyInsurance.expectedPayoutRs > 0 ? '#22c55e' : '#64748b' }
-                    } > ₹{ fmt(result.pmfbyInsurance.expectedPayoutRs) } < /strong></div >
-                    <
-                    div style = {
-                        { marginTop: '0.75rem', padding: '0.6rem', background: 'rgba(99,102,241,0.15)', borderRadius: 8, fontWeight: 700, color: '#a5b4fc' }
-                    } > 💡{ result.pmfbyInsurance.recommendation } <
-                    /div> < /
-                div > <
-                /div> < / >
-            )
-        } <
-        /div> < /
-        div >
-    );
+            {/* PMFBY Crop Insurance Detailed Breakdown */}
+            <PremiumCard style={{ padding: '20px', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <ShieldCheck size={20} color="#0284c7" />
+                  <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800' }}>
+                    PMFBY Insurance Simulation & Claim Payout
+                  </h3>
+                </div>
+
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: '800',
+                    padding: '3px 8px',
+                    borderRadius: '6px',
+                    background: '#e0f2fe',
+                    color: '#0369a1'
+                  }}
+                >
+                  Govt Subsidized Premium ({result.pmfbyInsurance.farmerPremiumPercent}%)
+                </span>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px', marginBottom: '14px' }}>
+                <div style={{ background: 'var(--fk-bg, #f8fafc)', padding: '12px', borderRadius: '8px', border: '1px solid var(--fk-border, #e2e8f0)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--fk-text-sub, #64748b)', fontWeight: '700' }}>SUM INSURED (VALUE)</div>
+                  <div style={{ fontSize: '17px', fontWeight: '800', color: 'var(--fk-text, #0f172a)', marginTop: '2px' }}>
+                    ₹{fmt(result.pmfbyInsurance.totalSumInsuredRs)}
+                  </div>
+                </div>
+
+                <div style={{ background: 'var(--fk-bg, #f8fafc)', padding: '12px', borderRadius: '8px', border: '1px solid var(--fk-border, #e2e8f0)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--fk-text-sub, #64748b)', fontWeight: '700' }}>FARMER PREMIUM (PAID)</div>
+                  <div style={{ fontSize: '17px', fontWeight: '800', color: '#f59e0b', marginTop: '2px' }}>
+                    ₹{fmt(result.pmfbyInsurance.farmerPremiumRs)}
+                  </div>
+                </div>
+
+                <div style={{ background: 'var(--fk-bg, #f8fafc)', padding: '12px', borderRadius: '8px', border: '1px solid var(--fk-border, #e2e8f0)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--fk-text-sub, #64748b)', fontWeight: '700' }}>GOVT SUBSIDY (CENTRAL + STATE)</div>
+                  <div style={{ fontSize: '17px', fontWeight: '800', color: '#059669', marginTop: '2px' }}>
+                    ₹{fmt(result.pmfbyInsurance.centralSubsidyEstimateRs)}
+                  </div>
+                </div>
+
+                <div style={{ background: 'var(--fk-bg, #f8fafc)', padding: '12px', borderRadius: '8px', border: '1px solid var(--fk-border, #e2e8f0)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--fk-text-sub, #64748b)', fontWeight: '700' }}>EXPECTED CLAIM PAYOUT</div>
+                  <div style={{ fontSize: '17px', fontWeight: '800', color: result.pmfbyInsurance.expectedPayoutRs > 0 ? '#ef4444' : '#059669', marginTop: '2px' }}>
+                    ₹{fmt(result.pmfbyInsurance.expectedPayoutRs)}
+                  </div>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  background: 'rgba(2, 132, 199, 0.08)',
+                  color: '#0369a1',
+                  fontSize: '12.5px',
+                  fontWeight: '700',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                <span>💡</span>
+                <span>{result.pmfbyInsurance.recommendation}</span>
+              </div>
+            </PremiumCard>
+
+            {/* Yield Maximization Roadmap */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+              <PremiumCard style={{ padding: '16px' }}>
+                <div style={{ fontWeight: '800', fontSize: '13.5px', marginBottom: '6px', color: '#059669' }}>
+                  💧 Irrigation Optimization
+                </div>
+                <p style={{ fontSize: '12.5px', color: 'var(--fk-text-sub, #64748b)', margin: 0, lineHeight: '1.5' }}>
+                  Switching from traditional flood/canal to automated drip saves up to 40% water and provides a proven +15% yield boost through uniform soil moisture tension and fertigation efficiency.
+                </p>
+              </PremiumCard>
+
+              <PremiumCard style={{ padding: '16px' }}>
+                <div style={{ fontWeight: '800', fontSize: '13.5px', marginBottom: '6px', color: '#0284c7' }}>
+                  🌾 Hybrid Vigor & Seed Treatment
+                </div>
+                <p style={{ fontSize: '12.5px', color: 'var(--fk-text-sub, #64748b)', margin: 0, lineHeight: '1.5' }}>
+                  Certified F1 hybrids offer deep taproot resilience against drought and higher harvest index. Combine with bio-priming (Trichoderma + Pseudomonas) to safeguard early seedling stand.
+                </p>
+              </PremiumCard>
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
 }

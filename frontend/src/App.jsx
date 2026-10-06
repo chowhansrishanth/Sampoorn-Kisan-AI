@@ -8,7 +8,7 @@ import api from "./api/client";
 import ErrorBoundary from "./components/ErrorBoundary";
 import LoadingSkeleton, { CardSkeleton } from "./components/ui/LoadingSkeleton";
 import { ThemeProvider } from "./context/ThemeContext";
-import { LanguageProvider } from "./context/LanguageContext";
+import { LanguageProvider, useLanguage } from "./context/LanguageContext";
 
 // Route-level code splitting
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -21,7 +21,6 @@ const BenchmarkDashboard = lazy(() => import("./pages/BenchmarkDashboard"));
 const AIChat = lazy(() => import("./AIChat"));
 const CropCalendar = lazy(() => import("./pages/CropCalendar"));
 const FarmerAlerts = lazy(() => import("./pages/FarmerAlerts"));
-const IoTTelemetry = lazy(() => import("./pages/IoTTelemetry"));
 const AdminPanel = lazy(() => import("./pages/AdminPanel"));
 const IrrigationScheduler = lazy(() => import("./pages/IrrigationScheduler"));
 const FertilizerPlanner = lazy(() => import('./pages/FertilizerPlanner'));
@@ -80,18 +79,34 @@ let restoringSession;
 const restoreSession = () => restoringSession ||= api.get("/api/auth/me").finally(() => { restoringSession = null; });
 
 function MainLayout() {
+  const { setLanguage } = useLanguage();
   const [user, setUser] = useState(() => loadSession()?.user || null);
   const [sessionChecked, setSessionChecked] = useState(false);
+
+  const syncLanguageFromUser = (userObj) => {
+    if (!userObj?.preferredLanguage) return;
+    const langMap = {
+      English: "EN", Hindi: "HI", Telugu: "TE", Tamil: "TA", Kannada: "KN",
+      Marathi: "MR", Punjabi: "PA", Bengali: "BN", Gujarati: "GU",
+      EN: "EN", HI: "HI", TE: "TE", TA: "TA", KN: "KN", MR: "MR", PA: "PA", BN: "BN", GU: "GU"
+    };
+    const code = langMap[userObj.preferredLanguage] || userObj.preferredLanguage;
+    if (code) setLanguage(code);
+  };
 
   // ── Restore session and verify with backend on mount ────────────────────
   useEffect(() => {
     const session = loadSession();
+    if (session?.user) {
+      syncLanguageFromUser(session.user);
+    }
     // Verify session validity with backend (checks token expiration and password revocation)
     restoreSession()
       .then((res) => {
         if (res.data?.user) {
           setUser(res.data.user);
           saveSession(res.data.user, session?.token || "");
+          syncLanguageFromUser(res.data.user);
         }
       })
       .catch((err) => {
@@ -108,6 +123,7 @@ function MainLayout() {
   const handleLoginSuccess = (userData, token) => {
     setUser(userData);
     saveSession(userData, token);
+    syncLanguageFromUser(userData);
   };
 
   const handleLogout = async () => {
@@ -124,6 +140,7 @@ function MainLayout() {
     setUser(updatedUser);
     const session = loadSession();
     saveSession(updatedUser, session?.token || "");
+    syncLanguageFromUser(updatedUser);
   };
 
   // ── PWA Install Banner ──────────────────────────────────────────────────
@@ -178,7 +195,7 @@ function MainLayout() {
               <Route path="/chat" element={<AIChat user={user} />} />
               <Route path="/disease" element={<DiseaseDiagnosis user={user} />} />
               <Route path="/xai" element={<XAIDashboard />} />
-              <Route path="/crop-tool" element={<CropRecommendationTool />} />
+              <Route path="/crop-tool" element={<CropRecommendationTool user={user} />} />
               <Route path="/knowledge" element={<KnowledgeHub />} />
               <Route path="/schemes" element={<GovernmentSchemes />} />
               <Route path="/government-schemes" element={<GovernmentSchemes />} />
@@ -186,7 +203,6 @@ function MainLayout() {
               <Route path="/benchmarks" element={<BenchmarkDashboard />} />
               <Route path="/calendar" element={<CropCalendar user={user} />} />
               <Route path="/alerts" element={<FarmerAlerts user={user} />} />
-              <Route path="/iot" element={<IoTTelemetry user={user} />} />
               <Route path="/admin" element={<AdminPanel user={user} />} />
               <Route path="/irrigation" element={<IrrigationScheduler user={user} />} />
               <Route path="/fertilizer" element={<FertilizerPlanner user={user} />} />

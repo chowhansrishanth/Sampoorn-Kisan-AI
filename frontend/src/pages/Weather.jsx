@@ -294,7 +294,7 @@ export default function Weather({ user }) {
         </div>
       </div>
 
-      {/* HERO SECTION: CURRENT LIVE CONDITIONS & SENSOR METRICS */}
+      {/* HERO SECTION: CURRENT LIVE CONDITIONS & WEATHER METRICS */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "20px", marginBottom: "24px" }}>
         
         {/* CURRENT WEATHER HERO CARD */}
@@ -315,7 +315,7 @@ export default function Weather({ user }) {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
               <div>
                 <span style={{ fontSize: "13px", fontWeight: "800", color: "#16a34a", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                  Live Field Telemetry
+                  Live Field Conditions
                 </span>
                 <h2 style={{ fontSize: "21.5px", fontWeight: "800", color: "var(--fk-text)", margin: "4px 0 0" }}>
                   {selectedLocation}

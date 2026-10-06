@@ -28,47 +28,64 @@ class IntentClassifier {
         const locRes = entityNormalizer.normalizeLocation(effectiveQuery);
         const soilRes = entityNormalizer.normalizeSoil(effectiveQuery);
 
-        // Step 3: Pattern Matching Triggers (English, Telugu, Transliterated Telugu, Hindi)
-        const isMarket = /(\bmsp\b|minimum support|sell|price|prices|prce|rate|rates|mandi|mrkt|market|cost|selling|bhav|selling for|how much is|mandi rate|benchmark|దర|ధరలు|మండి|భావం|ભાવ|मंडी|कितने का|कितना है)/i.test(lower);
+        // Step 3: Pattern Matching Triggers (Domain-Specific Agronomic Signals)
+        // Strict boundary matching prevents cross-intent bleeding (e.g. price query triggering crop recommendation).
+        const isMarket = /(\bmsp\b|minimum support|mandi|market price|market rate|selling rate|bhav|mandi rate|benchmark price|how much is|cost per quintal|దర|ధరలు|మండి|భావం|ભાવ|मंडी|कितने का|कितना है|\bprice\b|\brate\b|\bsell\b)/i.test(lower);
         const isExplicitWeather = /(weather|wether|rain|rainy|rainfall|monsoon|cloud|cloudy|humidity|wind|temp|temperature|forecast|climate|hail|storm|varsham|varshalu|హవామాన్|వర్షం|మబ్బులు|मौसम|बारिश|हवामान)/i.test(lower);
         const isWeather = isExplicitWeather || (!isMarket && /(tmrw|tomorrow|today)/i.test(lower) && /(forecast|climate|sky|outside)/i.test(lower));
         const isDisease = /(disease|diseaes|blight|rot|rust|wilt|spot|yellowing|lesion|spots|bullseye|fungus|spray|pesticide|fungicide|purugu|tegulu|కీటకం|తెగులు|మచ్చలు|कीट|रोग)/i.test(lower);
         const isPest = /(pest|pests|insects|insect|caterpillar|worm|aphid|whitefly|borer|frass|chewed)/i.test(lower);
         const isFertilizer = /(fertilizer|fertilisers|npk|urea|dap|potash|zinc|manure|vermicompost|eruvulu|ఎరువులు|उर्वरक)/i.test(lower);
-        const isSoil = /(soil|mitti|nelalu|nalla regadi|regur|ph|alluvial|clay|red soil|black soil|నేల|ఎర్ర నేలలు)/i.test(lower);
-        const isCropRec = /(crop|recommend|suggest|which crop|what crop|grow|easier|easy|profit|season|kharif|rabi|zaid|variety|yield|panta|veyali|సాగు|పంట|ఏ పంట|ఫసల్|खेती)/i.test(lower);
+        const isSoil = /(soil|mitti|nelalu|nalla regadi|regur|\bph\b|alluvial|clay|red soil|black soil|నేల|ఎర్ర నేలలు)/i.test(lower);
+        // Enhanced Crop Recommendation trigger: Matches explicit recommendations, suggestions, or crop-for-soil queries
+        const isCropRec = /(\bcrop\b|\bcrops\b|recommend|suggest|which crop|what crop|suitable crop|best crop|grow in|panta veyali|సాగు|ఏ పంట|ఫసల్|खेती|फसल सुझाव|खेती सुझाव)/i.test(lower);
         const isScheme = /(scheme|subsidy|pm-kisan|pm kisan|pmksy|kcc|loan|insurance|pmfby|bima|ప్రభుత్వ|పథకం|యोजना|सब्सिडी)/i.test(lower);
-        const isIrrigation = /(water|irrigation|limited water|drip|borewell|canal|rainfed|నీరు|తక్కువ నీరు|पानी)/i.test(lower);
+        const isIrrigation = /(irrigation|water requirement|drip|borewell|canal|rainfed|నీటిపారుదల|सिंचाई)/i.test(lower);
         const isYield = /(yield|production|output|harvest per acre|దిగుబడి|उत्पादन)/i.test(lower);
-        const isProfit = /(profit|profitability|income|earnings|return|లాభం|मुनाफा)/i.test(lower);
+        const isProfit = /(profitability|income|earnings|return|లాభం|मुनाफा)/i.test(lower);
 
         const detectedIntents = [];
 
-        if (isMarket) detectedIntents.push("MARKET_PRICE");
-        if (isWeather) detectedIntents.push("WEATHER");
+        // Add domain intents strictly when triggered by query signals
         if (isDisease) detectedIntents.push("DISEASE");
         if (isPest) detectedIntents.push("PEST");
+        if (isMarket) detectedIntents.push("MARKET_PRICE");
+        if (isWeather) detectedIntents.push("WEATHER");
         if (isFertilizer) detectedIntents.push("FERTILIZER");
         if (isSoil) detectedIntents.push("SOIL");
-        if (isCropRec) detectedIntents.push("CROP_RECOMMENDATION");
         if (isScheme) detectedIntents.push("GOVERNMENT_SCHEME");
         if (isIrrigation) detectedIntents.push("IRRIGATION");
         if (isYield) detectedIntents.push("YIELD_PREDICTION");
         if (isProfit) detectedIntents.push("PROFITABILITY");
+        if (isCropRec) detectedIntents.push("CROP_RECOMMENDATION");
 
+        // Contextual fallback: only inherit previous intent if user entered an isolated location follow-up (e.g. "What about in Warangal?")
         if (detectedIntents.length === 0) {
-            if (cropRes.matched) detectedIntents.push("CROP_RECOMMENDATION");
-            else if (sessionContext.lastIntent && (locRes.matched || lower.startsWith("what about") || lower.startsWith("how about"))) {
+            if (cropRes.matched && /(what is|tell me about|how to grow|cultivation)/i.test(lower)) {
+                detectedIntents.push("CROP_RECOMMENDATION");
+            } else if (sessionContext.lastIntent && locRes.matched && (lower.startsWith("what about") || lower.startsWith("how about") || lower.length < 25)) {
                 detectedIntents.push(sessionContext.lastIntent === "market" ? "MARKET_PRICE" : sessionContext.lastIntent.toUpperCase());
             } else {
                 detectedIntents.push("GENERAL_AGRICULTURE");
             }
         }
 
+        // Priority resolution: Specialized domains (Disease, Market, Weather, Fertilizer) override general crop rec.
+        // Agromet weather advisory: When farmer asks about spraying/draining in relation to impending rain/weather,
+        // the primary decision factor is weather timing (Weather & Agromet Advisory Agent).
         let primaryIntent = detectedIntents[0];
-        if (detectedIntents.includes("CROP_RECOMMENDATION") && !isFertilizer && detectedIntents.includes("SOIL") && !isMarket) {
-            primaryIntent = "CROP_RECOMMENDATION";
+        if (detectedIntents.includes("WEATHER") && /(rain|storm|wet|cloud|forecast|wind|temp)/i.test(lower) && /(spray|pesticide|fungicide|fertilizer|apply|water|drain)/i.test(lower)) {
+            primaryIntent = "WEATHER";
         }
+        else if (detectedIntents.includes("DISEASE")) primaryIntent = "DISEASE";
+        else if (detectedIntents.includes("PEST")) primaryIntent = "PEST";
+        else if (detectedIntents.includes("MARKET_PRICE")) primaryIntent = "MARKET_PRICE";
+        else if (detectedIntents.includes("WEATHER")) primaryIntent = "WEATHER";
+        else if (detectedIntents.includes("FERTILIZER")) primaryIntent = "FERTILIZER";
+        else if (detectedIntents.includes("CROP_RECOMMENDATION") && detectedIntents.includes("SOIL") && !isFertilizer && !isMarket) primaryIntent = "CROP_RECOMMENDATION";
+        else if (detectedIntents.includes("SOIL")) primaryIntent = "SOIL";
+        else if (detectedIntents.includes("GOVERNMENT_SCHEME")) primaryIntent = "GOVERNMENT_SCHEME";
+        else if (detectedIntents.includes("CROP_RECOMMENDATION")) primaryIntent = "CROP_RECOMMENDATION";
 
         let agent = "Sahayak Agricultural General Agent";
         if (primaryIntent === "MARKET_PRICE") agent = "Mandi Market & MSP Agent";

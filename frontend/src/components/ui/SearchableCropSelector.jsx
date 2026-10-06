@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Search, X, Check, Star, ShieldAlert, Sprout } from "lucide-react";
 import { CROP_CATEGORIES, GROWTH_STAGES, searchCrops } from "../../data/cropsData";
+import { useLanguage } from "../../context/LanguageContext";
 
 export default function SearchableCropSelector({
   selectedCrops = [],
@@ -8,6 +9,7 @@ export default function SearchableCropSelector({
   totalFarmArea = 5,
   landUnit = "Acres"
 }) {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [showAreaDetails, setShowAreaDetails] = useState(true);
@@ -94,7 +96,7 @@ export default function SearchableCropSelector({
           <Search size={18} color="var(--fk-text-sub)" style={{ flexShrink: 0, marginRight: "10px" }} />
           <input
             type="text"
-            placeholder="Search crops by English or Indian names (e.g. Tomato, Tur, Chana, Jowar, Bajra, Bhendi)..."
+            placeholder={t("Search crops by English or Indian names (e.g. Tomato, Tur, Chana, Jowar, Bajra, Bhendi)...", "Search crops by English or Indian names (e.g. Tomato, Tur, Chana, Jowar, Bajra, Bhendi)...")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             style={{
@@ -149,7 +151,7 @@ export default function SearchableCropSelector({
                 }}
               >
                 <span>{cat.icon}</span>
-                <span>{cat.label}</span>
+                <span>{t(cat.label, cat.label)}</span>
               </button>
             );
           })}
@@ -166,7 +168,7 @@ export default function SearchableCropSelector({
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
             <span style={{ fontSize: "13px", fontWeight: "700", color: "#2874f0", textTransform: "uppercase", letterSpacing: "0.03em" }}>
-              Selected Crops ({selectedCrops.length})
+              {t("Selected Crops", "Selected Crops")} ({selectedCrops.length})
             </span>
             <button
               type="button"
@@ -181,7 +183,7 @@ export default function SearchableCropSelector({
                 textDecoration: "underline"
               }}
             >
-              Clear all
+              {t("Clear all", "Clear all")}
             </button>
           </div>
 
@@ -203,7 +205,7 @@ export default function SearchableCropSelector({
                 }}
               >
                 <span>{crop.icon}</span>
-                <span>{crop.name}</span>
+                <span>{t(crop.name, crop.name)}</span>
                 {crop.isPrimary && (
                   <span style={{
                     fontSize: "11px",
@@ -213,7 +215,7 @@ export default function SearchableCropSelector({
                     padding: "1px 5px",
                     borderRadius: "8px"
                   }}>
-                    PRIMARY
+                    {t("PRIMARY", "PRIMARY")}
                   </span>
                 )}
                 <button
@@ -239,11 +241,11 @@ export default function SearchableCropSelector({
           {totalFarmArea > 0 && (
             <div style={{ marginTop: "12px", paddingTop: "8px", borderTop: "1px dashed rgba(40, 116, 240, 0.2)", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "13px" }}>
               <span style={{ color: "var(--fk-text-sub)", fontWeight: "600" }}>
-                Crop Area Allocated: <strong>{totalAllocatedArea} {landUnit}</strong> / <strong>{totalFarmArea} {landUnit}</strong>
+                {t("Crop Area Allocated", "Crop Area Allocated")}: <strong>{totalAllocatedArea} {t(landUnit, landUnit)}</strong> / <strong>{totalFarmArea} {t(landUnit, landUnit)}</strong>
               </span>
               {isAreaExceeded && (
                 <span style={{ color: "#d32f2f", fontWeight: "700", display: "inline-flex", alignItems: "center", gap: "4px" }}>
-                  <ShieldAlert size={14} /> Allocated area exceeds total land!
+                  <ShieldAlert size={14} /> {t("Allocated area exceeds total land!", "Allocated area exceeds total land!")}
                 </span>
               )}
             </div>
@@ -265,7 +267,7 @@ export default function SearchableCropSelector({
       }}>
         {filteredCrops.length === 0 ? (
           <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "20px", color: "var(--fk-text-sub)", fontSize: "14px" }}>
-            No matching crops found for "{searchQuery}".
+            {t("No matching crops found", "No matching crops found")} "{searchQuery}".
           </div>
         ) : (
           filteredCrops.map(crop => {
@@ -304,7 +306,7 @@ export default function SearchableCropSelector({
                 </div>
                 <span style={{ fontSize: "17px" }}>{crop.icon}</span>
                 <span style={{ fontSize: "14px", fontWeight: "600", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flex: 1 }}>
-                  {crop.name}
+                  {t(crop.name, crop.name)}
                 </span>
               </button>
             );
@@ -322,7 +324,7 @@ export default function SearchableCropSelector({
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
             <span style={{ fontSize: "14px", fontWeight: "800", color: "var(--fk-text)", display: "flex", alignItems: "center", gap: "6px" }}>
-              <Sprout size={16} color="#2874f0" /> Primary & Secondary Crop Details
+              <Sprout size={16} color="#2874f0" /> {t("Primary & Secondary Crop Details", "Primary & Secondary Crop Details")}
             </span>
             <button
               type="button"
@@ -330,7 +332,7 @@ export default function SearchableCropSelector({
               style={{ fontSize: "13px" }}
               onClick={() => setShowAreaDetails(!showAreaDetails)}
             >
-              {showAreaDetails ? "Hide Details" : "Configure Area & Stages"}
+              {showAreaDetails ? t("Hide Details", "Hide Details") : t("Configure Area & Stages", "Configure Area & Stages")}
             </button>
           </div>
 
@@ -352,7 +354,7 @@ export default function SearchableCropSelector({
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                       <span style={{ fontSize: "17px" }}>{crop.icon}</span>
-                      <strong style={{ fontSize: "15px", color: "var(--fk-text)" }}>{crop.name}</strong>
+                      <strong style={{ fontSize: "15px", color: "var(--fk-text)" }}>{t(crop.name, crop.name)}</strong>
                     </div>
 
                     <button
@@ -373,14 +375,14 @@ export default function SearchableCropSelector({
                       }}
                     >
                       <Star size={12} fill={crop.isPrimary ? "#2874f0" : "none"} />
-                      {crop.isPrimary ? "Primary Crop" : "Set as Primary"}
+                      {crop.isPrimary ? t("Primary Crop", "Primary Crop") : t("Set as Primary", "Set as Primary")}
                     </button>
                   </div>
 
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
                     <div>
                       <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", display: "block", marginBottom: "4px" }}>
-                        Crop Area ({landUnit})
+                        {t("Crop Area", "Crop Area")} ({t(landUnit, landUnit)})
                       </label>
                       <input
                         type="number"
@@ -403,7 +405,7 @@ export default function SearchableCropSelector({
 
                     <div>
                       <label style={{ fontSize: "12px", fontWeight: "700", color: "var(--fk-text-sub)", display: "block", marginBottom: "4px" }}>
-                        Growth Stage
+                        {t("Growth Stage", "Growth Stage")}
                       </label>
                       <select
                         value={crop.stage || "Vegetative Growth"}
@@ -419,7 +421,7 @@ export default function SearchableCropSelector({
                         }}
                       >
                         {GROWTH_STAGES.map(stage => (
-                          <option key={stage} value={stage}>{stage}</option>
+                          <option key={stage} value={stage}>{t(stage, stage)}</option>
                         ))}
                       </select>
                     </div>

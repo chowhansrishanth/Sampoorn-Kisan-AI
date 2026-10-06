@@ -323,24 +323,45 @@ class AgriculturalEntityNormalizer {
     }
 
     /**
-     * Anaphora & Reference Resolution Engine (Section 12)
-     * Resolves pronouns ("it", "its", "this", "that", "the crop", "my soil", "the price")
-     * using active session context.
+     * Anaphora & Reference Resolution Engine
+     * 
+     * Resolves contextual pronouns ONLY when unambiguous and relevant:
+     * - Only substitutes crop pronouns ("this crop", "that crop", "its price", "the crop")
+     *   when the query does NOT already contain an explicit crop mention.
+     * - Never replaces generic English words ("this", "that", "it") across normal sentences,
+     *   which previously caused questions like "What is this disease?" to be mutated into
+     *   "What is tomato disease?", generating irrelevant repeated answers.
+     * 
+     * @param {string} query - Incoming user query text.
+     * @param {Object} sessionContext - Session memory containing lastCommodity, soil, etc.
+     * @returns {Object} Resolution details with originalQuery and sanitized rewrittenQuery.
      */
     resolveReference(query = "", sessionContext = {}) {
         const lower = query.toLowerCase().trim();
-        let resolvedCommodity = sessionContext.lastRecommendedCrop || sessionContext.lastCommodity || sessionContext.current_crop || null;
+        const hasExplicitCrop = this.normalizeCrop(query).matched;
+
+        let resolvedCommodity = hasExplicitCrop
+            ? null // Do NOT override if farmer specifically mentions a crop in the current turn
+            : (sessionContext.lastRecommendedCrop || sessionContext.lastCommodity || sessionContext.current_crop || null);
+
         let resolvedLocation = sessionContext.location || sessionContext.state || sessionContext.district || null;
         let resolvedSoil = sessionContext.soil_type || sessionContext.soil || null;
 
         let rewrittenQuery = query;
 
-        // Pronoun / Reference substitution for crops ("its price", "grow it", "how much is it")
-        if (resolvedCommodity && (/\b(it|its|this|that|the crop|this crop|my crop|the commodity)\b/i.test(lower))) {
-            rewrittenQuery = rewrittenQuery.replace(/\b(it|its|this|that|the crop|this crop|my crop|the commodity)\b/gi, resolvedCommodity);
+        // Pronoun substitution: ONLY replace explicit crop references ("this crop", "that crop", "the crop", "its price")
+        // NEVER replace standalone "this", "that", or generic "it" to avoid corrupting fresh questions.
+        if (resolvedCommodity && !hasExplicitCrop) {
+            // Targeted pattern matching explicit crop references
+            if (/\b(this crop|that crop|the crop|my crop|the commodity)\b/i.test(lower)) {
+                rewrittenQuery = rewrittenQuery.replace(/\b(this crop|that crop|the crop|my crop|the commodity)\b/gi, resolvedCommodity);
+            } else if (/\b(its price|its rate|its msp|grow it)\b/i.test(lower)) {
+                rewrittenQuery = rewrittenQuery.replace(/\bits (price|rate|msp)\b/gi, `${resolvedCommodity} $1`);
+                rewrittenQuery = rewrittenQuery.replace(/\bgrow it\b/gi, `grow ${resolvedCommodity}`);
+            }
         }
 
-        // Reference substitution for soil
+        // Targeted reference substitution for soil only when explicit
         if (resolvedSoil && (/\b(my soil|the soil|this soil)\b/i.test(lower))) {
             rewrittenQuery = rewrittenQuery.replace(/\b(my soil|the soil|this soil)\b/gi, resolvedSoil);
         }
@@ -348,7 +369,7 @@ class AgriculturalEntityNormalizer {
         return {
             originalQuery: query,
             rewrittenQuery,
-            resolvedCommodity,
+            resolvedCommodity: hasExplicitCrop ? null : resolvedCommodity,
             resolvedLocation,
             resolvedSoil
         };

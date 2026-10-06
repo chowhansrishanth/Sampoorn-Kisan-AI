@@ -195,7 +195,7 @@ export default function SatelliteNDVI() {
           </div>
         </PremiumCard>
 
-        {/* Selected Pixel Telemetry & Stress Diagnosis */}
+        {/* Selected Pixel Analysis & Stress Diagnosis */}
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           {selectedCell && (
             <PremiumCard>

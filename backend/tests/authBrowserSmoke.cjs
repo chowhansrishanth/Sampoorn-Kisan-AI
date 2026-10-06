@@ -55,7 +55,10 @@ async function main() {
    console.log(`PASS ${state}: desktop, tablet, mobile and short landscape layout`);
   };
   const button = async text => {
-   const handle=await page.evaluateHandle(text=>Array.from(document.querySelectorAll('button')).find(b=>b.textContent.trim()===text),text);
+   const handle=await page.evaluateHandle(text=>{
+     const btns = Array.from(document.querySelectorAll('button')).filter(b=>b.textContent.trim()===text);
+     return btns.find(b=>b.type==='submit') || btns[0];
+   },text);
    assert.ok(handle.asElement(), `Missing button: ${text}`);
    await handle.asElement().click();
   };
@@ -77,7 +80,12 @@ async function main() {
   await waitText('Farm Profile & Location');
   await checkLayouts('farm-profile');
   assert.doesNotMatch(await page.$eval('body',b=>b.innerText),/verification code|\bOTP\b/i);
-  await button('Create Account');
+  for (let s = 1; s < 8; s++) {
+    await page.evaluate(() => new Promise(r => setTimeout(r, 150)));
+    await button('Continue');
+  }
+  const submitBtn = await page.waitForSelector('#btn-register-submit');
+  await submitBtn.click();
   await waitText('Account created successfully. Please sign in.');
   await page.waitForSelector('#login-password');
   assert.equal((await page.cookies()).some(c=>c.name==='token'),false);
