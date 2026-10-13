@@ -46,6 +46,8 @@ import {
 } from "lucide-react";
 import PremiumCard from "../components/ui/PremiumCard";
 import PageHeader from "../components/ui/PageHeader";
+import VoiceSpeakerButton from "../components/VoiceSpeakerButton";
+import NewCropCycleModal from "../components/NewCropCycleModal";
 
 // 12 Months of the Agricultural Year
 const MONTHS = [
@@ -138,10 +140,24 @@ export default function CropCalendar() {
     }
   }, [urlCrop, urlDurationDays]);
 
+  // Fetch active crop cycle for authenticated farmer
+  const [isNewCycleModalOpen, setIsNewCycleModalOpen] = useState(false);
+  const cycleResource = useApiResource({ url: '/api/crop-cycles/active' });
+  const activeCycle = cycleResource.data?.cycle || null;
+
+  // Auto-select crop from active cycle if not supplied via URL
+  useEffect(() => {
+    if (activeCycle && !urlCrop && !chosenCrop) {
+      if (activeCycle.cropKey) {
+        setChosenCrop(activeCycle.cropKey);
+      }
+    }
+  }, [activeCycle, urlCrop, chosenCrop]);
+
   const loading = catalog.loading;
   const calLoading = schedule.loading;
   const error = catalog.error || schedule.error;
-  const reload = () => { catalog.reload(); schedule.reload(); };
+  const reload = () => { catalog.reload(); schedule.reload(); cycleResource.reload(); };
 
   // Task filter callback
   const filteredTasks = useCallback((tasks) => {
@@ -184,7 +200,112 @@ export default function CropCalendar() {
         title="Crop Calendar & Growth Advisory"
         subtitle="ICAR-aligned growth stages, inputs, facilities, and 12-month agronomic practices"
         icon={<Calendar size={22} color="#006948" />}
+        action={
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <VoiceSpeakerButton
+              label="Calendar Voice Guide"
+              text={`Welcome to the Crop Calendar. Your active crop is ${activeCycle?.cropName || calendar?.name || selectedCrop}. Duration is ${activeDurationDays} days. Here you can view month-wise and stage-wise farming activities.`}
+              teluguText={`పంట క్యాలెండర్‌కు స్వాగతం. మీ ప్రస్తుత పంట ${activeCycle?.cropName || calendar?.name || selectedCrop}. మొత్తం కాల వ్యవధి ${activeDurationDays} రోజులు. నెలవారీ మరియు దశలవారీ వ్యవసాయ పనులను ఇక్కడ చూడవచ్చు.`}
+              hindiText={`फसल कैलेंडर में आपका स्वागत है। आपकी फसल ${activeCycle?.cropName || calendar?.name || selectedCrop} है। कुल अवधि ${activeDurationDays} दिन है। यहाँ आप महीने-वार और चरण-वार कृषि कार्य देख सकते हैं।`}
+            />
+          </div>
+        }
       />
+
+      {/* INDEPENDENT FARMER ACTIVE CYCLE PROGRESS CARD */}
+      <div
+        style={{
+          background: activeCycle?.isPlanned
+            ? "linear-gradient(135deg, rgba(234, 179, 8, 0.1) 0%, rgba(59, 130, 246, 0.06) 100%)"
+            : "linear-gradient(135deg, rgba(0, 105, 72, 0.1) 0%, rgba(16, 185, 129, 0.06) 100%)",
+          border: activeCycle?.isPlanned ? "1.5px solid #eab308" : "1.5px solid #006948",
+          borderRadius: "12px",
+          padding: "14px 18px",
+          marginBottom: "16px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "12px"
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <span style={{ fontSize: "24px" }}>
+            {activeCycle?.isPlanned ? "🗓️" : activeCycle?.currentDay === 0 ? "🌱" : "🌿"}
+          </span>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+              <strong style={{ fontSize: "14.5px", color: "var(--fk-text)" }}>
+                {activeCycle ? activeCycle.cropName : `${selectedCrop} (Active Selection)`}
+              </strong>
+              <span
+                style={{
+                  fontSize: "11px",
+                  fontWeight: "800",
+                  padding: "2px 8px",
+                  borderRadius: "12px",
+                  background: activeCycle?.isPlanned ? "#fef08a" : "#bbf7d0",
+                  color: activeCycle?.isPlanned ? "#854d0e" : "#166534"
+                }}
+              >
+                {activeCycle?.isPlanned
+                  ? "PLANNED (NOT YET SOWN)"
+                  : activeCycle?.currentDay === 0
+                  ? "DAY 0 SOWING"
+                  : `DAY ${activeCycle?.currentDay ?? 0} ACTIVE`}
+              </span>
+            </div>
+            <div style={{ fontSize: "12px", color: "var(--fk-text-sub)", marginTop: "2px" }}>
+              {activeCycle?.plantingDate
+                ? `Planting Date: ${new Date(activeCycle.plantingDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })} · Elapsed Day: ${activeCycle.currentDay}`
+                : "Every farmer maintains an independent cycle starting from Day 0."}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+          <VoiceSpeakerButton
+            label="Listen Cycle Schedule"
+            text={
+              activeCycle?.isPlanned
+                ? `Your crop cycle for ${activeCycle.cropName} is planned for ${new Date(activeCycle.plantingDate).toLocaleDateString("en-IN")}. It has not started in real life.`
+                : activeCycle?.currentDay === 0
+                ? `You are on Day 0 of your ${activeCycle?.cropName || selectedCrop} cycle. Focus on seed germination and initial soil moisture.`
+                : `You are on Day ${activeCycle?.currentDay ?? 0} of your ${activeCycle?.cropName || selectedCrop} cycle. Growth progress is moving towards ${calendar?.name || selectedCrop} harvest.`
+            }
+            teluguText={
+              activeCycle?.isPlanned
+                ? `${activeCycle.cropName} కోసం మీ పంట చక్రం ${new Date(activeCycle.plantingDate).toLocaleDateString("en-IN")} న ప్రారంభించడానికి ప్రణాళిక చేయబడింది.`
+                : activeCycle?.currentDay === 0
+                ? `మీరు ${activeCycle?.cropName || selectedCrop} పంటలో డే 0 వద్ద ఉన్నారు. విత్తన నాణ్యత మరియు నేల తేమపై దృష్టి పెట్టండి.`
+                : `మీరు ${activeCycle?.cropName || selectedCrop} పంటలో డే ${activeCycle?.currentDay ?? 0} వద్ద ఉన్నారు.`
+            }
+            hindiText={
+              activeCycle?.isPlanned
+                ? `${activeCycle.cropName} के लिए आपका फसल चक्र ${new Date(activeCycle.plantingDate).toLocaleDateString("en-IN")} को शुरू करने की योजना है।`
+                : activeCycle?.currentDay === 0
+                ? `आप अपनी ${activeCycle?.cropName || selectedCrop} फसल के डे 0 पर हैं। बीज अंकुरण और मिट्टी की नमी पर ध्यान दें।`
+                : `आप अपनी ${activeCycle?.cropName || selectedCrop} फसल के डे ${activeCycle?.currentDay ?? 0} पर हैं।`
+            }
+          />
+          <button
+            type="button"
+            onClick={() => setIsNewCycleModalOpen(true)}
+            style={{
+              padding: "6px 12px",
+              borderRadius: "8px",
+              fontSize: "12.5px",
+              fontWeight: "700",
+              cursor: "pointer",
+              border: "1.5px solid #006948",
+              background: "#006948",
+              color: "#ffffff"
+            }}
+          >
+            + Start New Cycle (Day 0)
+          </button>
+        </div>
+      </div>
 
       {/* Incoming Context Banner (if redirected from Crop Recommendation Tool) */}
       {(urlCrop || urlAcres || urlSoil) && (
@@ -850,6 +971,16 @@ export default function CropCalendar() {
           )}
         </div>
       )}
+
+      {/* NEW CROP CYCLE MODAL (FEATURE 1: DAY 0 INITIALIZATION) */}
+      <NewCropCycleModal
+        isOpen={isNewCycleModalOpen}
+        onClose={() => setIsNewCycleModalOpen(false)}
+        onCycleCreated={(newCycle) => {
+          cycleResource.reload();
+          if (newCycle?.cropKey) setChosenCrop(newCycle.cropKey);
+        }}
+      />
     </div>
   );
 }

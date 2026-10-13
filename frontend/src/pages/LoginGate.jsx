@@ -18,6 +18,7 @@ import {
 import { STEP_VOICE_GUIDANCE, getRecommendedCropsForWizard } from "../components/FarmProfileWizard";
 import { REGISTRATION_VOICE_GUIDANCE } from "../data/registrationVoiceGuidance";
 import StepVoiceGuidanceBar from "../components/StepVoiceGuidanceBar";
+import VoiceSpeakerButton from "../components/VoiceSpeakerButton";
 
 const LANGUAGES = [
   { code: "EN", name: "English", native: "English" },
@@ -122,6 +123,9 @@ export default function LoginGate({ onLoginSuccess }) {
     { id: "wheat", name: "Wheat & Rice", icon: "🌾", isPrimary: true, area: 2.5, stage: "Vegetative Growth" }
   ]);
   const [cropSelectionTab, setCropSelectionTab] = useState("both"); // "ai", "manual", or "both"
+  const todayIso = new Date().toISOString().split("T")[0];
+  const [plantingMode, setPlantingMode] = useState("today"); // "today" | "past" | "planned"
+  const [plantingDate, setPlantingDate] = useState(todayIso);
 
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -496,6 +500,9 @@ export default function LoginGate({ onLoginSuccess }) {
       },
       crops,
       primaryCrop: primaryCropObj.name,
+      plantingMode,
+      plantingDate: plantingMode === "today" ? todayIso : (plantingDate || todayIso),
+      isPlanned: plantingMode === "planned",
       irrigation,
       soilType,
       season,
@@ -1726,6 +1733,120 @@ export default function LoginGate({ onLoginSuccess }) {
                         </div>
                       )}
                     </div>
+
+                    {/* PLANTING TIMING & DAY 0 INITIALIZATION SECTION */}
+                    <div style={{
+                      background: "#ffffff",
+                      border: "1.5px solid rgba(0, 105, 72, 0.3)",
+                      borderRadius: "10px",
+                      padding: "14px",
+                      marginTop: "12px"
+                    }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                          <span style={{ fontSize: "16px" }}>🌱</span>
+                          <strong style={{ fontSize: "13.5px", color: "#006948" }}>
+                            {t("Planting Date & Day 0 Cycle Start", "Planting Date & Day 0 Cycle Start")}
+                          </strong>
+                        </div>
+                        <VoiceSpeakerButton
+                          sectionId="reg_planting_date"
+                          title="Planting Date Instructions"
+                          text="Choose when your crop was planted. If planted today, your cycle starts at Day 0. If planted earlier, enter your actual planting date. If planning to plant in the future, select planned date and your cycle starts at Day 0 on that date."
+                          te="మీ పంట ఎప్పుడు నాటారో ఎంచుకోండి. మీరు ఈరోజు నాటితే, మీ పంట చక్రం డే 0 వద్ద ప్రారంభమవుతుంది. మీరు ఇంతకు ముందు నాటితే, అసలు తేదీని ఇవ్వండి. భవిష్యత్తులో నాటాలని అనుకుంటే, ప్లాన్ చేసిన తేదీని ఎంచుకోండి."
+                          hi="चुनें कि आपकी फसल कब बोई गई थी। यदि आज बोई गई है, तो आपका चक्र डे 0 पर शुरू होता है। यदि पहले बोई गई थी, तो वास्तविक तारीख दर्ज करें। यदि बाद में बुवाई की योजना है, तो नियोजित तारीख चुनें।"
+                          size="sm"
+                        />
+                      </div>
+
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "6px", marginBottom: "10px" }}>
+                        <button
+                          type="button"
+                          onClick={() => setPlantingMode("today")}
+                          style={{
+                            padding: "8px 4px",
+                            borderRadius: "8px",
+                            border: plantingMode === "today" ? "2px solid #006948" : "1px solid var(--fk-border)",
+                            background: plantingMode === "today" ? "rgba(0, 105, 72, 0.1)" : "transparent",
+                            color: plantingMode === "today" ? "#006948" : "inherit",
+                            fontWeight: "700",
+                            fontSize: "11.5px",
+                            cursor: "pointer"
+                          }}
+                        >
+                          🌱 Planted Today (Day 0)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPlantingMode("past")}
+                          style={{
+                            padding: "8px 4px",
+                            borderRadius: "8px",
+                            border: plantingMode === "past" ? "2px solid #006948" : "1px solid var(--fk-border)",
+                            background: plantingMode === "past" ? "rgba(0, 105, 72, 0.1)" : "transparent",
+                            color: plantingMode === "past" ? "#006948" : "inherit",
+                            fontWeight: "700",
+                            fontSize: "11.5px",
+                            cursor: "pointer"
+                          }}
+                        >
+                          📅 Planted Earlier (Actual)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPlantingMode("planned")}
+                          style={{
+                            padding: "8px 4px",
+                            borderRadius: "8px",
+                            border: plantingMode === "planned" ? "2px solid #006948" : "1px solid var(--fk-border)",
+                            background: plantingMode === "planned" ? "rgba(0, 105, 72, 0.1)" : "transparent",
+                            color: plantingMode === "planned" ? "#006948" : "inherit",
+                            fontWeight: "700",
+                            fontSize: "11.5px",
+                            cursor: "pointer"
+                          }}
+                        >
+                          ⏳ Planning to Plant
+                        </button>
+                      </div>
+
+                      {plantingMode !== "today" && (
+                        <div style={{ marginBottom: "8px" }}>
+                          <label style={{ fontSize: "11.5px", color: "var(--fk-text-sub)", display: "block", marginBottom: "3px" }}>
+                            {plantingMode === "past" ? "Actual Planting Date:" : "Planned Planting Date:"}
+                          </label>
+                          <input
+                            type="date"
+                            value={plantingDate}
+                            max={plantingMode === "past" ? todayIso : undefined}
+                            min={plantingMode === "planned" ? todayIso : undefined}
+                            onChange={(e) => setPlantingDate(e.target.value)}
+                            style={{
+                              width: "100%",
+                              padding: "6px 10px",
+                              borderRadius: "6px",
+                              border: "1px solid var(--fk-border)",
+                              fontSize: "13px"
+                            }}
+                          />
+                        </div>
+                      )}
+
+                      <div style={{
+                        padding: "7px 10px",
+                        background: plantingMode === "planned" ? "rgba(245, 158, 11, 0.08)" : "rgba(0, 105, 72, 0.08)",
+                        borderRadius: "6px",
+                        fontSize: "11.5px",
+                        color: plantingMode === "planned" ? "#b45309" : "#006948",
+                        fontWeight: "600"
+                      }}>
+                        {plantingMode === "planned"
+                          ? `⏳ Planned: Cycle has not started in real life. Starts at Day 0 on ${plantingDate}.`
+                          : plantingMode === "today"
+                          ? `🌱 Day 0: Sowing / Planting Day! Basal fertilizer & seedling establishment starts today.`
+                          : `📅 Active Cycle: Planted on ${plantingDate}. Calculated progress is active.`}
+                      </div>
+                    </div>
                   </div>
                 </>
               )}
@@ -1771,7 +1892,17 @@ export default function LoginGate({ onLoginSuccess }) {
           {/* LOGIN */}
           {mode === "login" && (
             <>
-              <div className="lg-form-header">
+              <div className="lg-form-header" style={{ position: "relative" }}>
+                <div style={{ position: "absolute", top: 0, right: 0 }}>
+                  <VoiceSpeakerButton
+                    sectionId="login_screen"
+                    title="Login Guidance"
+                    text="Welcome to Sampoorn Kisan AI. Enter your registered mobile number or email and password, then tap Sign In. If you are new, tap Create Account."
+                    te="సంపూర్ణ్ కిసాన్ AI కి స్వాగతం. మీ మొబైల్ నంబర్ లేదా ఇమెయిల్ మరియు పాస్‌వర్డ్ నమోదు చేసి లాగిన్ అవ్వండి. కొత్తవారైతే కొత్త ఖాతాను సృష్టించండి."
+                    hi="सम्पूर्ण किसान AI में आपका स्वागत है। अपना मोबाइल नंबर या ईमेल और पासवर्ड दर्ज करें और साइन इन करें। यदि आप नए हैं तो खाता बनाएं।"
+                    size="sm"
+                  />
+                </div>
                 <div className="lg-form-icon"><Sprout size={24} /></div>
                 <h2>{t("Welcome Back")}</h2>
                 <p>{t("Sign in with your Email or Mobile Number")}</p>

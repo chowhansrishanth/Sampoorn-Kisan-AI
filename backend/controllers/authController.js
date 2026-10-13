@@ -3,6 +3,9 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const User = require("../models/User");
+const CropCycle = require("../models/CropCycle");
+const { generateInitialTasksForCrop } = require("../utils/cropCycleCalculator");
+const { memSaveCycle } = require("./cropCycleController");
 const { isDbOperational } = require("../config/db");
 const conversationMemory = require("../services/conversationMemory");
 const fs = require("fs");
@@ -344,6 +347,31 @@ const register = async (req, res) => {
                     preferredLanguage: effectiveLang
                 });
 
+                // Initialize independent Day 0 crop cycle for this newly registered farmer
+                try {
+                    const rawPlantingDate = farmProfile?.plantingDate || new Date();
+                    const isPlanned = Boolean(farmProfile?.isPlanned);
+                    const cyclePayload = {
+                        userId: newUser._id.toString(),
+                        cropName: effectiveCrop,
+                        cropKey: effectiveCrop.toLowerCase().replace(/[^a-z0-9]/g, '_'),
+                        plantingDate: new Date(rawPlantingDate),
+                        isPlanned,
+                        status: isPlanned ? 'planned' : 'active',
+                        landAcres: farmProfile?.land?.sizeAcres || Number((calculatedHectares * 2.47105).toFixed(1)),
+                        soilType: farmProfile?.soilType || 'black',
+                        season: farmProfile?.season || 'kharif',
+                        irrigationType: Array.isArray(farmProfile?.irrigation) ? farmProfile.irrigation[0] : 'drip',
+                        tasks: generateInitialTasksForCrop(effectiveCrop, effectiveCrop, 120),
+                        notes: 'Initial independent Day 0 crop cycle established upon farmer registration.'
+                    };
+                    const cycleDoc = new CropCycle(cyclePayload);
+                    await cycleDoc.save();
+                    memSaveCycle(cycleDoc.toObject());
+                } catch (cycleErr) {
+                    console.warn("⚠️ Initial crop cycle auto-creation notice:", cycleErr.message);
+                }
+
                 return res.status(201).json({
                     success: true,
                     code: "REGISTER_SUCCESS",
@@ -398,6 +426,26 @@ const register = async (req, res) => {
             conversationMemory.syncFarmProfileState(memUser.email || memId, farmProfile);
         }
         memSave(memUser);
+
+        // Initialize independent Day 0 crop cycle in memory fallback
+        try {
+            const rawPlantingDate = farmProfile?.plantingDate || new Date();
+            const isPlanned = Boolean(farmProfile?.isPlanned);
+            memSaveCycle({
+                userId: memId,
+                cropName: effectiveCrop,
+                cropKey: effectiveCrop.toLowerCase().replace(/[^a-z0-9]/g, '_'),
+                plantingDate: new Date(rawPlantingDate),
+                isPlanned,
+                status: isPlanned ? 'planned' : 'active',
+                landAcres: farmProfile?.land?.sizeAcres || Number((calculatedHectares * 2.47105).toFixed(1)),
+                soilType: farmProfile?.soilType || 'black',
+                season: farmProfile?.season || 'kharif',
+                irrigationType: Array.isArray(farmProfile?.irrigation) ? farmProfile.irrigation[0] : 'drip',
+                tasks: generateInitialTasksForCrop(effectiveCrop, effectiveCrop, 120),
+                notes: 'Initial independent Day 0 crop cycle established upon farmer registration.'
+            });
+        } catch (_) {}
 
         return res.status(201).json({
             success: true,

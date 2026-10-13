@@ -20,6 +20,7 @@ import {
   Clock,
   Layers
 } from "lucide-react";
+import VoiceSpeakerButton from "../components/VoiceSpeakerButton";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -200,27 +201,35 @@ export default function MandiPrices({ user }) {
           </div>
         </div>
 
-        <button
-          onClick={fetchLiveMandi}
-          disabled={loading}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            padding: "9px 16px",
-            borderRadius: "8px",
-            border: "1px solid var(--fk-border)",
-            background: "var(--fk-card)",
-            color: "var(--fk-text)",
-            fontSize: "14px",
-            fontWeight: "700",
-            cursor: "pointer",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.04)"
-          }}
-        >
-          <RefreshCw size={15} className={loading ? "animate-spin" : ""} />
-          {loading ? "Fetching Prices..." : "Refresh Mandi Rates"}
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+          <VoiceSpeakerButton
+            label="Listen Mandi Prices"
+            text={`Live APMC Mandi rates for ${selectedCommodity} in ${selectedState}. Current market modal price is rupees ${benchmarkPrice} per quintal. Check adjacent mandis to optimize net profit after transport costs.`}
+            teluguText={`${selectedState} లో ${selectedCommodity} మార్కెట్ ధరలు. ప్రస్తుత సగటు ధర క్వింటాలుకు రూపాయలు ${benchmarkPrice}. రవాణా ఖర్చులు తీసివేసిన తర్వాత ఎక్కువ లాభం వచ్చే మార్కెట్‌ను ఎంచుకోండి.`}
+            hindiText={`${selectedState} में ${selectedCommodity} के लाइव एपीएमसी मंडी भाव। वर्तमान औसत भाव ₹${benchmarkPrice} प्रति क्विंटल है। परिवहन खर्च घटाने के बाद अधिकतम लाभ वाली मंडी चुनें।`}
+          />
+          <button
+            onClick={fetchLiveMandi}
+            disabled={loading}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "9px 16px",
+              borderRadius: "8px",
+              border: "1px solid var(--fk-border)",
+              background: "var(--fk-card)",
+              color: "var(--fk-text)",
+              fontSize: "14px",
+              fontWeight: "700",
+              cursor: "pointer",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.04)"
+            }}
+          >
+            <RefreshCw size={15} className={loading ? "animate-spin" : ""} />
+            {loading ? "Fetching Prices..." : "Refresh Mandi Rates"}
+          </button>
+        </div>
       </div>
 
       {/* FILTER CONTROLS STRIP */}

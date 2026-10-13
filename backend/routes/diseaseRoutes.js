@@ -10,7 +10,10 @@ const SAMPLE_IMAGES = Object.freeze({
   tomato_early_blight: 'tomato_early_blight.png',
   potato_late_blight: 'potato_late_blight.png',
   corn_common_rust: 'corn_common_rust.png',
+  corn_leaf_blight: 'corn_common_rust.png',
   grape_black_rot: 'grape_black_rot.png',
+  apple_healthy: 'apple_healthy.png',
+  wheat_healthy: 'wheat_healthy.png',
 });
 const SAMPLE_IMAGE_DIR = path.resolve(__dirname, '../../test_images');
 

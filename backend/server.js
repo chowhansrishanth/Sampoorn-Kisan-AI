@@ -39,6 +39,7 @@ const organicRoutes = require("./routes/organicRoutes");
 const solarPumpRoutes = require("./routes/solarPumpRoutes");
 const insuranceRoutes = require("./routes/insuranceRoutes");
 const carbonRoutes = require("./routes/carbonRoutes");
+const cropCycleRoutes = require("./routes/cropCycleRoutes");
 const httpClient = require("./services/httpClient");
 const aiProvider = require("./services/aiProvider");
 
@@ -208,6 +209,7 @@ app.get("/", (req, res) => {
 app.use("/api/ai", aiRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/crop", cropRoutes);
+app.use("/api/crop-cycles", cropCycleRoutes);
 app.use("/api/disease", diseaseRoutes);
 app.use("/api/market", marketRoutes);
 app.use("/api/fl", flRoutes);
@@ -322,6 +324,34 @@ if (process.env.NODE_ENV !== "test") {
   const server = app.listen(PORT, HOST, () => {
     console.log(`Sampoorn Kisan AI Backend running on http://localhost:${PORT}`);
   });
+
+  // Ensure local Python FastAPI ML Vision Service is running for disease diagnosis
+  const http = require("http");
+  const checkMlService = () => {
+    const mlReq = http.get("http://127.0.0.1:8000/docs", (res) => {
+      if (res.statusCode === 200) {
+        console.log("🤖 Python FastAPI ML Vision Service is online on http://127.0.0.1:8000");
+      }
+    });
+    mlReq.on("error", () => {
+      const mlPython = process.platform === "win32"
+        ? path.resolve(__dirname, "..", "ml_service", ".venv", "Scripts", "python.exe")
+        : path.resolve(__dirname, "..", "ml_service", ".venv", "bin", "python");
+      const mlDir = path.resolve(__dirname, "..", "ml_service");
+
+      if (fs.existsSync(mlPython)) {
+        console.log("🚀 Spawning local Python FastAPI ML Vision Service (port 8000)...");
+        const { spawn } = require("child_process");
+        const mlProcess = spawn(
+          mlPython,
+          ["-m", "uvicorn", "app:app", "--host", "127.0.0.1", "--port", "8000"],
+          { cwd: mlDir, stdio: "ignore", detached: true }
+        );
+        mlProcess.unref();
+      }
+    });
+  };
+  checkMlService();
 
   const handleGracefulShutdown = (signal) => {
     console.log(`\n🛑 Received ${signal}. Initiating graceful shutdown...`);

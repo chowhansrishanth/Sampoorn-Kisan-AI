@@ -3,6 +3,7 @@ import axios from '../api/client';
 import PageHeader from '../components/ui/PageHeader';
 import PremiumCard from '../components/ui/PremiumCard';
 import { StatCard } from '../components/ui/StatCard';
+import VoiceSpeakerButton from '../components/VoiceSpeakerButton';
 import {
   FlaskConical,
   Sprout,
@@ -182,7 +183,13 @@ export default function SoilHealth({ user }) {
         title="Soil Health Card Analyzer & Prescription Engine"
         subtitle="Translate official Soil Health Card (SHC) laboratory test results into precision STCR fertilizer dosages, micronutrient rectifications, and soil reclamation steps."
         action={
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <VoiceSpeakerButton
+              label="Listen Soil Analysis"
+              text={result ? `Soil test analysis for ${form.crop}. Soil reaction pH is ${form.shcData.pH}. Available nitrogen is ${form.shcData.nitrogen} kilograms per hectare. Phosphorus is ${form.shcData.phosphorus}, Potassium is ${form.shcData.potassium}. Review recommendations to rectify nutrient deficiencies.` : `Soil Health Card Analyzer. Enter your soil test lab values for nitrogen, phosphorus, potassium, and pH to get precision fertilizer recommendations.`}
+              teluguText={result ? `${form.crop} పంట కోసం నేల పరీక్ష విశ్లేషణ. నేల పీహెచ్ ${form.shcData.pH}. నత్రజని హెక్టారుకు ${form.shcData.nitrogen} కిలోలు. భాస్వరం ${form.shcData.phosphorus}, పొటాషియం ${form.shcData.potassium}. లోపాలను సరిదిద్దడానికి ఎరువుల సిఫార్సులను చూడండి.` : `భూసార పరీక్ష విశ్లేషణ. మీ పొలం నేల నత్రజని, భాస్వరం, పొటాష్ మరియు పీహెచ్ విలువలను నమోదు చేసి సరైన ఎరువుల మోతాదును తెలుసుకోండి.`}
+              hindiText={result ? `${form.crop} के लिए मृदा स्वास्थ्य विश्लेषण। मिट्टी का पीएच ${form.shcData.pH} है। उपलब्ध नाइट्रोजन ${form.shcData.nitrogen} किग्रा प्रति हेक्टेयर है। फास्फोरस ${form.shcData.phosphorus}, पोटाश ${form.shcData.potassium} है। पोषक तत्वों की कमी को दूर करने के लिए खाद की सिफारिश देखें।` : `मृदा स्वास्थ्य कार्ड विश्लेषक। नाइट्रोजन, फास्फोरस, पोटाश और पीएच के मान दर्ज करके सटीक उर्वरक सिफारिश प्राप्त करें।`}
+            />
             <button
               onClick={() => window.print()}
               style={{

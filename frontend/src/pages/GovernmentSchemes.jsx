@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
+import VoiceSpeakerButton from "../components/VoiceSpeakerButton";
 import {
   Landmark,
   Percent,
@@ -278,18 +279,26 @@ export default function GovernmentSchemes() {
     <div className="page-container schemes-page page-enter">
       {/* PAGE HEADER: DEDICATED GOVERNMENT SCHEMES PORTAL */}
       <div className="page-header" style={{ marginBottom: "16px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-          <div style={{ background: "rgba(40, 116, 240, 0.12)", color: "#2874f0", padding: "8px", borderRadius: "8px" }}>
-            <Landmark size={24} />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "6px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{ background: "rgba(40, 116, 240, 0.12)", color: "#2874f0", padding: "8px", borderRadius: "8px" }}>
+              <Landmark size={24} />
+            </div>
+            <div>
+              <h1 className="page-title" style={{ margin: 0, fontSize: "23.5px" }}>
+                🏛️ {t("nav_schemes", "Central & State Government Agricultural Schemes & Subsidies")}
+              </h1>
+              <p className="page-subtitle" style={{ margin: "2px 0 0" }}>
+                {t("knowledge_hub_sub", "Verified government subsidies, 4% Kisan Credit Cards (KCC), PM-Kisan income support, PMKSY micro-irrigation grants, and PMFBY crop insurance.")}
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="page-title" style={{ margin: 0, fontSize: "23.5px" }}>
-              🏛️ {t("nav_schemes", "Central & State Government Agricultural Schemes & Subsidies")}
-            </h1>
-            <p className="page-subtitle" style={{ margin: "2px 0 0" }}>
-              {t("knowledge_hub_sub", "Verified government subsidies, 4% Kisan Credit Cards (KCC), PM-Kisan income support, PMKSY micro-irrigation grants, and PMFBY crop insurance.")}
-            </p>
-          </div>
+          <VoiceSpeakerButton
+            label="Listen Government Schemes Guide"
+            text="Central and State Government Agricultural Schemes. Explore low-interest Kisan Credit Cards at 4%, PM-Kisan income support of rupees 6,000 annually, PMKSY drip irrigation subsidies up to 90%, and PMFBY crop insurance coverage."
+            teluguText="కేంద్ర మరియు రాష్ట్ర ప్రభుత్వ వ్యవసాయ పథకాలు. 4 శాతం వడ్డీకే కిసాన్ క్రెడిట్ కార్డు రుణాలు, సంవత్సరానికి రూ. 6000 పీఎం కిసాన్ సాయం, మరియు 90 శాతం వరకు బిందు సేద్యం సబ్సిడీల వివరాలను ఇక్కడ తెలుసుకోవచ్చు."
+            hindiText="केंद्र एवं राज्य सरकार की कृषि योजनाएं। 4% ब्याज पर किसान क्रेडिट कार्ड, सालाना ₹6000 पीएम-किसान सहायता, और 90% तक ड्रिप सिंचाई सब्सिडी की पूरी जानकारी और पात्रता यहाँ देखें।"
+          />
         </div>
       </div>
 

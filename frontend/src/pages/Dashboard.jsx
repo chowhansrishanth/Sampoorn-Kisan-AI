@@ -1,8 +1,11 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useApiResource from "../hooks/useApiResource";
 import RequestStatus from "../components/ui/RequestStatus";
 import { useLanguage } from "../context/LanguageContext";
+import api from "../api/client";
+import NewCropCycleModal from "../components/NewCropCycleModal";
+import VoiceSpeakerButton from "../components/VoiceSpeakerButton";
 import {
   ResponsiveContainer,
   BarChart,
@@ -112,14 +115,15 @@ export default function Dashboard({ user, onUpdateUser }) {
 
   const crop = CROP_DATABASE[selectedCropId] || CROP_DATABASE.cotton;
 
-  // Selected Day within Season
-  const [selectedDay, setSelectedDay] = useState(crop.currentDaySample || 45);
+  // Selected Day within Season (all crops start from Day 0)
+  const [selectedDay, setSelectedDay] = useState(crop.currentDaySample ?? 0);
   const [activeTab, setActiveTab] = useState("day_plan"); // 'day_plan' | 'weekly_planner' | 'pesticides' | 'deficiencies' | 'irrigation' | 'economics'
   const [dayPlanViewMode, setDayPlanViewMode] = useState("brief"); // 'brief' | 'detailed'
   const [pesticideFilter, setPesticideFilter] = useState("all");
   const [expandedMilestoneDay, setExpandedMilestoneDay] = useState(null);
   const [completedTasks, setCompletedTasks] = useState({});
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [isNewCycleModalOpen, setIsNewCycleModalOpen] = useState(false);
   const [locationText, setLocationText] = useState(user?.location || "Hyderabad, Telangana, India");
   const [quickPrompt, setQuickPrompt] = useState("");
   const [copiedStatus, setCopiedStatus] = useState(false);
@@ -134,6 +138,29 @@ export default function Dashboard({ user, onUpdateUser }) {
   const voice = useVoiceAssistant(language || "EN", (spokenText) => {
     setQuickPrompt(spokenText);
   });
+
+  // Active Crop Cycle for authenticated farmer
+  const cycleResource = useApiResource({ url: "/api/crop-cycles/active" });
+  const activeCycle = cycleResource.data?.cycle || null;
+
+  // Sync active cycle when loaded
+  useEffect(() => {
+    if (activeCycle) {
+      if (activeCycle.cropKey && CROP_DATABASE[activeCycle.cropKey]) {
+        setSelectedCropId(activeCycle.cropKey);
+      }
+      if (typeof activeCycle.currentDay === "number") {
+        setSelectedDay(activeCycle.currentDay);
+      }
+      if (Array.isArray(activeCycle.tasks)) {
+        const completedMap = {};
+        activeCycle.tasks.forEach((t) => {
+          if (t.completed) completedMap[t.taskId || t.id] = true;
+        });
+        setCompletedTasks((prev) => ({ ...prev, ...completedMap }));
+      }
+    }
+  }, [activeCycle]);
 
   // Location breakdown
   const locParts = (locationText || user?.location || "Hyderabad, Telangana, India")
@@ -154,13 +181,14 @@ export default function Dashboard({ user, onUpdateUser }) {
   const weather = weatherResource.data;
   const mandi = marketResource.data;
   const soilMeasurement = soilResource.data?.measurement;
-  const loading = weatherResource.loading || marketResource.loading;
+  const loading = weatherResource.loading || marketResource.loading || cycleResource.loading;
   const error = weatherResource.error || marketResource.error;
 
   const reload = () => {
     weatherResource.reload();
     marketResource.reload();
     soilResource.reload();
+    cycleResource.reload();
   };
 
   // Day Milestones for Current Crop
@@ -356,8 +384,15 @@ Generated via Kisan AI Command Center | Govt MSP: ${crop.mspValue}`;
 
   const farmerName = user?.name ? user.name.split(" ")[0] : t("greeting_farmer", "Farmer");
 
-  const toggleTask = (key) => {
+  const toggleTask = async (key) => {
     setCompletedTasks((prev) => ({ ...prev, [key]: !prev[key] }));
+    if (activeCycle?._id) {
+      try {
+        await api.post(`/api/crop-cycles/${activeCycle._id}/tasks/${key}/toggle`);
+      } catch (e) {
+        console.warn("Failed to persist task state to active cycle", e);
+      }
+    }
   };
 
   // Filtered pesticides
@@ -394,15 +429,23 @@ Generated via Kisan AI Command Center | Govt MSP: ${crop.mspValue}`;
         title={`${getGreeting()}, ${farmerName}! 🌾 ${t("dash_header_title", "Crop Lifecycle & Day-Wise Operations")}`}
         subtitle={t("dash_subtitle", "Complete crop agronomy, interactive day-wise field calendar, and targeted pesticide protection schedule.")}
         action={
-          <PremiumButton
-            variant="primary"
-            size="md"
-            icon={RefreshCw}
-            loading={loading}
-            onClick={reload}
-          >
-            {t("refresh_data", "Refresh Data")}
-          </PremiumButton>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+            <VoiceSpeakerButton
+              label="Dashboard Overview"
+              text={`Welcome to your Kisan AI Command Center, ${farmerName}. Your active crop is ${crop.name}, currently at day ${selectedDay}. Here you can track daily field operations, weather radar, and mandi rates.`}
+              teluguText={`మీ కిసాన్ ఏఐ కమాండ్ సెంటర్ కు స్వాగతం, ${farmerName}. మీ ప్రస్తుత పంట ${crop.name}, ప్రస్తుత రోజు ${selectedDay}. ఇక్కడ మీరు రోజువారీ పనులు, వాతావరణం మరియు మార్కెట్ ధరలను తెలుసుకోవచ్చు.`}
+              hindiText={`आपके किसान एआई कमांड सेंटर में स्वागत है, ${farmerName}। आपकी सक्रिय फसल ${crop.name} है, वर्तमान में दिन ${selectedDay} पर। यहाँ आप दैनिक कार्य, मौसम और मंडी भाव देख सकते हैं।`}
+            />
+            <PremiumButton
+              variant="primary"
+              size="md"
+              icon={RefreshCw}
+              loading={loading}
+              onClick={reload}
+            >
+              {t("refresh_data", "Refresh Data")}
+            </PremiumButton>
+          </div>
         }
       />
 
@@ -451,7 +494,7 @@ Generated via Kisan AI Command Center | Govt MSP: ${crop.mspValue}`;
                   onClick={() => {
                     setSelectedCropId(c.id);
                     const newCrop = CROP_DATABASE[c.id];
-                    if (newCrop) setSelectedDay(newCrop.currentDaySample || 40);
+                    setSelectedDay(newCrop?.currentDaySample ?? 0);
                   }}
                   style={{
                     display: "inline-flex",
@@ -499,7 +542,7 @@ Generated via Kisan AI Command Center | Govt MSP: ${crop.mspValue}`;
                 const newId = e.target.value;
                 setSelectedCropId(newId);
                 const newCrop = CROP_DATABASE[newId];
-                if (newCrop) setSelectedDay(newCrop.currentDaySample || 40);
+                setSelectedDay(newCrop?.currentDaySample ?? 0);
               }}
               style={{
                 padding: "6px 10px",
@@ -762,8 +805,14 @@ Generated via Kisan AI Command Center | Govt MSP: ${crop.mspValue}`;
               </p>
             </div>
 
-            {/* WhatsApp Share & Print buttons */}
+            {/* WhatsApp Share, Voice Guidance & Print buttons */}
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <VoiceSpeakerButton
+                label="Listen Today's Advisory"
+                text={`Day ${currentMilestone.day} operations for ${crop.name}. ${currentMilestone.title}. Core operation: ${currentMilestone.action}. Irrigation advice: ${currentMilestone.irrigation}. Crop protection: ${currentMilestone.protection}.`}
+                teluguText={`${crop.name} పంట డే ${currentMilestone.day} పనులు. ${currentMilestone.title}. ముఖ్యమైన పని: ${currentMilestone.action}. నీటి యాజమాన్యం: ${currentMilestone.irrigation}. రక్షణ చర్య: ${currentMilestone.protection}.`}
+                hindiText={`${crop.name} फसल के डे ${currentMilestone.day} के कार्य। ${currentMilestone.title}। मुख्य कार्य: ${currentMilestone.action}। सिंचाई सलाह: ${currentMilestone.irrigation}। फसल सुरक्षा: ${currentMilestone.protection}।`}
+              />
               <button
                 type="button"
                 onClick={handleCopyTodayAdvisory}
@@ -1752,7 +1801,15 @@ Generated via Kisan AI Command Center | Govt MSP: ${crop.mspValue}`;
                 {t("weather_title", "Live Weather & Spray Advisory")}
               </h3>
             </div>
-            <StatusBadge status="info">{t("real_time_forecast", "Real-Time Forecast")}</StatusBadge>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <VoiceSpeakerButton
+                label="Listen Weather Advisory"
+                text={`Current temperature is ${weather?.current_temperature_c ?? 28} degrees Celsius. Weather condition is ${weather?.condition || "Partly Cloudy"}, humidity ${weather?.humidity_percent ?? 68} percent, rainfall chance ${weather?.rainfall_probability ?? "20%"}. Wind speed is ${weather?.wind_speed_kmh ?? 12} kilometers per hour. Spray conditions are suitable before 10:30 AM.`}
+                teluguText={`ప్రస్తుత ఉష్ణోగ్రత ${weather?.current_temperature_c ?? 28} డిగ్రీల సెల్సియస్. వాతావరణం ${weather?.condition || "పాక్షికంగా మేఘావృతం"}, తేమ ${weather?.humidity_percent ?? 68} శాతం, వర్ష సూచన ${weather?.rainfall_probability ?? "20%"}. గాలి వేగం గంటకు ${weather?.wind_speed_kmh ?? 12} కిలోమీటర్లు. ఉదయం 10:30 లోపు పిచికారీ చేయడానికి అనుకూలం.`}
+                hindiText={`वर्तमान तापमान ${weather?.current_temperature_c ?? 28} डिग्री सेल्सियस है। मौसम ${weather?.condition || "आंशिक रूप से बादल"}, आर्द्रता ${weather?.humidity_percent ?? 68} प्रतिशत, बारिश की संभावना ${weather?.rainfall_probability ?? "20%"} है। हवा की गति ${weather?.wind_speed_kmh ?? 12} किलोमीटर प्रति घंटा है। सुबह 10:30 बजे से पहले छिड़काव के लिए उपयुक्त स्थिति है।`}
+              />
+              <StatusBadge status="info">{t("real_time_forecast", "Real-Time Forecast")}</StatusBadge>
+            </div>
           </div>
 
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px", padding: "14px", background: "var(--fk-bg)", borderRadius: "8px" }}>
@@ -1798,7 +1855,15 @@ Generated via Kisan AI Command Center | Govt MSP: ${crop.mspValue}`;
                 {t("mandi_title", "Live Mandi Prices")} ({t("crop_" + crop.id, crop.name).split(" ")[0]})
               </h3>
             </div>
-            <StatusBadge status="success">{t("apmc_verified", "APMC Verified")}</StatusBadge>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <VoiceSpeakerButton
+                label="Listen Mandi Prices"
+                text={`Live APMC Mandi rates for ${crop.name}. Top market modal prices are ranging around rupees ${mandiChartData[0]?.ModalPrice ?? 7200} per quintal. Government MSP is ${crop.mspValue}.`}
+                teluguText={`${crop.name} పంటకు ప్రత్యక్ష వ్యవసాయ మార్కెట్ ధరలు. ప్రధాన మార్కెట్లలో క్వింటాల్ ధర సుమారు రూపాయలు ${mandiChartData[0]?.ModalPrice ?? 7200}. ప్రభుత్వ మద్దతు ధర ${crop.mspValue}.`}
+                hindiText={`${crop.name} के लिए लाइव एपीएमसी मंडी भाव। प्रमुख मंडियों में औसत भाव लगभग ₹${mandiChartData[0]?.ModalPrice ?? 7200} प्रति क्विंटल है। सरकारी एमएसपी ${crop.mspValue} है।`}
+              />
+              <StatusBadge status="success">{t("apmc_verified", "APMC Verified")}</StatusBadge>
+            </div>
           </div>
 
           <div style={{ width: "100%", height: 140 }}>
@@ -1945,6 +2010,17 @@ Generated via Kisan AI Command Center | Govt MSP: ${crop.mspValue}`;
           }}
         />
       )}
+
+      {/* NEW CROP CYCLE MODAL (FEATURE 1: DAY 0 INITIALIZATION & PERSISTENCE) */}
+      <NewCropCycleModal
+        isOpen={isNewCycleModalOpen}
+        onClose={() => setIsNewCycleModalOpen(false)}
+        onCycleCreated={(newCycle) => {
+          cycleResource.reload();
+          if (newCycle?.cropKey) setSelectedCropId(newCycle.cropKey);
+          if (typeof newCycle?.currentDay === "number") setSelectedDay(newCycle.currentDay);
+        }}
+      />
     </div>
   );
 }

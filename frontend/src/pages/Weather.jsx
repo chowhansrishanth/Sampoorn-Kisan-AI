@@ -24,6 +24,7 @@ import {
   Zap,
   Activity
 } from "lucide-react";
+import VoiceSpeakerButton from "../components/VoiceSpeakerButton";
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -186,8 +187,14 @@ export default function Weather({ user }) {
           </div>
         </div>
 
-        {/* REFRESH BUTTON */}
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        {/* CONTROLS: VOICE & REFRESH */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+          <VoiceSpeakerButton
+            label="Listen Weather Forecast"
+            text={weatherData ? `Live weather radar for ${selectedLocation}. Current temperature is ${weatherData.current_temperature_c ?? weatherData.temperature ?? 28} degrees Celsius, humidity is ${weatherData.humidity_percent ?? weatherData.humidity ?? 65} percent, wind speed is ${windSpeed} kilometers per hour. Rain chance today is ${rainProbToday} percent. ${sprayReason}. ${irrigationAdvice}` : `Live Agricultural Weather Radar. View temperature, rainfall probability, wind speed, and spraying advisory for your farm.`}
+            teluguText={weatherData ? `${selectedLocation} ప్రాంతంలో ప్రత్యక్ష వ్యవసాయ వాతావరణం. ఉష్ణోగ్రత ${weatherData.current_temperature_c ?? weatherData.temperature ?? 28} డిగ్రీల సెల్సియస్, తేమ ${weatherData.humidity_percent ?? weatherData.humidity ?? 65} శాతం, గాలి వేగం గంటకు ${windSpeed} కిలోమీటర్లు. నేడు వర్ష సూచన ${rainProbToday} శాతం. మందుల పిచికారీ: ${isSpraySafe ? "అనుకూలం" : "వాయిదా వేయండి"}.` : `వ్యవసాయ వాతావరణ రాడార్. మీ పొలం వద్ద ఉష్ణోగ్రత, వర్ష సూచన మరియు పిచికారీ సలహాలను తెలుసుకోండి.`}
+            hindiText={weatherData ? `${selectedLocation} के लिए कृषि मौसम रडार। वर्तमान तापमान ${weatherData.current_temperature_c ?? weatherData.temperature ?? 28} डिग्री सेल्सियस, आर्द्रता ${weatherData.humidity_percent ?? weatherData.humidity ?? 65} प्रतिशत, हवा की गति ${windSpeed} किमी प्रति घंटा है। बारिश की संभावना ${rainProbToday}% है। कीटनाशक छिड़काव: ${isSpraySafe ? "अनुकूल समय है" : "टालें"}।` : `कृषि मौसम रडार। तापमान, वर्षा की संभावना, हवा की गति और छिड़काव की स्थिति जानें।`}
+          />
           <button
             onClick={() => fetchWeather(selectedLocation)}
             disabled={loading}

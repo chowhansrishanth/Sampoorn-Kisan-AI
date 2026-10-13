@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import axios, { getApiErrorMessage } from "../api/client";
 import { UploadCloud, ShieldAlert, CheckCircle2, Leaf, Eye, FileText, Activity, AlertCircle, Camera, PhoneCall, Sparkles, RefreshCw, Printer, X, QrCode, Volume2, VolumeX, Share2, ZoomIn, ZoomOut, Clock, Droplets, ChevronDown, ChevronUp, Layers, Sun, HelpCircle, History, Trash2, FlaskConical } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
+import VoiceSpeakerButton from "../components/VoiceSpeakerButton";
 
 const INDIAN_CROPS_LIST = [
-  "Tomato", "Rice / Paddy", "Cotton", "Chilli", "Maize / Corn",
+  "Tomato", "Potato", "Rice / Paddy", "Cotton", "Chilli", "Maize / Corn",
+  "Grape", "Apple", "Wheat",
   "Groundnut", "Soybean", "Red Gram (Arhar)", "Green Gram (Moong)",
-  "Black Gram (Urad)", "Wheat", "Sugarcane", "Banana", "Mango",
+  "Black Gram (Urad)", "Sugarcane", "Banana", "Mango",
   "Vegetables (General)", "Pulses (General)"
 ];
 
@@ -859,6 +861,12 @@ Verified with ICAR & CIBRC Agronomic Standards.`;
         </div>
 
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <VoiceSpeakerButton
+            label="Listen Disease Diagnosis Guide"
+            text="AI Plant Disease Diagnosis. Upload a clear photograph of the affected crop leaf or capture it directly using your camera. The vision model will detect fungal blights, rusts, and nutrient deficiencies, and prescribe CIBRC certified remedies and dosage."
+            teluguText="ఏఐ పంట వ్యాధి నిర్ధారణ. తెగులు సోకిన ఆకు ఫోటోను అప్‌లోడ్ చేయండి లేదా కెమెరాతో తీయండి. ఏఐ ఆకు మచ్చలు, బూడిద తెగులు, ఎండు తెగుళ్ళను గుర్తించి సరైన పురుగు మందుల మోతాదును తెలియజేస్తుంది."
+            hindiText="एआई फसल रोग निदान। प्रभावित फसल की पत्ती की स्पष्ट तस्वीर अपलोड करें या कैमरे से खींचें। एआई मॉडल फफूंद, झुलसा और पोषक तत्वों की कमी का पता लगाकर सही दवा और छिड़काव की मात्रा बताएगा।"
+          />
           <button
             type="button"
             onClick={() => setShowHistoryDrawer(!showHistoryDrawer)}
@@ -1175,7 +1183,7 @@ Verified with ICAR & CIBRC Agronomic Standards.`;
               <button
                 className="chip-btn"
                 type="button"
-                onClick={() => handleSampleSelect('potato_late_blight', 'Vegetables (General)')}
+                onClick={() => handleSampleSelect('potato_late_blight', 'Potato')}
               >
                 Potato Late Blight
               </button>
@@ -1184,14 +1192,28 @@ Verified with ICAR & CIBRC Agronomic Standards.`;
                 type="button"
                 onClick={() => handleSampleSelect('corn_common_rust', 'Maize / Corn')}
               >
-                Corn Common Rust
+                Corn Leaf Blight
               </button>
               <button
                 className="chip-btn"
                 type="button"
-                onClick={() => handleSampleSelect('grape_black_rot', 'Vegetables (General)')}
+                onClick={() => handleSampleSelect('grape_black_rot', 'Grape')}
               >
                 Grape Black Rot
+              </button>
+              <button
+                className="chip-btn"
+                type="button"
+                onClick={() => handleSampleSelect('apple_healthy', 'Apple')}
+              >
+                Healthy Leaf (Apple)
+              </button>
+              <button
+                className="chip-btn"
+                type="button"
+                onClick={() => handleSampleSelect('wheat_healthy', 'Wheat')}
+              >
+                Healthy Leaf (Wheat)
               </button>
             </div>
           </div>
@@ -1203,27 +1225,12 @@ Verified with ICAR & CIBRC Agronomic Standards.`;
             <h3 style={{ margin: 0 }}>{t('diagnosis_results', 'Diagnostic Findings & XAI Visualizer')}</h3>
             {result && (
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button
-                  type="button"
-                  onClick={handleToggleAudio}
-                  title="Listen to diagnosis and remedy instructions"
-                  style={{
-                    background: isPlayingAudio ? '#dc2626' : 'rgba(37, 99, 235, 0.15)',
-                    color: isPlayingAudio ? '#ffffff' : '#2563eb',
-                    border: '1px solid rgba(37, 99, 235, 0.3)',
-                    padding: '4px 10px',
-                    borderRadius: '20px',
-                    fontSize: '12px',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px'
-                  }}
-                >
-                  {isPlayingAudio ? <VolumeX size={13} /> : <Volume2 size={13} />}
-                  {isPlayingAudio ? "Stop Voice" : "Listen (Voice)"}
-                </button>
+                <VoiceSpeakerButton
+                  label="Listen Diagnosis"
+                  text={`Diagnosis for ${result.affected_crop || selectedCrop}: ${result.disease_name}. Severity: ${result.severity_level || "Stage 2 (Moderate)"}. Confidence: ${((result.confidence_score || 0.94) * 100).toFixed(0)} percent. Primary chemical remedy: ${result.chemical_remedy}. Recommended organic remedy: ${result.organic_remedy}.`}
+                  teluguText={`${result.affected_crop || selectedCrop} పంటలో గుర్తించిన వ్యాధి: ${result.disease_name}. తీవ్రత: ${result.severity_level || "మధ్యస్థం"}. ఖచ్చితత్వం: ${((result.confidence_score || 0.94) * 100).toFixed(0)} శాతం. సిఫార్సు చేసిన రసాయన మందు: ${result.chemical_remedy}. సేంద్రీయ మందు: ${result.organic_remedy}.`}
+                  hindiText={`${result.affected_crop || selectedCrop} फसल में पहचानी गई बीमारी: ${result.disease_name}। गंभीरता: ${result.severity_level || "मध्यम"}। सटीकता: ${((result.confidence_score || 0.94) * 100).toFixed(0)} प्रतिशत। मुख्य रासायनिक उपचार: ${result.chemical_remedy}। अनुशंसित जैविक उपचार: ${result.organic_remedy}।`}
+                />
 
                 <button
                   type="button"

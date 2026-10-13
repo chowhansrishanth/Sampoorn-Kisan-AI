@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Sliders,
@@ -25,10 +25,12 @@ import {
   Calendar,
   ShieldCheck,
   Sprout,
-  Plus
+  Plus,
+  Brain
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import useVoiceAssistant from "../hooks/useVoiceAssistant";
+import { saveActiveFarmInputs, loadActiveFarmInputs } from "../utils/farmInputStorage";
 
 // ==========================================
 // 0. MAJOR INDIAN AGRICULTURAL STATES
@@ -1523,11 +1525,41 @@ export default function CropRecommendationTool({ user }) {
   const [selectedIrrigationMethod, setSelectedIrrigationMethod] = useState(initialIrrig);
   const [selectedWaterAvailability, setSelectedWaterAvailability] = useState("moderate");
 
-  // Manual Soil Chemistry inputs (Zero Sensors, 100% Manual Farmer Input)
-  const [soilN, setSoilN] = useState(80); // Nitrogen kg/ha
-  const [soilP, setSoilP] = useState(40); // Phosphorus kg/ha
-  const [soilK, setSoilK] = useState(40); // Potassium kg/ha
-  const [soilPh, setSoilPh] = useState(6.8); // Soil pH (5.5 - 8.5)
+  const storedActiveInputs = useMemo(() => loadActiveFarmInputs(), []);
+
+  // Manual Soil Chemistry inputs (Zero Sensors, 100% Manual Farmer Input, Synchronized with XAI Hub)
+  const [soilN, setSoilN] = useState(storedActiveInputs?.inputs?.N ?? 80); // Nitrogen kg/ha
+  const [soilP, setSoilP] = useState(storedActiveInputs?.inputs?.P ?? 40); // Phosphorus kg/ha
+  const [soilK, setSoilK] = useState(storedActiveInputs?.inputs?.K ?? 40); // Potassium kg/ha
+  const [soilPh, setSoilPh] = useState(storedActiveInputs?.inputs?.ph ?? 6.8); // Soil pH (5.5 - 8.5)
+
+  // Synchronize farm inputs to shared active store so XAI Hub reflects exact values
+  useEffect(() => {
+    saveActiveFarmInputs({
+      inputs: {
+        N: Number(soilN) || 80,
+        P: Number(soilP) || 40,
+        K: Number(soilK) || 40,
+        ph: Number(soilPh) || 6.8,
+        temperature: 28.0,
+        humidity: 60.0,
+        rainfall: selectedSeason === "kharif" ? 220 : selectedSeason === "rabi" ? 65 : 45
+      },
+      sources: {
+        N: { source: "Crop Recommendation Manual Input", status: "MANUAL", statusLabel: "Farmer input" },
+        P: { source: "Crop Recommendation Manual Input", status: "MANUAL", statusLabel: "Farmer input" },
+        K: { source: "Crop Recommendation Manual Input", status: "MANUAL", statusLabel: "Farmer input" },
+        ph: { source: "Crop Recommendation Manual Input", status: "MANUAL", statusLabel: "Farmer input" },
+        temperature: { source: "Agro-Climatic Season Estimate", status: "LOCATION_ESTIMATE", statusLabel: "Season average" },
+        humidity: { source: "Agro-Climatic Season Estimate", status: "LOCATION_ESTIMATE", statusLabel: "Season average" },
+        rainfall: { source: "Agro-Climatic Season Estimate", status: "LOCATION_ESTIMATE", statusLabel: "Season average" }
+      },
+      location: {
+        state: selectedState,
+        formattedAddress: `${selectedState}, India`
+      }
+    });
+  }, [soilN, soilP, soilK, soilPh, selectedState, selectedSeason]);
 
   const [cropSearch, setCropSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -2093,6 +2125,56 @@ export default function CropRecommendationTool({ user }) {
                 >
                   <Calendar size={16} />
                   <span>Select & View in Crop Calendar</span>
+                  <ArrowRight size={14} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    saveActiveFarmInputs({
+                      inputs: {
+                        N: Number(soilN) || 80,
+                        P: Number(soilP) || 40,
+                        K: Number(soilK) || 40,
+                        ph: Number(soilPh) || 6.8,
+                        temperature: 28.0,
+                        humidity: 60.0,
+                        rainfall: selectedSeason === "kharif" ? 220 : selectedSeason === "rabi" ? 65 : 45
+                      },
+                      sources: {
+                        N: { source: "Crop Recommendation Manual Input", status: "MANUAL", statusLabel: "Farmer input" },
+                        P: { source: "Crop Recommendation Manual Input", status: "MANUAL", statusLabel: "Farmer input" },
+                        K: { source: "Crop Recommendation Manual Input", status: "MANUAL", statusLabel: "Farmer input" },
+                        ph: { source: "Crop Recommendation Manual Input", status: "MANUAL", statusLabel: "Farmer input" },
+                        temperature: { source: "Agro-Climatic Season Estimate", status: "LOCATION_ESTIMATE", statusLabel: "Season average" },
+                        humidity: { source: "Agro-Climatic Season Estimate", status: "LOCATION_ESTIMATE", statusLabel: "Season average" },
+                        rainfall: { source: "Agro-Climatic Season Estimate", status: "LOCATION_ESTIMATE", statusLabel: "Season average" }
+                      },
+                      location: {
+                        state: selectedState,
+                        formattedAddress: `${selectedState}, India`
+                      }
+                    });
+                    navigate("/xai");
+                  }}
+                  style={{
+                    padding: "9px 16px",
+                    borderRadius: "8px",
+                    border: "1.5px solid #2563eb",
+                    background: "#2563eb",
+                    color: "#ffffff",
+                    fontWeight: "700",
+                    fontSize: "13px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    boxShadow: "0 2px 8px rgba(37, 99, 235, 0.25)",
+                    transition: "all 0.15s ease"
+                  }}
+                  title="Inspect AI feature attributions (SHAP & LIME) and model transparency for this recommendation"
+                >
+                  <Brain size={16} />
+                  <span>Explain with XAI</span>
                   <ArrowRight size={14} />
                 </button>
               </div>

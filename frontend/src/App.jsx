@@ -9,6 +9,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import LoadingSkeleton, { CardSkeleton } from "./components/ui/LoadingSkeleton";
 import { ThemeProvider } from "./context/ThemeContext";
 import { LanguageProvider, useLanguage } from "./context/LanguageContext";
+import { VoiceGuidanceProvider } from "./context/VoiceGuidanceContext";
+import { FloatingVoiceSubtitleBar } from "./components/GlobalVoiceControlBar";
 
 // Route-level code splitting
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -194,7 +196,7 @@ function MainLayout() {
               <Route path="/dashboard" element={<Dashboard user={user} onUpdateUser={handleUpdateUser} />} />
               <Route path="/chat" element={<AIChat user={user} />} />
               <Route path="/disease" element={<DiseaseDiagnosis user={user} />} />
-              <Route path="/xai" element={<XAIDashboard />} />
+              <Route path="/xai" element={<XAIDashboard user={user} onUpdateUser={handleUpdateUser} />} />
               <Route path="/crop-tool" element={<CropRecommendationTool user={user} />} />
               <Route path="/knowledge" element={<KnowledgeHub />} />
               <Route path="/schemes" element={<GovernmentSchemes />} />
@@ -248,6 +250,8 @@ function MainLayout() {
           <button onClick={() => setPwaVisible(false)} style={{ background: 'none', border: 'none', color: '#ffffff', opacity: 0.6, cursor: 'pointer', fontSize: 19.5, padding: '0 4px' }}>✕</button>
         </div>
       )}
+      {/* Global Spoken Voice Subtitle & Control Bar */}
+      <FloatingVoiceSubtitleBar />
     </AppShell>
   );
 }
@@ -255,11 +259,13 @@ function MainLayout() {
 export default function App() {
   return (
     <BrowserRouter>
-        <ThemeProvider>
-          <LanguageProvider>
+      <ThemeProvider>
+        <LanguageProvider>
+          <VoiceGuidanceProvider>
             <MainLayout />
-          </LanguageProvider>
-        </ThemeProvider>
+          </VoiceGuidanceProvider>
+        </LanguageProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

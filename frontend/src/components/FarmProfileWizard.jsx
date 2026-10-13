@@ -5,6 +5,8 @@ import { LAND_SIZE_OPTIONS, FARM_TYPES, IRRIGATION_SOURCES, SOIL_TYPES, FARMING_
 import { detectGPSLocation, parseManualLocation } from "../utils/locationHelper";
 import { useLanguage } from "../context/LanguageContext";
 import useVoiceAssistant from "../hooks/useVoiceAssistant";
+import api from "../api/client";
+import VoiceSpeakerButton from "./VoiceSpeakerButton";
 import StepVoiceGuidanceBar from "./StepVoiceGuidanceBar";
 
 // ── Multi-Language Audio Guidance Per Step (1 to 8) ─────────────────────────
@@ -685,6 +687,19 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
     { id: "cotton", name: "Cotton", icon: "🌿", isPrimary: true, area: 2.5, stage: "Vegetative Growth" }
   ]);
 
+  const todayIso = new Date().toISOString().split("T")[0];
+  const [plantingMode, setPlantingMode] = useState(user?.farmProfile?.plantingMode || "today");
+  const [plantingDate, setPlantingDate] = useState(() => {
+    if (user?.farmProfile?.plantingDate) {
+      try {
+        return new Date(user.farmProfile.plantingDate).toISOString().split("T")[0];
+      } catch {
+        return todayIso;
+      }
+    }
+    return todayIso;
+  });
+
   const [saving, setSaving] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -861,6 +876,8 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
 
     const calculatedAcres = numericLandSizeAcres();
     const primaryCropObj = crops.find(c => c.isPrimary) || crops[0] || { name: "Cotton" };
+    const effectivePlantingDate = plantingMode === "today" ? todayIso : (plantingDate || todayIso);
+    const isPlannedCrop = plantingMode === "planned";
 
     const farmProfileObj = {
       location: {
@@ -879,6 +896,9 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
       },
       crops,
       primaryCrop: primaryCropObj.name,
+      plantingMode,
+      plantingDate: effectivePlantingDate,
+      isPlanned: isPlannedCrop,
       irrigation,
       soilType,
       season,
@@ -899,6 +919,22 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
     };
 
     try {
+      // Sync or create crop cycle with Day 0 logic via API
+      try {
+        await api.post("/api/crop-cycles", {
+          cropName: primaryCropObj.name,
+          cropKey: primaryCropObj.id || primaryCropObj.name.toLowerCase().replace(/[^a-z0-9]/g, '_'),
+          plantingDate: effectivePlantingDate,
+          isPlanned: isPlannedCrop,
+          landAcres: calculatedAcres,
+          soilType,
+          season,
+          irrigationType: Array.isArray(irrigation) ? irrigation[0] : 'drip'
+        });
+      } catch (cErr) {
+        console.warn("Could not sync crop cycle endpoint in wizard:", cErr?.message);
+      }
+
       if (onSaveProfile) {
         await onSaveProfile(updatedUser);
       }
@@ -1778,6 +1814,120 @@ export default function FarmProfileWizard({ user, onClose, onSaveProfile }) {
                     ))}
                   </div>
                 )}
+              </div>
+
+              {/* PLANTING TIMING & DAY 0 INITIALIZATION SECTION */}
+              <div style={{
+                background: "var(--fk-card)",
+                border: "1.5px solid rgba(0, 105, 72, 0.3)",
+                borderRadius: "12px",
+                padding: "16px",
+                marginTop: "14px"
+              }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <span style={{ fontSize: "18px" }}>🌱</span>
+                    <strong style={{ fontSize: "14px", color: "var(--fk-text, #0f172a)" }}>
+                      {t("Planting Date & Day 0 Cycle Start", "Planting Date & Day 0 Cycle Start")}
+                    </strong>
+                  </div>
+                  <VoiceSpeakerButton
+                    sectionId="wizard_planting_date"
+                    title="Planting Date Instructions"
+                    text="Select when your crop was planted. If you plant today, your cycle starts at Day 0. If you planted earlier, enter the actual date. If you plan to plant later, select planned date and your cycle will begin at Day 0 on that date."
+                    te="మీ పంట ఎప్పుడు నాటారో ఎంచుకోండి. మీరు ఈరోజు నాటితే, మీ పంట చక్రం డే 0 వద్ద ప్రారంభమవుతుంది. మీరు ఇంతకు ముందు నాటితే, అసలు తేదీని ఇవ్వండి. భవిష్యత్తులో నాటాలని అనుకుంటే, ప్లాన్ చేసిన తేదీని ఎంచుకోండి, ఆ రోజున డే 0 ప్రారంభమవుతుంది."
+                    hi="चुनें कि आपकी फसल कब बोई गई थी। यदि आप आज बुवाई करते हैं, तो आपका चक्र डे 0 पर शुरू होता है। यदि पहले बोया गया था, तो वास्तविक तारीख दर्ज करें। यदि बाद में बुवाई की योजना है, तो नियोजित तारीख चुनें और उस तारीख को डे 0 शुरू होगा।"
+                    size="sm"
+                  />
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px", marginBottom: "12px" }}>
+                  <button
+                    type="button"
+                    onClick={() => setPlantingMode("today")}
+                    style={{
+                      padding: "8px",
+                      borderRadius: "8px",
+                      border: plantingMode === "today" ? "2px solid #006948" : "1px solid var(--fk-border)",
+                      background: plantingMode === "today" ? "rgba(0, 105, 72, 0.1)" : "transparent",
+                      color: plantingMode === "today" ? "#006948" : "inherit",
+                      fontWeight: "700",
+                      fontSize: "12px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    Planted Today (Day 0)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPlantingMode("past")}
+                    style={{
+                      padding: "8px",
+                      borderRadius: "8px",
+                      border: plantingMode === "past" ? "2px solid #006948" : "1px solid var(--fk-border)",
+                      background: plantingMode === "past" ? "rgba(0, 105, 72, 0.1)" : "transparent",
+                      color: plantingMode === "past" ? "#006948" : "inherit",
+                      fontWeight: "700",
+                      fontSize: "12px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    Planted Earlier (Actual)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPlantingMode("planned")}
+                    style={{
+                      padding: "8px",
+                      borderRadius: "8px",
+                      border: plantingMode === "planned" ? "2px solid #006948" : "1px solid var(--fk-border)",
+                      background: plantingMode === "planned" ? "rgba(0, 105, 72, 0.1)" : "transparent",
+                      color: plantingMode === "planned" ? "#006948" : "inherit",
+                      fontWeight: "700",
+                      fontSize: "12px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    Planning to Plant
+                  </button>
+                </div>
+
+                {plantingMode !== "today" && (
+                  <div style={{ marginBottom: "10px" }}>
+                    <label style={{ fontSize: "12px", color: "var(--fk-text-sub)", display: "block", marginBottom: "4px" }}>
+                      {plantingMode === "past" ? "Actual Planting Date:" : "Planned Planting Date:"}
+                    </label>
+                    <input
+                      type="date"
+                      value={plantingDate}
+                      max={plantingMode === "past" ? todayIso : undefined}
+                      min={plantingMode === "planned" ? todayIso : undefined}
+                      onChange={(e) => setPlantingDate(e.target.value)}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        borderRadius: "8px",
+                        border: "1px solid var(--fk-border)",
+                        fontSize: "13.5px"
+                      }}
+                    />
+                  </div>
+                )}
+
+                <div style={{
+                  padding: "8px 12px",
+                  background: plantingMode === "planned" ? "rgba(245, 158, 11, 0.08)" : "rgba(0, 105, 72, 0.08)",
+                  borderRadius: "8px",
+                  fontSize: "12px",
+                  color: plantingMode === "planned" ? "#b45309" : "#006948",
+                  fontWeight: "600"
+                }}>
+                  {plantingMode === "planned"
+                    ? `⏳ Planned: Cycle has not started in real life. Starts at Day 0 on ${plantingDate}.`
+                    : plantingMode === "today"
+                    ? `🌱 Day 0: Sowing / Planting Day! Basal fertilizer & seedling establishment starts today.`
+                    : `📅 Active Cycle: Planted on ${plantingDate}. Calculated progress is active.`}
+                </div>
               </div>
 
             </div>

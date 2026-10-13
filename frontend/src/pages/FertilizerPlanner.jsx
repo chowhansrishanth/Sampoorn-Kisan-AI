@@ -1,8 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import useApiResource from '../hooks/useApiResource';
 import RequestStatus from '../components/ui/RequestStatus';
 import PageHeader from '../components/ui/PageHeader';
 import PremiumCard from '../components/ui/PremiumCard';
+import VoiceSpeakerButton from '../components/VoiceSpeakerButton';
 import { FlaskConical, Sparkles, CheckCircle2, Calendar, Scale, Info, Layers, RefreshCw } from 'lucide-react';
 import './DecisionForms.css';
 
@@ -45,6 +46,22 @@ export default function FertilizerPlanner({ user }) {
   const [validation, setValidation] = useState('');
   const { data, loading, error, reload } = useApiResource(request);
   const result = data?.data;
+
+  // Authenticated farmer active crop cycle
+  const cycleResource = useApiResource({ url: '/api/crop-cycles/active' });
+  const activeCycle = cycleResource.data?.cycle;
+
+  useEffect(() => {
+    if (activeCycle?.cropName) {
+      const match = ICAR_CROP_PRESETS.find(p =>
+        p.name.toLowerCase().includes(activeCycle.cropName.toLowerCase()) ||
+        activeCycle.cropName.toLowerCase().includes(p.name.toLowerCase()) ||
+        p.id === activeCycle.cropKey
+      );
+      if (match) applyPreset(match);
+      else setForm(prev => ({ ...prev, crop: activeCycle.cropName }));
+    }
+  }, [activeCycle]);
 
   const update = (k, v) => setForm(prev => ({ ...prev, [k]: v }));
 
@@ -151,6 +168,14 @@ export default function FertilizerPlanner({ user }) {
         subtitle="ICAR-prescribed NPK doses, exact commercial fertilizer bags (Urea, DAP, MOP, SSP), and 4-stage split schedules"
         badge="ICAR Aligned • Zero Guesswork"
         icon={FlaskConical}
+        action={
+          <VoiceSpeakerButton
+            label="Listen Fertilizer Plan"
+            text={`Fertilizer and Precision Nutrient Planner. For ${form.area} acres of ${form.crop}, the prescribed ICAR dose requires ${instantCalculation?.dapBags || 0} bags of DAP, ${instantCalculation?.ureaBags || 0} bags of Urea, and ${instantCalculation?.mopBags || 0} bags of MOP. Apply in recommended splits across basal, vegetative, and flowering stages.`}
+            teluguText={`ఎరువులు మరియు పోషకాల ప్రణాళిక. ${form.area} ఎకరాల ${form.crop} పంట కోసం సిఫార్సు చేసిన ఐసీఏఆర్ మోతాదు ప్రకారం ${instantCalculation?.dapBags || 0} బస్తాల డీఏపీ, ${instantCalculation?.ureaBags || 0} బస్తాల యూరియా, మరియు ${instantCalculation?.mopBags || 0} బస్తాల పొటాష్ అవసరం. మొదటి విడత విత్తేటప్పుడు, మిగిలినవి పైపాటుగా వేయండి.`}
+            hindiText={`उर्वरक एवं पोषक तत्व योजनाकार। ${form.area} एकड़ ${form.crop} के लिए आईसीएआर के अनुसार ${instantCalculation?.dapBags || 0} बोरी डीएपी, ${instantCalculation?.ureaBags || 0} बोरी यूरिया, और ${instantCalculation?.mopBags || 0} बोरी एमओपी की आवश्यकता है। इसे बेसल और टॉप-ड्रेसिंग चरणों में बांटकर डालें।`}
+          />
+        }
       />
 
       {/* 1-CLICK ICAR CROP PRESETS */}

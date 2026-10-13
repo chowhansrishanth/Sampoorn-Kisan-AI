@@ -289,95 +289,346 @@ const AGRONOMIC_DISEASE_DB = {
       organic_cost_per_acre_inr: 130
     }
   },
-  Default: {
-    disease_name: "Foliar Leaf Spot & Blight Complex",
-    affected_crop: "Crop Leaf",
-    confidence_score: 0.89,
-    severity_level: "Stage 2 (Moderate)",
-    symptoms_description: "Irregular chlorotic foliar lesions and localized necrosis detected on leaf lamina.",
+  "Tomato Late Blight": {
+    disease_name: "Tomato Late Blight",
+    affected_crop: "Tomato",
+    confidence_score: 0.95,
+    severity_level: "Severe (Stage 3)",
+    symptoms_description: "Water-soaked irregular blackish-brown lesions on leaves, stems, and green fruits with white fungal mold underneath in damp conditions.",
     diagnostic_points: [
-      { title: "Visual Lesion Characteristics", point: "Irregular necrotic foliar lesions with yellowing halos disrupting active leaf surface chlorophyll." },
-      { title: "Leaf Surface Distribution", point: "Localized spot patches on foliage, beginning along leaf tips and spreading toward the petiole." },
-      { title: "Causal Pathogen Category", point: "Foliar fungal pathogen complex triggered by prolonged moisture and canopy humidity (>75% RH)." },
-      { title: "Photosynthetic Degradation", point: "Approximately 15%–22% functional foliage area impaired; timely spray prevents secondary infection." },
-      { title: "Field Containment Protocol", point: "Remove and destroy diseased lower leaves; avoid overhead watering; ensure adequate crop spacing." }
+      { title: "Visual Lesion Morphology", point: "Rapidly expanding water-soaked, irregular grayish-black lesions initiating on leaf margins and petioles." },
+      { title: "Abaxial Sporulation", point: "Delicate white downy fungal mildew coating on the underside of leaves along the lesion perimeter in high humidity (>85% RH)." },
+      { title: "Causal Pathogen & Spread", point: "Phytophthora infestans oomycete pathogen capable of destroying entire foliar canopies within 5–7 days." },
+      { title: "Canopy & Fruit Impact", point: "Lesions cause greasy brown rot on developing green tomato fruits and rapid vine collapse." },
+      { title: "Field Containment Protocol", point: "Apply systemic translaminar oomyceticide immediately; cease sprinkler watering; burn blighted vines." }
     ],
     pesticide_treatments: [
       {
-        name: "Mancozeb 75% WP (Dithane M-45)",
-        active_ingredient: "Mancozeb 75%",
-        category: "Contact Multi-Site Protectant Fungicide",
+        name: "Cymoxanil 8% + Mancozeb 64% WP (Curzate M-8)",
+        active_ingredient: "Cymoxanil + Mancozeb",
+        category: "Translaminar Curative & Contact Fungicide",
+        dosage_liter: "2.0 g / L",
+        dosage_acre: "400 g / Acre",
+        tank_dose_16l: "32 g / 16L Tank",
+        application_method: "Foliar drenching within 48 hours of blight onset; repeat every 7 days",
+        phi_days: "7 Days",
+        cibrc_status: "CIBRC Approved",
+        safety_class: "Class III (Blue Label)"
+      },
+      {
+        name: "Metalaxyl 8% + Mancozeb 64% WP (Ridomil MZ 72)",
+        active_ingredient: "Metalaxyl + Mancozeb",
+        category: "Systemic Oomyceticide + Contact Shield",
         dosage_liter: "2.5 g / L",
         dosage_acre: "500 g / Acre",
         tank_dose_16l: "40 g / 16L Tank",
-        application_method: "Thorough foliar spray wetting both sides of leaf foliage",
+        application_method: "Systemic xylem translocation protects new apical growth flushes",
         phi_days: "7 Days",
         cibrc_status: "CIBRC Approved",
-        safety_class: "Class III (Blue Label)",
-        compatibility: "Compatible with most neutral insecticides."
+        safety_class: "Class III (Blue Label)"
       },
       {
-        name: "Copper Oxychloride 50% WP (Blitox 50)",
-        active_ingredient: "Copper Oxychloride 50%",
-        category: "Broad-Spectrum Contact Fungicide & Bactericide",
-        dosage_liter: "3.0 g / L",
-        dosage_acre: "600 g / Acre",
-        tank_dose_16l: "48 g / 16L Tank",
-        application_method: "Apply at first onset of spotting; repeat in 10-14 days if needed",
-        phi_days: "10 Days",
+        name: "Dimethomorph 50% WP (Acrobat)",
+        active_ingredient: "Dimethomorph 50%",
+        category: "Translaminar Anti-Sporulant",
+        dosage_liter: "1.0 g / L",
+        dosage_acre: "200 g / Acre",
+        tank_dose_16l: "16 g / 16L Tank",
+        application_method: "Disrupts oomycete cell wall synthesis; tank-mix with Mancozeb @ 2g/L",
+        phi_days: "5 Days",
         cibrc_status: "CIBRC Approved",
-        safety_class: "Class III (Blue Label)",
-        compatibility: "Do not tank-mix with acid solutions or organophosphates."
-      },
-      {
-        name: "Neem Oil 10,000 PPM + Trichoderma viride",
-        active_ingredient: "Azadirachtin + Trichoderma Bio-Agent",
-        category: "Bio-Organic Microbial Protection",
-        dosage_liter: "5.0 ml / L + 5.0 g / L",
-        dosage_acre: "1000 ml / Acre",
-        tank_dose_16l: "80 ml / 16L Tank",
-        application_method: "Early morning foliar spray; safe bio-friendly preventive option",
-        phi_days: "0 Days (Nil)",
-        cibrc_status: "100% Bio-Certified",
-        safety_class: "Non-Toxic / Organic",
-        compatibility: "Do not mix with chemical fungicides."
+        safety_class: "Class IV (Green Label)"
       }
     ],
     differential_diagnosis: [
       {
-        name: "Foliar Leaf Spot & Blight Complex",
-        probability: 0.89,
-        key_differentiator: "Concentric circular lesion geometry with chlorotic halos",
-        recommended_pesticide: "Mancozeb 75% WP @ 2.5 g/L or Copper Oxychloride @ 3.0 g/L",
-        pesticide_type: "Contact Protectant Fungicide",
+        name: "Tomato Late Blight (Phytophthora infestans)",
+        probability: 0.95,
+        key_differentiator: "Rapid water-soaked lesions with white downy mold underneath",
+        recommended_pesticide: "Cymoxanil 8% + Mancozeb 64% WP @ 2.0 g/L or Metalaxyl @ 2.5 g/L",
+        pesticide_type: "Translaminar Curative",
         status: "Primary"
       },
       {
-        name: "Cercospora Leaf Spot",
-        probability: 0.07,
-        key_differentiator: "Discrete angular spots without targetboard concentric rings",
-        recommended_pesticide: "Carbendazim 50% WP @ 1.0 g/L or Chlorothalonil @ 2.0 g/L",
-        pesticide_type: "Systemic Curative Fungicide",
-        status: "Secondary"
-      },
-      {
-        name: "Nutrient Deficiency (Zinc / Magnesium)",
+        name: "Tomato Early Blight (Alternaria solani)",
         probability: 0.04,
-        key_differentiator: "Interveinal yellowing without necrotic spore centers",
-        recommended_pesticide: "Zinc Sulphate 0.5% (5g/L) + Urea 1% Foliar Spray",
-        pesticide_type: "Micronutrient Correction",
-        status: "Exclusion"
+        key_differentiator: "Concentric targetboard rings on older foliage without white mold",
+        recommended_pesticide: "Mancozeb 75% WP @ 2.5 g/L or Copper Oxychloride 50% WP @ 3.0 g/L",
+        pesticide_type: "Contact Protectant Fungicide",
+        status: "Secondary"
       }
     ],
-    chemical_remedy: "Apply Mancozeb 75% WP @ 2.5g/L water OR Chlorothalonil 75% WP @ 2.0g/L.",
-    organic_remedy: "Spray cold-pressed Neem Oil 10,000 PPM @ 5ml/L water emulsified with soapnut extract.",
-    prevention_guidance: "Improve field drainage, maintain proper plant spacing, and remove severely infected lower leaves.",
-    expert_confirmation: "Call Kisan Call Centre (1800-180-1551) or visit nearest Krishi Vigyan Kendra.",
+    chemical_remedy: "Spray Cymoxanil 8% + Mancozeb 64% WP @ 2.0g/L water OR Metalaxyl-M + Mancozeb @ 2.5g/L immediately.",
+    organic_remedy: "Trichoderma viride foliar spray @ 5g/L and avoid overhead sprinkler watering.",
+    prevention_guidance: "Use certified pathogen-free seedlings, ensure 60 cm staking aeration, and apply preventive protectants before rainy spells.",
+    expert_confirmation: "Late Blight spreads aggressively in cool damp weather. Contact Kisan Call Centre 1800-180-1551 immediately.",
+    dosage_specifications: {
+      recommended_spray_litres_per_acre: 200,
+      fungicide_grams_per_litre: 2.0,
+      avg_retail_cost_per_acre_inr: 350,
+      organic_cost_per_acre_inr: 150
+    }
+  },
+  "Grape Black Rot": {
+    disease_name: "Grape Black Rot",
+    affected_crop: "Grape",
+    confidence_score: 0.92,
+    severity_level: "Moderate (Stage 2)",
+    symptoms_description: "Small brown circular lesions surrounded by dark margins on foliage; berry shriveling, turning hard, and mummifying into black raisin-like rots.",
+    diagnostic_points: [
+      { title: "Foliar Lesion Characteristics", point: "Small, circular reddish-brown spots with dark borders on foliage, containing tiny black fungal pycnidia pimples." },
+      { title: "Berry Mummification", point: "Infected berries soften, turn brownish, then shrivel into hard black wrinkled mummies that cling to clusters." },
+      { title: "Causal Pathogen & Environment", point: "Guignardia bidwellii fungus active in warm humid spring weather (21°C–27°C with >6h leaf wetness)." },
+      { title: "Vine Canopy Risk", point: "Premature defoliation weakens vine cane reserves and reduces fruit brix sugar accumulation." },
+      { title: "Field Sanitation Protocol", point: "Remove and burn mummified berry clusters during dormant winter pruning; thin canopy to allow sunlight." }
+    ],
+    pesticide_treatments: [
+      {
+        name: "Myclobutanil 10% WP (Systhane)",
+        active_ingredient: "Myclobutanil 10%",
+        category: "Systemic Sterol Inhibitor",
+        dosage_liter: "1.0 g / L",
+        dosage_acre: "200 g / Acre",
+        tank_dose_16l: "16 g / 16L Tank",
+        application_method: "Apply pre-bloom through 4 weeks post-bloom; excellent eradicant action",
+        phi_days: "14 Days",
+        cibrc_status: "CIBRC Approved",
+        safety_class: "Class III (Blue Label)"
+      },
+      {
+        name: "Mancozeb 75% WP (Dithane M-45)",
+        active_ingredient: "Mancozeb 75%",
+        category: "Contact Multi-Site Protectant",
+        dosage_liter: "2.0 g / L",
+        dosage_acre: "500 g / Acre",
+        tank_dose_16l: "32 g / 16L Tank",
+        application_method: "Protective canopy coating before rainy periods",
+        phi_days: "21 Days",
+        cibrc_status: "CIBRC Approved",
+        safety_class: "Class III (Blue Label)"
+      },
+      {
+        name: "Bordeaux Mixture 1% (Copper Shield)",
+        active_ingredient: "Copper Sulphate + Slaked Lime (1:1:100)",
+        category: "Traditional Bio-Organic Protectant",
+        dosage_liter: "10 g / L",
+        dosage_acre: "2 kg / Acre",
+        tank_dose_16l: "160 g / 16L Tank",
+        application_method: "Spray immediately after fresh preparation; thoroughly coat canes and leaves",
+        phi_days: "0 Days",
+        cibrc_status: "Certified Organic",
+        safety_class: "Non-Toxic / Organic"
+      }
+    ],
+    differential_diagnosis: [
+      {
+        name: "Grape Black Rot (Guignardia bidwellii)",
+        probability: 0.92,
+        key_differentiator: "Reddish-brown foliar spots with black pycnidia; shriveled black mummies",
+        recommended_pesticide: "Myclobutanil 10% WP @ 1g/L or Mancozeb 75% WP @ 2g/L",
+        pesticide_type: "Systemic Triazole",
+        status: "Primary"
+      },
+      {
+        name: "Grape Downy Mildew (Plasmopara viticola)",
+        probability: 0.05,
+        key_differentiator: "Yellowish translucent 'oil spots' with dense white cottony mold underneath",
+        recommended_pesticide: "Metalaxyl + Mancozeb @ 2.5 g/L or Dimethomorph @ 1.0 g/L",
+        pesticide_type: "Systemic Oomyceticide",
+        status: "Secondary"
+      }
+    ],
+    chemical_remedy: "Spray Myclobutanil 10% WP @ 1g/L water OR Mancozeb 75% WP @ 2g/L.",
+    organic_remedy: "Bordeaux mixture 1% spray and hand-pick all mummified berries from vine trellises.",
+    prevention_guidance: "Prune out old infected canes in winter; train vines to maximize airflow and avoid dense shading.",
+    expert_confirmation: "Consult nearest ICAR-National Research Centre for Grapes or Krishi Vigyan Kendra.",
+    dosage_specifications: {
+      recommended_spray_litres_per_acre: 250,
+      fungicide_grams_per_litre: 1.0,
+      avg_retail_cost_per_acre_inr: 380,
+      organic_cost_per_acre_inr: 180
+    }
+  },
+  "Apple Black Rot": {
+    disease_name: "Apple Black Rot",
+    affected_crop: "Apple",
+    confidence_score: 0.91,
+    severity_level: "Moderate (Stage 2)",
+    symptoms_description: "Frogeye leaf spots with purple margins and necrotic brown centers; firm dark fruit rot.",
+    diagnostic_points: [
+      { title: "Frogeye Foliar Lesions", point: "Circular brown leaf spots with distinctive purple halo margins resembling frog eyes." },
+      { title: "Branch Canker Infection", point: "Sunken reddish-brown cankers on bark of twigs and scaffold limbs." },
+      { title: "Causal Pathogen", point: "Botryosphaeria obtusa fungus overwintering in dead bark and mummified fruit." }
+    ],
+    pesticide_treatments: [
+      {
+        name: "Captan 50% WP",
+        active_ingredient: "Captan 50%",
+        category: "Contact Protectant",
+        dosage_liter: "2.5 g / L",
+        dosage_acre: "500 g / Acre",
+        tank_dose_16l: "40 g / 16L Tank",
+        application_method: "Apply at petal fall and cover sprays",
+        phi_days: "14 Days",
+        cibrc_status: "CIBRC Approved",
+        safety_class: "Class III (Blue Label)"
+      }
+    ],
+    chemical_remedy: "Apply Captan 50% WP @ 2.5g/L or Mancozeb 75% WP @ 2.5g/L at petal fall.",
+    organic_remedy: "Prune infected cankers and spray copper-based organic formulations.",
+    prevention_guidance: "Prune dead wood and remove mummified apples during winter dormancy.",
+    expert_confirmation: "Consult Horticulture Extension Officer or local KVK.",
     dosage_specifications: {
       recommended_spray_litres_per_acre: 200,
       fungicide_grams_per_litre: 2.5,
-      avg_retail_cost_per_acre_inr: 285,
+      avg_retail_cost_per_acre_inr: 320,
+      organic_cost_per_acre_inr: 160
+    }
+  },
+  "Pepper Bacterial Spot": {
+    disease_name: "Pepper Bacterial Spot",
+    affected_crop: "Chilli",
+    confidence_score: 0.93,
+    severity_level: "Moderate (Stage 2)",
+    symptoms_description: "Small circular water-soaked spots turning dark brown with yellow chlorotic halos on chilli/pepper leaves.",
+    diagnostic_points: [
+      { title: "Bacterial Foliar Lesions", point: "Small, water-soaked translucent circular spots turning brown with distinct chlorotic halos." },
+      { title: "Defoliation & Sunscald", point: "Heavy leaf spotting triggers severe leaf shed, exposing fruits to solar scalding." },
+      { title: "Bacterial Pathogen & Rain Splash", point: "Xanthomonas campestris pv. vesicatoria spread rapidly via wind-driven rain and sprinkler splashes." }
+    ],
+    pesticide_treatments: [
+      {
+        name: "Copper Oxychloride 50% WP + Streptocycline",
+        active_ingredient: "Copper Oxychloride + Streptomycin Sulphate",
+        category: "Bactericide + Protective Shield",
+        dosage_liter: "2.5 g / L + 1 g / 10L",
+        dosage_acre: "500 g + 20 g / Acre",
+        tank_dose_16l: "40 g + 1.6 g / 16L Tank",
+        application_method: "Spray early morning at first symptom appearance; repeat every 10 days",
+        phi_days: "10 Days",
+        cibrc_status: "CIBRC Approved",
+        safety_class: "Class III (Blue Label)"
+      }
+    ],
+    chemical_remedy: "Spray Copper Oxychloride 50% WP @ 2.5g/L + Streptocycline @ 1g/10L water.",
+    organic_remedy: "Seed treatment with Pseudomonas fluorescens @ 10g/kg and spray cold-pressed Neem oil.",
+    prevention_guidance: "Use certified pathogen-free seeds; avoid handling wet plants; rotate with non-solanaceous crops.",
+    expert_confirmation: "Contact local Krishi Vigyan Kendra agronomist.",
+    dosage_specifications: {
+      recommended_spray_litres_per_acre: 200,
+      fungicide_grams_per_litre: 2.5,
+      avg_retail_cost_per_acre_inr: 290,
       organic_cost_per_acre_inr: 140
+    }
+  },
+  "Rice Brown Spot": {
+    disease_name: "Rice Brown Spot",
+    affected_crop: "Rice",
+    confidence_score: 0.94,
+    severity_level: "Moderate (Stage 2)",
+    symptoms_description: "Oval or circular brown lesions with gray centers and yellow halos on paddy leaf blades.",
+    diagnostic_points: [
+      { title: "Lesion Geometry", point: "Oval, circular dark-brown spots resembling sesame seeds with gray necrotic centers and yellow halos." },
+      { title: "Soil Nutritional Link", point: "Strongly correlated with potassium and silicon nutrient deficiencies in light sandy soils." },
+      { title: "Causal Pathogen", point: "Bipolaris oryzae (Helminthosporium oryzae) conidia active under 25°C–30°C and high humidity." }
+    ],
+    pesticide_treatments: [
+      {
+        name: "Propiconazole 25% EC (Tilt 25 EC)",
+        active_ingredient: "Propiconazole 25%",
+        category: "Systemic Triazole Fungicide",
+        dosage_liter: "1.0 ml / L",
+        dosage_acre: "200 ml / Acre",
+        tank_dose_16l: "16 ml / 16L Tank",
+        application_method: "Apply at tillering and boot leaf emergence",
+        phi_days: "15 Days",
+        cibrc_status: "CIBRC Approved",
+        safety_class: "Class III (Blue Label)"
+      }
+    ],
+    chemical_remedy: "Spray Propiconazole 25% EC @ 1ml/L or Edifenphos 50% EC @ 1ml/L.",
+    organic_remedy: "Seed treatment with Trichoderma harzianum @ 10g/kg seed; ensure balanced potash fertilizer.",
+    prevention_guidance: "Correct soil potash deficiency (MOP application) and avoid water stress in paddy fields.",
+    expert_confirmation: "Contact local KVK rice specialist or Kisan Helpline 1800-180-1551.",
+    dosage_specifications: {
+      recommended_spray_litres_per_acre: 200,
+      fungicide_grams_per_litre: 1.0,
+      avg_retail_cost_per_acre_inr: 320,
+      organic_cost_per_acre_inr: 150
+    }
+  },
+  "Cotton Pink Bollworm Damage": {
+    disease_name: "Cotton Pink Bollworm Damage",
+    affected_crop: "Cotton",
+    confidence_score: 0.95,
+    severity_level: "High (Stage 3)",
+    symptoms_description: "Rosetted flowers, punctured squares, and premature boll opening with internal lint staining.",
+    diagnostic_points: [
+      { title: "Rosetted Flowers", point: "Petals tied together by caterpillar silk creating characteristic 'rosetted' unopened blooms." },
+      { title: "Internal Boll Boring", point: "Larvae bore into developing green bolls, feeding on immature seeds and staining lint fiber." },
+      { title: "Pest Pathogen", point: "Pectinophora gossypiella larvae thriving in mid to late season cotton canopies." }
+    ],
+    pesticide_treatments: [
+      {
+        name: "Emamectin Benzoate 5% SG (Proclaim)",
+        active_ingredient: "Emamectin Benzoate 5%",
+        category: "Macrocyclic Lactone Insecticide",
+        dosage_liter: "0.5 g / L",
+        dosage_acre: "100 g / Acre",
+        tank_dose_16l: "8 g / 16L Tank",
+        application_method: "Spray at dusk targeting squaring and boll initiation flushes",
+        phi_days: "14 Days",
+        cibrc_status: "CIBRC Approved",
+        safety_class: "Class III (Blue Label)"
+      }
+    ],
+    chemical_remedy: "Spray Emamectin Benzoate 5% SG @ 0.5g/L or Chlorantraniliprole 18.5% SC @ 0.3ml/L.",
+    organic_remedy: "Install Pheromone traps @ 8-10 traps/acre with Gossyplure lures and release Trichogramma wasps.",
+    prevention_guidance: "Shred crop stalks immediately after final picking to prevent diapausing larvae.",
+    expert_confirmation: "Monitor pheromone trap catches (>8 moths/trap for 3 consecutive days exceeds ETL).",
+    dosage_specifications: {
+      recommended_spray_litres_per_acre: 200,
+      fungicide_grams_per_litre: 0.5,
+      avg_retail_cost_per_acre_inr: 420,
+      organic_cost_per_acre_inr: 200
+    }
+  },
+  "Healthy Plant Leaf": {
+    disease_name: "Healthy Plant Leaf",
+    affected_crop: "Crop Leaf",
+    confidence_score: 0.98,
+    severity_level: "Healthy / Optimal Vigor",
+    symptoms_description: "Uniform green lamina with clear chlorophyll pigmentation, robust cell turgor, and zero necrotic or fungal lesions.",
+    diagnostic_points: [
+      { title: "Foliar Tissue Integrity", point: "Vibrant uniform chlorophyll pigmentation with zero necrotic spots, chlorotic halos, or pathogen sporulation." },
+      { title: "Leaf Lamina & Venation", point: "Healthy intact cuticle and turgid cellular structure with clear vascular leaf venation." },
+      { title: "Pathogen Shield Status", point: "No active fungal mycelium or bacterial ooze detected by CNN vision model (ICAR Benchmark Pass)." },
+      { title: "Growth & Photosynthesis", point: "100% productive photosynthetic leaf area supporting active vegetative and reproductive vigor." },
+      { title: "Prophylactic Farm Maintenance", point: "Continue regular balanced NPK nutrition; apply preventive neem oil bio-shield @ 3 ml/L every 14 days." }
+    ],
+    pesticide_treatments: [
+      {
+        name: "Neem Oil 10,000 PPM (Econeem Plus)",
+        active_ingredient: "Azadirachtin 10,000 PPM",
+        category: "Prophylactic Bio-Insecticide & Anti-Feedant",
+        dosage_liter: "3.0 ml / L",
+        dosage_acre: "600 ml / Acre",
+        tank_dose_16l: "48 ml / 16L Tank",
+        application_method: "Preventive spray every 14 days to prevent fungal spore germination",
+        phi_days: "0 Days",
+        cibrc_status: "Certified Organic",
+        safety_class: "Eco-Friendly (Non-Toxic)"
+      }
+    ],
+    chemical_remedy: "No chemical fungicide required. Crop foliage is completely healthy. Maintain regular preventive farm hygiene.",
+    organic_remedy: "Prophylactic spray of cold-pressed Neem Oil 10,000 PPM @ 3ml/L water every 14 days to prevent airborne spore landings.",
+    prevention_guidance: "Maintain balanced NPK fertilization, avoid over-irrigation, and inspect field weekly for early pest/disease onset.",
+    expert_confirmation: "Leaf condition verified as healthy and disease-free by ICAR Agronomic Diagnostic calibration standards.",
+    dosage_specifications: {
+      recommended_spray_litres_per_acre: 200,
+      fungicide_grams_per_litre: 0,
+      avg_retail_cost_per_acre_inr: 0,
+      organic_cost_per_acre_inr: 120
     }
   },
   Healthy: {
@@ -404,60 +655,7 @@ const AGRONOMIC_DISEASE_DB = {
         application_method: "Preventive spray every 14 days to prevent fungal spore germination",
         phi_days: "0 Days",
         cibrc_status: "Certified Organic",
-        safety_class: "Eco-Friendly (Non-Toxic)",
-        compatibility: "Compatible with organic bio-stimulants."
-      },
-      {
-        name: "Trichoderma viride Bio-Shield",
-        active_ingredient: "Trichoderma viride 1.5% WP (2x10^8 CFU)",
-        category: "Beneficial Fungal Antagonist",
-        dosage_liter: "3.0 g / L",
-        dosage_acre: "600 g / Acre",
-        tank_dose_16l: "48 g / 16L Tank",
-        application_method: "Foliar and root zone application for biological leaf and canopy immunity",
-        phi_days: "0 Days",
-        cibrc_status: "Certified Organic",
-        safety_class: "Eco-Friendly (Non-Toxic)",
-        compatibility: "Do not mix with chemical fungicides."
-      },
-      {
-        name: "Pseudomonas fluorescens 1.0% WP",
-        active_ingredient: "Pseudomonas fluorescens (1x10^8 CFU)",
-        category: "Plant Growth Promoting Bio-Agent",
-        dosage_liter: "2.5 g / L",
-        dosage_acre: "500 g / Acre",
-        tank_dose_16l: "40 g / 16L Tank",
-        application_method: "Foliar spray to induce systemic acquired resistance (SAR) in foliage",
-        phi_days: "0 Days",
-        cibrc_status: "Certified Bio-Input",
-        safety_class: "Eco-Friendly (Non-Toxic)",
-        compatibility: "Can be alternated with Trichoderma."
-      }
-    ],
-    differential_diagnosis: [
-      {
-        name: "Healthy Plant Leaf",
-        probability: 0.98,
-        key_differentiator: "Uniform green lamina with clear chlorophyll pigmentation, robust cell turgor, and zero necrotic or fungal lesions.",
-        recommended_pesticide: "Neem Oil 10,000 PPM @ 3 ml/L (Prophylactic Bio-Shield)",
-        pesticide_type: "Preventive Organic Bio-Shield",
-        status: "Primary"
-      },
-      {
-        name: "Cercospora Leaf Spot (Incubation Stage)",
-        probability: 0.015,
-        key_differentiator: "Discrete angular spots without targetboard concentric rings (Excluded: 0 lesions detected)",
-        recommended_pesticide: "Carbendazim 50% WP @ 1.0 g/L (Only if lesions appear)",
-        pesticide_type: "Systemic Curative Fungicide",
-        status: "Exclusion"
-      },
-      {
-        name: "Nutrient Deficiency (Zinc / Magnesium)",
-        probability: 0.005,
-        key_differentiator: "Interveinal yellowing without necrotic spore centers (Excluded: normal green chlorophyll)",
-        recommended_pesticide: "Zinc Sulphate 0.5% (5g/L) + Urea 1% Foliar Spray",
-        pesticide_type: "Micronutrient Mineral Spray",
-        status: "Exclusion"
+        safety_class: "Eco-Friendly (Non-Toxic)"
       }
     ],
     chemical_remedy: "No chemical fungicide required. Crop foliage is completely healthy. Maintain regular preventive farm hygiene.",
@@ -495,60 +693,7 @@ const AGRONOMIC_DISEASE_DB = {
         application_method: "Thorough foliar spray wetting both sides of leaf foliage",
         phi_days: "7 Days",
         cibrc_status: "CIBRC Approved",
-        safety_class: "Class III (Blue Label)",
-        compatibility: "Compatible with most insecticides; avoid mixing with lime sulphur."
-      },
-      {
-        name: "Chlorothalonil 75% WP (Kavach)",
-        active_ingredient: "Chlorothalonil 75%",
-        category: "Broad-Spectrum Preventative",
-        dosage_liter: "2.0 g / L",
-        dosage_acre: "400 g / Acre",
-        tank_dose_16l: "32 g / 16L Tank",
-        application_method: "Forms an adhesive protective barrier on cuticle preventing spore germ-tube entry",
-        phi_days: "7 Days",
-        cibrc_status: "CIBRC Approved",
-        safety_class: "Class III (Blue Label)",
-        compatibility: "Do not mix with adjuvant stickers or oils."
-      },
-      {
-        name: "Azoxystrobin 18.2% + Difenoconazole 11.4% SC",
-        active_ingredient: "Azoxystrobin + Difenoconazole",
-        category: "Systemic Translaminar Curative",
-        dosage_liter: "1.0 ml / L",
-        dosage_acre: "200 ml / Acre",
-        tank_dose_16l: "16 ml / 16L Tank",
-        application_method: "Dual action protectant and eradicant; systemic translocation within plant tissue",
-        phi_days: "5 Days",
-        cibrc_status: "CIBRC Approved",
-        safety_class: "Class IV (Green Label)",
-        compatibility: "Compatible with most soluble fertilizers and neutral insecticides."
-      }
-    ],
-    differential_diagnosis: [
-      {
-        name: "Foliar Leaf Spot & Blight Complex",
-        probability: 0.89,
-        key_differentiator: "Concentric circular lesion geometry with chlorotic halos",
-        recommended_pesticide: "Mancozeb 75% WP @ 2.5 g/L or Copper Oxychloride @ 3.0 g/L",
-        pesticide_type: "Contact Protectant Fungicide",
-        status: "Primary"
-      },
-      {
-        name: "Cercospora Leaf Spot",
-        probability: 0.07,
-        key_differentiator: "Discrete angular spots without targetboard concentric rings",
-        recommended_pesticide: "Carbendazim 50% WP @ 1.0 g/L or Chlorothalonil @ 2.0 g/L",
-        pesticide_type: "Systemic Curative Fungicide",
-        status: "Secondary"
-      },
-      {
-        name: "Nutrient Deficiency (Zinc / Magnesium)",
-        probability: 0.04,
-        key_differentiator: "Interveinal yellowing without necrotic spore centers",
-        recommended_pesticide: "Zinc Sulphate 0.5% (5g/L) + Urea 1% Foliar Spray",
-        pesticide_type: "Micronutrient Correction",
-        status: "Exclusion"
+        safety_class: "Class III (Blue Label)"
       }
     ],
     chemical_remedy: "Apply Mancozeb 75% WP @ 2.5g/L water OR Chlorothalonil 75% WP @ 2.0g/L.",
@@ -563,6 +708,20 @@ const AGRONOMIC_DISEASE_DB = {
     }
   }
 };
+
+// Convenient exact and partial lookup aliases for models & frontend crop names
+AGRONOMIC_DISEASE_DB["Tomato Early Blight"] = AGRONOMIC_DISEASE_DB.Tomato;
+AGRONOMIC_DISEASE_DB["Potato Late Blight"] = AGRONOMIC_DISEASE_DB.Potato;
+AGRONOMIC_DISEASE_DB["Corn Northern Leaf Blight"] = AGRONOMIC_DISEASE_DB["Maize / Corn"];
+AGRONOMIC_DISEASE_DB["Corn Common Rust"] = AGRONOMIC_DISEASE_DB["Maize / Corn"];
+AGRONOMIC_DISEASE_DB["Grape"] = AGRONOMIC_DISEASE_DB["Grape Black Rot"];
+AGRONOMIC_DISEASE_DB["Apple"] = AGRONOMIC_DISEASE_DB["Apple Black Rot"];
+AGRONOMIC_DISEASE_DB["Chilli"] = AGRONOMIC_DISEASE_DB["Pepper Bacterial Spot"];
+AGRONOMIC_DISEASE_DB["Pepper"] = AGRONOMIC_DISEASE_DB["Pepper Bacterial Spot"];
+AGRONOMIC_DISEASE_DB["Rice"] = AGRONOMIC_DISEASE_DB["Rice Brown Spot"];
+AGRONOMIC_DISEASE_DB["Cotton"] = AGRONOMIC_DISEASE_DB["Cotton Pink Bollworm Damage"];
+AGRONOMIC_DISEASE_DB["Maize"] = AGRONOMIC_DISEASE_DB["Maize / Corn"];
+AGRONOMIC_DISEASE_DB["Corn"] = AGRONOMIC_DISEASE_DB["Maize / Corn"];
 
 class DiseaseService {
   async analyzeCropImage(input, cropType = 'Crop Leaf') {
@@ -607,36 +766,69 @@ class DiseaseService {
   }
 
   _enrichResult(data, cropType = 'Tomato') {
-    const isHealthy = (data.disease_name || '').toLowerCase().includes('healthy');
-    const cropKey = isHealthy
-      ? 'Healthy'
-      : (Object.keys(AGRONOMIC_DISEASE_DB).find(k => cropType.toLowerCase().includes(k.toLowerCase())) || 'Default');
-    const ref = AGRONOMIC_DISEASE_DB[cropKey] || AGRONOMIC_DISEASE_DB.Default;
-    const diseaseName = data.disease_name || ref.disease_name;
-    const score = Number.isFinite(data.confidence_score) ? data.confidence_score : 0.92;
+    const diseaseName = data.disease_name || '';
+    const isHealthy = diseaseName.toLowerCase().includes('healthy');
+
+    // 1. First attempt to match against AGRONOMIC_DISEASE_DB by exact disease name
+    let ref = null;
+    if (isHealthy) {
+      ref = AGRONOMIC_DISEASE_DB['Healthy Plant Leaf'] || AGRONOMIC_DISEASE_DB['Healthy'];
+    } else if (diseaseName && AGRONOMIC_DISEASE_DB[diseaseName]) {
+      ref = AGRONOMIC_DISEASE_DB[diseaseName];
+    } else if (diseaseName) {
+      // Case-insensitive / substring match on disease name
+      const matchedKey = Object.keys(AGRONOMIC_DISEASE_DB).find(k => 
+        k.toLowerCase() === diseaseName.toLowerCase() ||
+        diseaseName.toLowerCase().includes(k.toLowerCase()) ||
+        k.toLowerCase().includes(diseaseName.toLowerCase())
+      );
+      if (matchedKey) {
+        ref = AGRONOMIC_DISEASE_DB[matchedKey];
+      }
+    }
+
+    // 2. Fallback to cropType / data.affected_crop matching
+    if (!ref) {
+      const targetCrop = (data.affected_crop || cropType || '').toLowerCase();
+      const matchedKey = Object.keys(AGRONOMIC_DISEASE_DB).find(k => {
+        const kl = k.toLowerCase();
+        return kl.includes(targetCrop) || targetCrop.includes(kl);
+      });
+      if (matchedKey) {
+        ref = AGRONOMIC_DISEASE_DB[matchedKey];
+      }
+    }
+
+    // 3. Fallback to Default
+    if (!ref) {
+      ref = AGRONOMIC_DISEASE_DB.Default;
+    }
+
+    const finalDiseaseName = diseaseName || ref.disease_name;
+    const score = Number.isFinite(data.confidence_score) ? data.confidence_score : (ref.confidence_score || 0.92);
 
     return {
       ...ref,
       ...data,
       success: true,
       isQualityValid: true,
-      disease_name: diseaseName,
-      affected_crop: data.affected_crop || cropType,
+      disease_name: finalDiseaseName,
+      affected_crop: data.affected_crop || ref.affected_crop || cropType,
       confidence_score: score,
       confidence: score,
       severity_level: data.severity_level || ref.severity_level,
       symptoms_description: data.symptoms_description || ref.symptoms_description,
-      chemical_remedy: data.chemical_remedy || ref.chemical_remedy,
-      organic_remedy: data.organic_remedy || ref.organic_remedy,
+      chemical_remedy: (data.chemical_remedy && data.chemical_remedy.length > 20) ? data.chemical_remedy : ref.chemical_remedy,
+      organic_remedy: (data.organic_remedy && data.organic_remedy.length > 20) ? data.organic_remedy : ref.organic_remedy,
       prevention_guidance: data.prevention_guidance || ref.prevention_guidance,
       expert_confirmation: data.expert_confirmation || ref.expert_confirmation,
       dosage_specifications: data.dosage_specifications || ref.dosage_specifications,
-      diagnostic_points: data.diagnostic_points || ref.diagnostic_points || [],
-      pesticide_treatments: data.pesticide_treatments || ref.pesticide_treatments || [],
-      differential_diagnosis: data.differential_diagnosis || ref.differential_diagnosis || [],
+      diagnostic_points: (data.diagnostic_points && data.diagnostic_points.length > 0) ? data.diagnostic_points : (ref.diagnostic_points || []),
+      pesticide_treatments: (data.pesticide_treatments && data.pesticide_treatments.length > 0) ? data.pesticide_treatments : (ref.pesticide_treatments || []),
+      differential_diagnosis: (data.differential_diagnosis && data.differential_diagnosis.length > 0) ? data.differential_diagnosis : (ref.differential_diagnosis || []),
       remedies: {
-        chemical: data.chemical_remedy || ref.chemical_remedy,
-        organic: data.organic_remedy || ref.organic_remedy,
+        chemical: (data.chemical_remedy && data.chemical_remedy.length > 20) ? data.chemical_remedy : ref.chemical_remedy,
+        organic: (data.organic_remedy && data.organic_remedy.length > 20) ? data.organic_remedy : ref.organic_remedy,
       },
       data_trust: {
         source: data.is_real_pytorch_inference ? 'PyTorch MobileNetV2 Vision Model + Grad-CAM' : 'Agronomic Vision Knowledge Engine',

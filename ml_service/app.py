@@ -19,6 +19,26 @@ ARCHITECTURE & CONCURRENCY:
 ========================================================================================
 """
 
+import os
+import sys
+
+# ============================================================================
+# Virtual Environment Resolution & Compatibility Shims
+# ============================================================================
+# If executed directly with an unactivated system Python interpreter (e.g. `python app.py`),
+# ensure packages installed in the project's local `.venv` (FastAPI, PyTorch, XGBoost, Uvicorn, etc.)
+# are accessible on the Python module search path.
+_ml_service_dir = os.path.dirname(os.path.abspath(__file__))
+if sys.platform == "win32":
+    _venv_site_packages = os.path.join(_ml_service_dir, ".venv", "Lib", "site-packages")
+    if os.path.isdir(_venv_site_packages) and _venv_site_packages not in sys.path:
+        sys.path.insert(0, _venv_site_packages)
+else:
+    import glob
+    _posix_site_packages = glob.glob(os.path.join(_ml_service_dir, ".venv", "lib", "python*", "site-packages"))
+    if _posix_site_packages and _posix_site_packages[0] not in sys.path:
+        sys.path.insert(0, _posix_site_packages[0])
+
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from starlette.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware

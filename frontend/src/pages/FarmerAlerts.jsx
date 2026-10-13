@@ -5,6 +5,7 @@ import axios from "../api/client";
 import { Bell, AlertTriangle, Info, X, RefreshCw, CheckCircle2 } from "lucide-react";
 import PremiumCard from "../components/ui/PremiumCard";
 import PageHeader from "../components/ui/PageHeader";
+import VoiceSpeakerButton from "../components/VoiceSpeakerButton";
 
 const SEVERITY_CONFIG = {
   critical: { cls: "critical", icon: AlertTriangle, label: "Critical" },
@@ -31,6 +32,14 @@ export default function FarmerAlerts({ user }) {
         title="Farmer Alerts"
         subtitle="Weather, pest, and seasonal advisory notifications"
         icon={<Bell size={22} color="#f59e0b" />}
+        action={
+          <VoiceSpeakerButton
+            label="Listen Farmer Alerts"
+            text={alerts.length > 0 ? `You have ${alerts.length} active agricultural alerts. ${criticalCount} critical alerts, ${warningCount} warnings. Highest priority alert: ${alerts[0].title}. ${alerts[0].message}.` : `All clear. You have no active weather or pest alerts on your farm.`}
+            teluguText={alerts.length > 0 ? `మీ పొలానికి సంబంధించి ${alerts.length} హెచ్చరికలు ఉన్నాయి. ${criticalCount} అత్యవసర హెచ్చరికలు. మొదటి హెచ్చరిక: ${alerts[0].title}. ${alerts[0].message}.` : `ప్రస్తుతం మీ పొలానికి ఎటువంటి తెగులు లేదా ప్రతికూల వాతావరణ హెచ్చరికలు లేవు.`}
+            hindiText={alerts.length > 0 ? `आपके खेत के लिए ${alerts.length} सक्रिय अलर्ट हैं। ${criticalCount} गंभीर चेतावनियाँ हैं। पहली चेतावनी: ${alerts[0].title}। ${alerts[0].message}।` : `सब ठीक है। वर्तमान में आपके खेत के लिए कोई गंभीर मौसम या कीट चेतावनी नहीं है।`}
+          />
+        }
       />
 
       {/* Summary pills */}
@@ -78,9 +87,18 @@ export default function FarmerAlerts({ user }) {
                   <div style={{ fontWeight: 400, fontSize: 13, lineHeight: 1.5 }}>{alert.message}</div>
                   <div style={{ fontSize: 11, opacity: 0.6, marginTop: 4 }}>{new Date(alert.createdAt).toLocaleString()}</div>
                 </div>
-                <button className="alert-dismiss-btn" onClick={() => dismiss(alert.id)} title="Dismiss alert">
-                  <X size={14} />
-                </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <VoiceSpeakerButton
+                    size="sm"
+                    label="Listen Alert"
+                    text={`${alert.title}. ${alert.message}`}
+                    teluguText={`${alert.title}. ${alert.message}`}
+                    hindiText={`${alert.title}। ${alert.message}`}
+                  />
+                  <button className="alert-dismiss-btn" onClick={() => dismiss(alert.id)} title="Dismiss alert">
+                    <X size={14} />
+                  </button>
+                </div>
               </div>
             );
           })}

@@ -1,13 +1,14 @@
 import useApiResource from '../hooks/useApiResource';
 import RequestStatus from '../components/ui/RequestStatus';
 import './DecisionForms.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Droplet, CloudRain, Zap, Gauge, Calendar, AlertCircle, CheckCircle2, RefreshCw, Clock } from "lucide-react";
 import PageHeader from "../components/ui/PageHeader";
 import PremiumCard from "../components/ui/PremiumCard";
 import PremiumButton from "../components/ui/PremiumButton";
 import { StatCard, StatusBadge } from "../components/ui/StatCard";
+import VoiceSpeakerButton from "../components/VoiceSpeakerButton";
 
 export default function IrrigationScheduler({user}) {
   const [crop, setCrop] = useState("Wheat");
@@ -42,6 +43,20 @@ export default function IrrigationScheduler({user}) {
   });
   const [validation, setValidation] = useState('');
   const { data, loading, error, reload } = useApiResource(request);
+
+  // Authenticated farmer active crop cycle
+  const cycleResource = useApiResource({ url: '/api/crop-cycles/active' });
+  const activeCycle = cycleResource.data?.cycle;
+
+  useEffect(() => {
+    if (activeCycle?.cropName) {
+      setCrop(activeCycle.cropName.split(" ")[0]);
+      if (activeCycle.stageName) {
+        setStage(activeCycle.stageName.toLowerCase().includes("flower") ? "flowering" : activeCycle.stageName.toLowerCase().includes("matur") ? "maturity" : "vegetative");
+      }
+    }
+  }, [activeCycle]);
+
   const fetchSchedule = () => {
     if (Object.values(context).some(v => v === '' || !Number.isFinite(Number(v)))) {
       setValidation('Enter coordinates, estimated initial deficit and measured pump flow.');
@@ -74,15 +89,23 @@ export default function IrrigationScheduler({user}) {
         badge="Hydrological Intelligence • Open-Meteo Synced"
         icon={Droplet}
         action={
-          <PremiumButton
-            variant="primary"
-            size="md"
-            icon={RefreshCw}
-            loading={loading}
-            onClick={fetchSchedule}
-          >
-            Recalculate Water Demand
-          </PremiumButton>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <VoiceSpeakerButton
+              label="Listen Irrigation Schedule"
+              text={summary ? `Smart Irrigation Schedule for ${acres} acres of ${crop} in ${stage} stage. Total weekly water requirement is ${summary.totalWaterMm || 28} millimeters, equal to ${summary.totalVolumeLiters?.toLocaleString("en-IN") || "50,000"} litres. Recommended pump runtime is ${summary.totalRuntimeHours || 4.5} hours using your ${pumpHp} HP motor.` : `Smart Irrigation Scheduler. Optimizes motor pump run time and soil water deficit based on crop evapotranspiration.`}
+              teluguText={summary ? `${acres} ఎకరాల ${crop} పంట ${stage} దశలో నీటి యాజమాన్య ప్రణాళిక. వారానికి మొత్తం నీటి అవసరం ${summary.totalWaterMm || 28} మిల్లీమీటర్లు, అంటే ${summary.totalVolumeLiters?.toLocaleString("en-IN") || "50,000"} లీటర్లు. మీ ${pumpHp} హెచ్‌పీ మోటారుతో మొత్తం ${summary.totalRuntimeHours || 4.5} గంటలు నీరు పారించాలి.` : `స్మార్ట్ నీటిపారుదల షెడ్యూలర్. పంట నీటి అవసరం మరియు మోటార్ రన్ టైమ్ ను ఇక్కడ లెక్కించవచ్చు.`}
+              hindiText={summary ? `${acres} एकड़ ${crop} फसल के लिए ${stage} अवस्था में स्मार्ट सिंचाई अनुसूची। कुल साप्ताहिक पानी की आवश्यकता ${summary.totalWaterMm || 28} मिमी यानी ${summary.totalVolumeLiters?.toLocaleString("en-IN") || "50,000"} लीटर है। आपके ${pumpHp} एचपी मोटर से ${summary.totalRuntimeHours || 4.5} घंटे सिंचाई करें।` : `स्मार्ट सिंचाई समय सारिणी। फसल की वाष्पोत्सर्जन आवश्यकता के अनुसार मोटर चलाने का समय और पानी की मात्रा जानें।`}
+            />
+            <PremiumButton
+              variant="primary"
+              size="md"
+              icon={RefreshCw}
+              loading={loading}
+              onClick={fetchSchedule}
+            >
+              Recalculate Water Demand
+            </PremiumButton>
+          </div>
         }
       />
 

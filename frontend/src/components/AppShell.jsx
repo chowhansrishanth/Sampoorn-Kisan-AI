@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Bot, Sprout, ScanLine, CloudSun, TrendingUp, Landmark, BookOpen, Brain, Bell, Settings, Menu, X, PanelLeftClose, PanelLeftOpen, Search, LogOut, Sun, Moon, ChevronDown, MapPin, Calendar, Droplet, FlaskConical, Calculator, RotateCcw, Wallet, Satellite, Tractor, HeartPulse, QrCode, Thermometer, Leaf, Shield, Award } from 'lucide-react';
 import ProfileModal from './ProfileModal';
+import { GlobalVoiceHeaderButton } from './GlobalVoiceControlBar';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useNetworkStatus } from '../utils/offlineSync';
@@ -137,6 +138,7 @@ export default function AppShell({ user, onLogout, onUpdateUser, children }) {
               <option key={code} value={code}>{name}</option>
             ))}
           </select>
+          <GlobalVoiceHeaderButton />
           <Link className="icon-button" to="/alerts" aria-label="View alerts"><Bell size={19} /></Link>
           <button className="shell-avatar" onClick={openProfile} aria-label="Open profile and settings" title={user?.name || 'Profile'}>{(user?.name || 'F').slice(0, 1).toUpperCase()}</button>
         </div>

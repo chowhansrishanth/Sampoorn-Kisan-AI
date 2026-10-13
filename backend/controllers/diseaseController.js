@@ -22,7 +22,10 @@ const SAMPLE_MAP = {
   tomato_early_blight: 'tomato_early_blight.png',
   potato_late_blight: 'potato_late_blight.png',
   corn_common_rust: 'corn_common_rust.png',
+  corn_leaf_blight: 'corn_common_rust.png',
   grape_black_rot: 'grape_black_rot.png',
+  apple_healthy: 'apple_healthy.png',
+  wheat_healthy: 'wheat_healthy.png',
 };
 
 /**
@@ -32,7 +35,7 @@ const SAMPLE_MAP = {
 exports.diagnoseDisease = async (req, res) => {
   try {
     const { cropType = 'Tomato', symptomsText = '', filename = '', sampleId = '' } = req.body || {};
-    let file = req.file;
+    let file = req.file || (req.files ? (req.files.image?.[0] || req.files.file?.[0] || req.files.photo?.[0]) : null);
 
     // Support sample selection without a fresh binary upload only when sampleId is explicitly provided
     if (!file && sampleId) {

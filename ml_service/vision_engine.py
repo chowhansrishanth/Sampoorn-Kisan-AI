@@ -427,11 +427,28 @@ class PyTorchGradCAMVisionEngine:
                         }
 
                 # Step 5: Focus on Selected Crop's Candidate Pathogens
-                if target_candidates and not is_generic_crop:
-                    candidate_probs = [probabilities[idx].item() for idx, _ in target_candidates]
-                    best_cand_sub = int(np.argmax(candidate_probs))
-                    target_idx, disease_name = target_candidates[best_cand_sub]
-                    conf_score = float(candidate_probs[best_cand_sub])
+                crop_specific_candidates = [
+                    (idx, cls_name) for idx, cls_name in enumerate(self.classes)
+                    if self.class_to_crop.get(cls_name) == norm_target
+                ]
+                healthy_idx = next((i for i, c in enumerate(self.classes) if c == "Healthy Plant Leaf"), None)
+                healthy_prob = float(probabilities[healthy_idx].item()) if healthy_idx is not None else 0.0
+
+                if crop_specific_candidates and not is_generic_crop:
+                    cand_probs = [probabilities[idx].item() for idx, _ in crop_specific_candidates]
+                    best_sub = int(np.argmax(cand_probs))
+                    best_cand_prob = float(cand_probs[best_sub])
+
+                    # Only classify as Healthy if Healthy confidence is decisively high (>= 60%)
+                    # and decisively outweighs the crop candidate disease by at least 2.5x.
+                    if healthy_prob >= 0.60 and healthy_prob > (best_cand_prob * 2.5):
+                        target_idx = healthy_idx
+                        disease_name = "Healthy Plant Leaf"
+                        conf_score = healthy_prob
+                    else:
+                        target_idx, disease_name = crop_specific_candidates[best_sub]
+                        # Use genuine Softmax posterior probability without artificial floor
+                        conf_score = best_cand_prob
                 else:
                     target_idx = top_idx
                     disease_name = top_disease

@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { Send, Bot, User, Sprout, Globe, ArrowLeft, RefreshCw, Copy, Check, Trash2, RotateCcw, AlertTriangle, Mic, MicOff, Volume2, VolumeX, Printer } from "lucide-react";
+import VoiceSpeakerButton from "./components/VoiceSpeakerButton";
 
 // ─── Language → BCP-47 locale mapping for STT & TTS ──────────────────────────
 const LANG_LOCALE = {
@@ -400,6 +401,12 @@ export default function AIChat({ user }) {
         </div>
 
         <div className="chat-header-actions" style={{ gap: '8px' }}>
+          <VoiceSpeakerButton
+            label="Listen Chat Instructions"
+            text="Welcome to Sahayak AI Expert Assistant. You can ask questions about crop diseases, mandi prices, weather forecasts, or government schemes. Tap the microphone to speak your question or type in the box below."
+            teluguText="సహాయక్ ఏఐ కి స్వాగతం. మీరు పంట తెగుళ్ళు, మార్కెట్ ధరలు, వాతావరణం లేదా ప్రభుత్వ పథకాల గురించి అడగవచ్చు. మాట్లాడటానికి మైక్రోఫోన్ బటన్ నొక్కండి."
+            hindiText="सहायक एआई में आपका स्वागत है। आप फसल रोग, मंडी भाव, मौसम पूर्वानुमान, या सरकारी योजनाओं के बारे में पूछ सकते हैं। बोलने के लिए माइक बटन दबाएं।"
+          />
           <button className="lang-toggle" onClick={handleClearMemory} title="Clear Conversation History">
             <Trash2 size={14} /> <span>Clear</span>
           </button>
