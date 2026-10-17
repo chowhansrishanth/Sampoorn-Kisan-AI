@@ -1,4 +1,13 @@
 const { GoogleGenAI } = require("@google/genai");
+const path = require("path");
+
+// Ensure environment variables are loaded if not already done by server
+if (!process.env.GEMINI_API_KEY && !process.env.AI_API_KEY && process.env.NODE_ENV !== "test") {
+    try {
+        require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
+    } catch (_) {}
+}
+
 // Prompt dedup cache
 let promptCache;
 try {
@@ -14,19 +23,31 @@ try {
     };
 }
 
+function _sanitizeError(msg) {
+    if (typeof msg !== "string") return "";
+    return msg
+        .replace(/key=[A-Za-z0-9_.-]+/gi, "key=[REDACTED]")
+        .replace(/AQ\.[A-Za-z0-9_-]+/g, "[REDACTED]")
+        .replace(/AIza[A-Za-z0-9_\\-]{35}/g, "[REDACTED]");
+}
+
 class AIProvider {
     constructor() {
-        this.provider = process.env.AI_PROVIDER || "gemini";
-        this.primaryModel = process.env.AI_MODEL || "gemini-2.0-flash";
-        this.fallbackModel = process.env.AI_FALLBACK_MODEL || "gemini-2.0-flash-lite";
         this.timeoutMs = parseInt(process.env.AI_TIMEOUT || "8000", 10);
         this.maxRetries = parseInt(process.env.AI_MAX_RETRIES || "1", 10);
         this.temperature = parseFloat(process.env.AI_TEMPERATURE || "0.3");
+        this.unusableModels = new Set();
+        this._initClient();
+    }
+
+    _initClient() {
+        this.provider = process.env.AI_PROVIDER || "gemini";
+        this.primaryModel = process.env.AI_MODEL || "gemini-3.8-flash";
+        this.fallbackModel = process.env.AI_FALLBACK_MODEL || "gemini-3.5-flash-lite";
 
         const apiKey = process.env.AI_API_KEY || process.env.GEMINI_API_KEY || "";
         this.hasValidApiKey = Boolean(apiKey && apiKey.length > 10 && !apiKey.includes("dummy") && !apiKey.includes("your_key"));
         this.ai = this.hasValidApiKey ? new GoogleGenAI({ apiKey }) : null;
-        this.unusableModels = new Set();
     }
 
     _isModelUnavailableError(err) {
@@ -64,6 +85,10 @@ class AIProvider {
      */
     async generateContent(prompt, options = {}) {
         const startTime = Date.now();
+
+        if (!this.ai) {
+            this._initClient();
+        }
 
         if (!this.hasValidApiKey || !this.ai) {
             return {
@@ -124,7 +149,7 @@ class AIProvider {
                         return response;
                     }
                 } catch (err) {
-                    console.warn(`[AIProvider] Model '${modelName}' attempt ${attempt + 1} failed: ${err.message}`);
+                    console.warn(`[AIProvider] Model '${modelName}' attempt ${attempt + 1} failed: ${_sanitizeError(err.message)}`);
 
                     if (this._isModelUnavailableError(err)) {
                         this.unusableModels.add(modelName);

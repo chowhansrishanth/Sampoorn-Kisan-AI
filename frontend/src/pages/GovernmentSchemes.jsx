@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import VoiceSpeakerButton from "../components/VoiceSpeakerButton";
+import api, { getApiErrorMessage } from "../api/client";
 import {
   Landmark,
   Percent,
@@ -20,9 +21,22 @@ import {
   Droplets,
   Coins,
   BookOpen,
-  ArrowRight
+  ArrowRight,
+  RefreshCw
 } from "lucide-react";
 import EmptyState from "../components/ui/EmptyState";
+
+const CATEGORY_ICONS = {
+  loan: Coins,
+  irrigation: Droplets,
+  cash: DollarSign,
+  insurance: Shield,
+  equipment: Tractor,
+  solar: Sun,
+  organic: CheckCircle2,
+  soil: FileText,
+  market: Landmark
+};
 
 // ============================================================================
 // OFFICIAL CENTRAL & STATE GOVERNMENT AGRICULTURAL SCHEMES & SUBSIDIES
@@ -247,6 +261,115 @@ const OFFICIAL_GOVT_SCHEMES = [
     officialSource: "https://soilhealth.dac.gov.in",
     lastVerifiedDate: "15 Sep 2026",
     verificationNotice: "⚠️ Download your digital Soil Health Card anytime from soilhealth.dac.gov.in using your Aadhaar or Mobile Number."
+  },
+  {
+    id: "rythu_bandhu",
+    name: "Rythu Bandhu (Farmer's Investment Support Scheme)",
+    state: "Telangana",
+    agency: "Agriculture Department, Government of Telangana",
+    category: "Direct Cash Input Subsidy",
+    categoryKey: "cash",
+    icon: DollarSign,
+    provides: "₹5,000 per acre per season (₹10,000 per acre per year) directly credited for seed, fertilizer, and labor inputs.",
+    interestRate: "N/A (100% Grant)",
+    loanLimit: "₹10,000 per acre annually",
+    subsidy: "100% Direct Benefit Transfer (DBT)",
+    purpose: "Provides timely financial grant to cover cost of cultivation ahead of Kharif and Rabi seasons.",
+    eligibility: [
+      "All resident landowning farmers in Telangana possessing Dharani Pattadar Passbooks",
+      "Forest land patta holders (ROFR farmers) are also eligible"
+    ],
+    documents: [
+      "Pattadar Passbook / Dharani Land Title Certificate",
+      "Aadhaar Card",
+      "Aadhaar-linked Bank Account Passbook"
+    ],
+    process: "Registered automatically via the Dharani Land Records portal. Verify enrollment at rythubandhu.telangana.gov.in.",
+    officialSource: "https://rythubandhu.telangana.gov.in",
+    lastVerifiedDate: "15 Sep 2026",
+    verificationNotice: "⚠️ Ensure your Dharani title passbook is active and bank account is linked with NPCI."
+  },
+  {
+    id: "rythu_bima",
+    name: "Rythu Bima (Farmers Group Life Insurance)",
+    state: "Telangana",
+    agency: "Government of Telangana & LIC",
+    category: "Farmer Family Social Security",
+    categoryKey: "insurance",
+    icon: Shield,
+    provides: "₹5.00 Lakhs assured life insurance cover to the nominee within 10 days of the demise of the enrolled farmer.",
+    interestRate: "N/A (100% State Paid Premium)",
+    loanLimit: "₹5,00,000 death claim benefit",
+    subsidy: "100% premium paid entirely by Government of Telangana",
+    purpose: "Guarantees immediate financial relief to dependent families in the unfortunate event of a farmer's death.",
+    eligibility: [
+      "Pattadar landowning farmers of Telangana aged between 18 and 59 years",
+      "Name must reflect in official Revenue/Dharani land records"
+    ],
+    documents: [
+      "Pattadar Passbook",
+      "Aadhaar Card of Farmer and Nominee",
+      "Nominee Bank Account Passbook"
+    ],
+    process: "Enroll through your local Agriculture Extension Officer (AEO) by submitting the nomination form and Dharani land records.",
+    officialSource: "https://rythubima.telangana.gov.in",
+    lastVerifiedDate: "15 Sep 2026",
+    verificationNotice: "⚠️ In case of death, submit claim application through local AEO within 10 days."
+  },
+  {
+    id: "ysr_rythu_bharosa",
+    name: "YSR Rythu Bharosa - PM KISAN",
+    state: "Andhra Pradesh",
+    agency: "Department of Agriculture, Government of Andhra Pradesh",
+    category: "Direct Cash Income Support",
+    categoryKey: "cash",
+    icon: DollarSign,
+    provides: "₹13,500 per year per farm family (including ₹6,000 PM-KISAN share) credited in 3 seasonal installments.",
+    interestRate: "N/A (100% DBT Grant)",
+    loanLimit: "₹13,500 per eligible farm family annually",
+    subsidy: "100% DBT (State ₹7,500 + Central ₹6,000)",
+    purpose: "Comprehensive farm investment support covering landowner farmers as well as tenant farmers (CCRC holders).",
+    eligibility: [
+      "All landowning farmer families in Andhra Pradesh",
+      "Tenant farmers holding verified Crop Cultivator Rights Cards (CCRC)",
+      "SC, ST, BC, and Minority landless tenant cultivators"
+    ],
+    documents: [
+      "Aadhaar Card",
+      "Webland Land Records / CCRC Tenant Agreement",
+      "Aadhaar-seeded Bank Account Passbook"
+    ],
+    process: "Register or verify your name at your Village Rythu Bharosa Kendra (RBK) or online at ysrrythubharosa.ap.gov.in.",
+    officialSource: "https://ysrrythubharosa.ap.gov.in",
+    lastVerifiedDate: "15 Sep 2026",
+    verificationNotice: "⚠️ Tenant farmers must renew their CCRC cards before the onset of the Kharif season."
+  },
+  {
+    id: "kalia",
+    name: "KALIA (Krushak Assistance for Livelihood)",
+    state: "Odisha",
+    agency: "Department of Agriculture, Government of Odisha",
+    category: "Direct Cash & Livelihood Support",
+    categoryKey: "cash",
+    icon: DollarSign,
+    provides: "₹10,000 per year (₹5,000 each in Kharif & Rabi) plus ₹12,500 for landless agricultural households.",
+    interestRate: "N/A + 0% crop loans up to ₹50,000",
+    loanLimit: "₹10,000/yr for cultivators; ₹12,500 for landless households",
+    subsidy: "100% Direct Benefit Transfer",
+    purpose: "Supports small cultivators, sharecroppers, and landless agricultural laborers across Odisha.",
+    eligibility: [
+      "Small and marginal farmers holding less than 5 acres of land",
+      "Landless agricultural households in Odisha"
+    ],
+    documents: [
+      "Aadhaar Card",
+      "Land Record Certificate / Ration Card",
+      "Aadhaar-linked Bank Passbook"
+    ],
+    process: "Apply online at kalia.odisha.gov.in or submit green application form at local Gram Panchayat.",
+    officialSource: "https://kalia.odisha.gov.in",
+    lastVerifiedDate: "15 Sep 2026",
+    verificationNotice: "⚠️ Verify inclusion on the village beneficiary list published at the local Gram Panchayat office."
   }
 ];
 
@@ -260,20 +383,74 @@ export default function GovernmentSchemes() {
   const [filterIrrigation, setFilterIrrigation] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredSchemes = OFFICIAL_GOVT_SCHEMES.filter((s) => {
+  // Live Backend API state
+  const [apiSchemes, setApiSchemes] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [errorNotice, setErrorNotice] = useState(null);
+  const [dataSource, setDataSource] = useState("Ministry of Agriculture & Farmers Welfare, Govt of India & State DBT Portals");
+  const [lastVerifiedDate, setLastVerifiedDate] = useState("15 Sep 2026");
+
+  const fetchSchemes = async () => {
+    setLoading(true);
+    setErrorNotice(null);
+    try {
+      const res = await api.get("/api/schemes", {
+        params: {
+          state: filterState,
+          category: filterCategory,
+          irrigation: filterIrrigation,
+          search: searchQuery
+        },
+        timeout: 8000
+      });
+      if (res.data?.success && Array.isArray(res.data.schemes)) {
+        setApiSchemes(res.data.schemes);
+        if (res.data.dataSource) setDataSource(res.data.dataSource);
+        if (res.data.lastVerifiedDate) setLastVerifiedDate(res.data.lastVerifiedDate);
+      }
+    } catch (err) {
+      console.warn("Backend schemes endpoint notice, using verified offline catalog:", err.message);
+      setErrorNotice(getApiErrorMessage(err, "Live schemes portal sync unavailable. Showing verified offline official schemes."));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchSchemes();
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [filterState, filterCategory, filterIrrigation, searchQuery]);
+
+  const candidateList = apiSchemes || OFFICIAL_GOVT_SCHEMES;
+
+  const filteredSchemes = candidateList.filter((s) => {
+    if (filterState !== "All India" && s.state && s.state !== "All India" && s.state.toLowerCase() !== filterState.toLowerCase()) return false;
     if (filterCategory !== "all" && s.categoryKey !== filterCategory) return false;
-    if (filterIrrigation === "drip" && !["pmksy", "pmkusum"].includes(s.id)) return false;
+    if (filterIrrigation === "drip" && !["pmksy", "pmkusum"].includes(s.id) && s.categoryKey !== "irrigation") return false;
+    if (filterIrrigation === "canal" && !["kcc", "pmkisan", "pmfby", "smam", "shc", "rythu_bandhu", "ysr_rythu_bharosa", "kalia"].includes(s.id)) return false;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       return (
-        s.name.toLowerCase().includes(q) ||
-        s.provides.toLowerCase().includes(q) ||
-        s.category.toLowerCase().includes(q) ||
-        s.agency.toLowerCase().includes(q)
+        (s.name && s.name.toLowerCase().includes(q)) ||
+        (s.provides && s.provides.toLowerCase().includes(q)) ||
+        (s.category && s.category.toLowerCase().includes(q)) ||
+        (s.agency && s.agency.toLowerCase().includes(q))
       );
     }
     return true;
   });
+
+  useEffect(() => {
+    if (filteredSchemes.length > 0) {
+      if (!selectedScheme || !filteredSchemes.some((s) => s.id === selectedScheme.id)) {
+        setSelectedScheme(filteredSchemes[0]);
+      }
+    } else {
+      setSelectedScheme(null);
+    }
+  }, [filteredSchemes]);
 
   return (
     <div className="page-container schemes-page page-enter">
@@ -299,6 +476,26 @@ export default function GovernmentSchemes() {
             teluguText="కేంద్ర మరియు రాష్ట్ర ప్రభుత్వ వ్యవసాయ పథకాలు. 4 శాతం వడ్డీకే కిసాన్ క్రెడిట్ కార్డు రుణాలు, సంవత్సరానికి రూ. 6000 పీఎం కిసాన్ సాయం, మరియు 90 శాతం వరకు బిందు సేద్యం సబ్సిడీల వివరాలను ఇక్కడ తెలుసుకోవచ్చు."
             hindiText="केंद्र एवं राज्य सरकार की कृषि योजनाएं। 4% ब्याज पर किसान क्रेडिट कार्ड, सालाना ₹6000 पीएम-किसान सहायता, और 90% तक ड्रिप सिंचाई सब्सिडी की पूरी जानकारी और पात्रता यहाँ देखें।"
           />
+          <button
+            onClick={fetchSchemes}
+            disabled={loading}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "8px 14px",
+              borderRadius: "8px",
+              border: "1px solid var(--fk-border)",
+              background: "var(--fk-card)",
+              color: "var(--fk-text)",
+              fontSize: "13px",
+              fontWeight: "700",
+              cursor: "pointer"
+            }}
+          >
+            <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
+            {loading ? "Syncing..." : "Sync Schemes"}
+          </button>
         </div>
       </div>
 
@@ -347,6 +544,24 @@ export default function GovernmentSchemes() {
           Open Knowledge Hub <ArrowRight size={14} />
         </Link>
       </div>
+
+      {/* DATA PROVENANCE & SYNC STATUS */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px", margin: "-6px 0 16px 0", fontSize: "12.5px", color: "var(--fk-text-sub)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span style={{ display: "inline-block", width: "9px", height: "9px", borderRadius: "50%", background: apiSchemes ? "#16a34a" : "#2563eb" }} />
+          <span>
+            Verified Catalog: <strong>{dataSource}</strong> · Status: <strong>{apiSchemes ? "Synced Live" : "Verified Offline Knowledge Base"}</strong>
+          </span>
+        </div>
+        <span>Last Verified: <strong>{lastVerifiedDate}</strong></span>
+      </div>
+
+      {errorNotice && (
+        <div style={{ background: "rgba(245, 158, 11, 0.12)", border: "1px solid rgba(245, 158, 11, 0.35)", color: "#d97706", padding: "10px 14px", borderRadius: "8px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px", fontSize: "13px" }}>
+          <AlertTriangle size={16} />
+          <span>{errorNotice}</span>
+        </div>
+      )}
 
       {/* SEARCH & PARAMETER FILTER BAR */}
       <div
@@ -533,7 +748,7 @@ export default function GovernmentSchemes() {
           ) : (
             filteredSchemes.map((scheme) => {
               const isSelected = selectedScheme?.id === scheme.id;
-              const IconComp = scheme.icon || Landmark;
+              const IconComp = CATEGORY_ICONS[scheme.categoryKey] || scheme.icon || Landmark;
               return (
                 <div
                   key={scheme.id}

@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "start": "powershell -ExecutionPolicy Bypass -File ./start-all.ps1",
+    "stop": "powershell -ExecutionPolicy Bypass -File ./stop-all.ps1",
     "dev": "node scripts/dev.js",
     "dev:all": "node scripts/dev.js",
     "dev:backend": "cd backend && node server.js",

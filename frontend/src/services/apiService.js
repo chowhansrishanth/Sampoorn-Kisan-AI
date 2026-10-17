@@ -56,10 +56,13 @@ export const uploadDiseaseImage = (imageFile, cropType = "Tomato", symptomsText 
 };
 
 /**
- * Multi-Agent Chat API
+ * Multi-Agent AI Chat API (Sahayak AI)
  */
+export const sendAiChat = (payload) =>
+  handleResponse(api.post('/api/ai/chat', payload));
+
 export const sendAgentChat = (message, crop = "Rice", language = "en") =>
-  handleResponse(api.post('/api/agents/chat', { message, crop, language }));
+  handleResponse(api.post('/api/ai/chat', { message, crop, language }));
 
 /**
  * Multi-Agent Holistic Farm Plan Orchestrator
@@ -84,5 +87,11 @@ export const getMandiPrices = (crop = "Rice", state = "Telangana") =>
  */
 export const getFederatedLearningStatus = () =>
   handleResponse(api.get('/api/fl/status'));
+
+/**
+ * Get Central & State Government Agricultural Schemes & Subsidies
+ */
+export const getGovernmentSchemes = (params = {}) =>
+  handleResponse(api.get('/api/schemes', { params }));
 
 export default api;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api, { getApiErrorMessage } from "../api/client";
 import {
   TrendingUp,
   TrendingDown,
@@ -98,6 +98,7 @@ export default function MandiPrices({ user }) {
   const [transportCostPerKm, setTransportCostPerKm] = useState(18);
   const [loading, setLoading] = useState(false);
   const [apiMandiData, setApiMandiData] = useState(null);
+  const [mandiErrorNotice, setMandiErrorNotice] = useState(null);
 
   // Active Commodity Object
   const currentComm = COMMODITIES.find((c) => c.id === selectedCommodity) || COMMODITIES[0];
@@ -105,16 +106,18 @@ export default function MandiPrices({ user }) {
   // Fetch verified price from Farmer.in API via backend
   const fetchLiveMandi = async () => {
     setLoading(true);
+    setMandiErrorNotice(null);
     try {
-      const res = await axios.get(`${API_BASE}/api/market/mandi`, {
+      const res = await api.get(`/api/market/mandi`, {
         params: { crop: selectedCommodity, state: selectedState },
-        timeout: 6000
+        timeout: 8000
       });
       if (res.data?.success) {
         setApiMandiData(res.data);
       }
     } catch (err) {
       console.warn("Using baseline mandi market data:", err.message);
+      setMandiErrorNotice(getApiErrorMessage(err, "Live rates temporarily unavailable. Using regional APMC benchmark prices."));
     } finally {
       setLoading(false);
     }
@@ -204,9 +207,9 @@ export default function MandiPrices({ user }) {
         <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
           <VoiceSpeakerButton
             label="Listen Mandi Prices"
-            text={`Live APMC Mandi rates for ${selectedCommodity} in ${selectedState}. Current market modal price is rupees ${benchmarkPrice} per quintal. Check adjacent mandis to optimize net profit after transport costs.`}
-            teluguText={`${selectedState} లో ${selectedCommodity} మార్కెట్ ధరలు. ప్రస్తుత సగటు ధర క్వింటాలుకు రూపాయలు ${benchmarkPrice}. రవాణా ఖర్చులు తీసివేసిన తర్వాత ఎక్కువ లాభం వచ్చే మార్కెట్‌ను ఎంచుకోండి.`}
-            hindiText={`${selectedState} में ${selectedCommodity} के लाइव एपीएमसी मंडी भाव। वर्तमान औसत भाव ₹${benchmarkPrice} प्रति क्विंटल है। परिवहन खर्च घटाने के बाद अधिकतम लाभ वाली मंडी चुनें।`}
+            text={`Live APMC Mandi rates for ${selectedCommodity} in ${selectedState}. Current market modal price is rupees ${modalPrice} per quintal. Check adjacent mandis to optimize net profit after transport costs.`}
+            teluguText={`${selectedState} లో ${selectedCommodity} మార్కెట్ ధరలు. ప్రస్తుత సగటు ధర క్వింటాలుకు రూపాయలు ${modalPrice}. రవాణా ఖర్చులు తీసివేసిన తర్వాత ఎక్కువ లాభం వచ్చే మార్కెట్‌ను ఎంచుకోండి.`}
+            hindiText={`${selectedState} में ${selectedCommodity} के लाइव एपीएमसी मंडी भाव। वर्तमान औसत भाव ₹${modalPrice} प्रति क्विंटल है। परिवहन खर्च घटाने के बाद अधिकतम लाभ वाली मंडी चुनें।`}
           />
           <button
             onClick={fetchLiveMandi}
@@ -382,6 +385,24 @@ export default function MandiPrices({ user }) {
           ))}
         </div>
       </div>
+
+      {/* Source Provenance and Status Banner */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px", margin: "-8px 0 16px 0", fontSize: "12.5px", color: "var(--fk-text-sub)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span style={{ display: "inline-block", width: "9px", height: "9px", borderRadius: "50%", background: apiMandiData?.source?.includes("Farmer.in") ? "#16a34a" : "#2563eb" }} />
+          <span>
+            Data Source: <strong>{apiMandiData?.source || "Farmer.in Open APMC API / Agmarknet"}</strong> · Market: <strong>{apiMandiData?.market || (selectedState + " APMC Network")}</strong>
+          </span>
+        </div>
+        <span>Observation Date: <strong>{apiMandiData?.price_date || priceDate}</strong></span>
+      </div>
+
+      {mandiErrorNotice && (
+        <div style={{ background: "rgba(245, 158, 11, 0.12)", border: "1px solid rgba(245, 158, 11, 0.35)", color: "#d97706", padding: "10px 14px", borderRadius: "8px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px", fontSize: "13px" }}>
+          <AlertTriangle size={16} />
+          <span>{mandiErrorNotice}</span>
+        </div>
+      )}
 
       {/* ARBITRAGE OPTIMIZATION HERO BANNER */}
       {bestMandi && (

@@ -1,9 +1,7 @@
 import useApiResource from '../hooks/useApiResource';
 import { useState } from "react";
-import axios from "../api/client";
+import api, { getApiErrorMessage } from "../api/client";
 import { HeartPulse, Scale, CalendarCheck, PhoneCall, CheckCircle, ShieldAlert, Sparkles, Droplets } from "lucide-react";
-
-const API = axios.defaults.baseURL;
 
 const COMMON_SYMPTOMS = [
   "High fever",
@@ -60,14 +58,14 @@ export default function LivestockAdvisor() {
     setTriageLoading(true);
     setTriageError("");
     try {
-      const res = await axios.post(`${API}/api/livestock/triage`, {
+      const res = await api.post("/api/livestock/triage", {
         species,
         symptoms: selectedSymptoms,
         notes: triageNotes
       });
       setTriageResult(res.data);
     } catch (err) {
-      setTriageError(err.response?.data?.error || "Failed to analyze symptoms.");
+      setTriageError(getApiErrorMessage(err, "Failed to analyze symptoms. Please try again."));
     } finally {
       setTriageLoading(false);
     }

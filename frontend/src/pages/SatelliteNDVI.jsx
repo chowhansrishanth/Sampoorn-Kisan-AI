@@ -21,7 +21,31 @@ export default function SatelliteNDVI() {
 
   return (
     <div className="page-container">
-      <RequestStatus loading={loading} error={error} onRetry={reload} />
+      {loading && <RequestStatus loading={loading} error={null} onRetry={reload} />}
+
+      {error && (
+        <div style={{ background: "rgba(30, 41, 59, 0.7)", border: "1px solid rgba(59, 130, 246, 0.3)", borderRadius: "12px", padding: "18px 20px", marginBottom: "20px" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
+            <Satellite size={24} color="#60a5fa" style={{ flexShrink: 0, marginTop: "2px" }} />
+            <div>
+              <h3 style={{ fontSize: "16px", fontWeight: "700", color: "#f8fafc", margin: "0 0 6px 0" }}>
+                🛰️ Spaceborne Multispectral Provider Setup Required
+              </h3>
+              <p style={{ fontSize: "13.5px", color: "#94a3b8", margin: "0 0 10px 0", lineHeight: "1.5" }}>
+                {error} Live 10-meter ground resolution NDVI observations require authenticated access to the <strong>Copernicus Data Space Ecosystem (Sentinel-2 L2A)</strong>.
+              </p>
+              <div style={{ fontSize: "12.5px", background: "rgba(15, 23, 42, 0.6)", padding: "10px 14px", borderRadius: "8px", border: "1px solid rgba(51, 65, 85, 0.6)", color: "#cbd5e1" }}>
+                <strong>Configuration Instructions:</strong>
+                <ol style={{ margin: "6px 0 0", paddingLeft: "18px" }}>
+                  <li>Register a free API account at <a href="https://dataspace.copernicus.eu" target="_blank" rel="noreferrer" style={{ color: "#60a5fa" }}>dataspace.copernicus.eu</a>.</li>
+                  <li>Set <code>COPERNICUS_CLIENT_ID</code> and <code>COPERNICUS_CLIENT_SECRET</code> in <code>backend/.env</code>.</li>
+                  <li>Restart the backend service to stream live Sentinel-2 multispectral surface reflectance bands (B4-Red, B8-NIR).</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <PageHeader
         title="Satellite NDVI Vegetation Health & Field Stress Visualizer"
         subtitle="Sentinel-2 Multispectral 10m Spaceborne Radar, Canopy Biomass & Chlorosis Hotspot Detection"

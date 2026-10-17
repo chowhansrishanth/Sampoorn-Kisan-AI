@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import api, { getApiErrorMessage } from "./api/client";
 import ReactMarkdown from "react-markdown";
 import { Send, Bot, User, Sprout, Globe, ArrowLeft, RefreshCw, Copy, Check, Trash2, RotateCcw, AlertTriangle, Mic, MicOff, Volume2, VolumeX, Printer } from "lucide-react";
 import VoiceSpeakerButton from "./components/VoiceSpeakerButton";
@@ -226,7 +227,7 @@ export default function AIChat({ user }) {
     setTimeout(() => scrollToBottom(true), 30);
 
     try {
-      const res = await axios.post(
+      const res = await api.post(
         "/api/ai/chat", 
         { 
           message: query, 
@@ -236,7 +237,7 @@ export default function AIChat({ user }) {
           userId: user?._id || user?.id
         },
         { 
-          timeout: 15000,
+          timeout: 30000,
           signal: abortControllerRef.current.signal
         }
       );
@@ -254,7 +255,9 @@ export default function AIChat({ user }) {
               agent: res.data.agent || "Sahayak AI",
               text: res.data.response,
               sources: res.data.sources || [],
-              confidence: res.data.confidence
+              confidence: res.data.confidence,
+              modelUsed: res.data.modelUsed,
+              isLiveAi: res.data.isLiveAi
             }
           ];
           if (ttsSupported && ttsEnabled) {
@@ -266,20 +269,21 @@ export default function AIChat({ user }) {
         throw new Error(res.data.error?.message || res.data.error || "Failed to process message");
       }
     } catch (err) {
-      if (axios.isCancel(err) || err.name === "CanceledError" || err.name === "AbortError") {
+      if (axios.isCancel(err) || err.name === "CanceledError" || err.name === "AbortError" || err.code === "ERR_CANCELED") {
         return; // aborted gracefully
       }
       console.warn("AI Service error:", err.message);
       setLastFailedQuery(query);
       setActiveAgent("Sahayak AI (Service Alert)");
       
+      const errMsg = getApiErrorMessage(err, "AI service is temporarily unavailable. Please try again.");
       setMessages(prev => [
         ...prev,
         {
           sender: "bot",
           agent: "Sahayak AI",
           isError: true,
-          text: "AI service is temporarily unavailable. Please try again.",
+          text: errMsg,
           sources: []
         }
       ]);
@@ -330,7 +334,7 @@ export default function AIChat({ user }) {
 
   const handleClearMemory = async () => {
     try {
-      await axios.delete(`/api/ai/memory/${sessionId}`);
+      await api.delete(`/api/ai/memory/${sessionId}`);
     } catch {
       // Offline fallback
     }
@@ -519,8 +523,21 @@ export default function AIChat({ user }) {
               <div className="message-bubble" style={{ position: 'relative', border: msg.isError ? '1px solid #fca5a5' : undefined }}>
                 {msg.sender === "bot" && (
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                    <div className="msg-agent-tag" style={{ color: msg.isError ? '#dc2626' : '#16a34a', fontWeight: 700 }}>
+                    <div className="msg-agent-tag" style={{ color: msg.isError ? '#dc2626' : '#16a34a', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <Sprout size={12}/> {msg.agent}
+                      {msg.modelUsed && (
+                        <span style={{
+                          fontSize: '10px',
+                          fontWeight: 600,
+                          padding: '1px 6px',
+                          borderRadius: '4px',
+                          background: msg.isLiveAi ? 'rgba(34, 197, 94, 0.12)' : 'rgba(234, 179, 8, 0.12)',
+                          color: msg.isLiveAi ? '#16a34a' : '#ca8a04',
+                          border: `1px solid ${msg.isLiveAi ? 'rgba(34, 197, 94, 0.25)' : 'rgba(234, 179, 8, 0.25)'}`
+                        }}>
+                          {msg.isLiveAi ? `✦ ${msg.modelUsed}` : `🛡️ ${msg.modelUsed}`}
+                        </span>
+                      )}
                     </div>
                     {!msg.isError && (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>

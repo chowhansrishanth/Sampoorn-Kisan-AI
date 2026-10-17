@@ -39,6 +39,9 @@ else:
     if _posix_site_packages and _posix_site_packages[0] not in sys.path:
         sys.path.insert(0, _posix_site_packages[0])
 
+if _ml_service_dir not in sys.path:
+    sys.path.insert(0, _ml_service_dir)
+
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from starlette.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware

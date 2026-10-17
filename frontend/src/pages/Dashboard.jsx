@@ -174,7 +174,10 @@ export default function Dashboard({ user, onUpdateUser }) {
   });
   const marketResource = useApiResource({
     url: "/api/market/mandi",
-    params: { state: locParts[1] || user?.state || "Telangana" }
+    params: {
+      crop: crop?.name || selectedCropId || "Cotton",
+      state: locParts[1] || user?.state || "Telangana"
+    }
   });
   const soilResource = useApiResource({ url: "/api/soil/latest" });
 

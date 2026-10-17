@@ -3,7 +3,7 @@ const cors = require("cors");
 const path = require("path");
 const fs = require("fs");
 const axios = require("axios");
-if (process.env.NODE_ENV !== "test") require("dotenv").config();
+if (process.env.NODE_ENV !== "test") require("dotenv").config({ path: path.join(__dirname, ".env") });
 require("./config/security");
 
 const { connectDB, getStatus: getDbStatus, isDbOperational } = require("./config/db");
@@ -40,6 +40,7 @@ const solarPumpRoutes = require("./routes/solarPumpRoutes");
 const insuranceRoutes = require("./routes/insuranceRoutes");
 const carbonRoutes = require("./routes/carbonRoutes");
 const cropCycleRoutes = require("./routes/cropCycleRoutes");
+const schemeRoutes = require("./routes/schemeRoutes");
 const httpClient = require("./services/httpClient");
 const aiProvider = require("./services/aiProvider");
 
@@ -238,6 +239,7 @@ app.use("/api/organic", organicRoutes);
 app.use("/api/solar-pump", solarPumpRoutes);
 app.use("/api/insurance", insuranceRoutes);
 app.use("/api/carbon", carbonRoutes);
+app.use("/api/schemes", schemeRoutes);
 
 app.post("/api/orchestrate-farm-report", async (req, res) => {
   try {
